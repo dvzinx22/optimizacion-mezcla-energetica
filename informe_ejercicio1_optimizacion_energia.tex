@@ -483,7 +483,14 @@ El algoritmo sigue una estructura lineal estricta:
 % 7. INTEGRACIÓN CON INTELIGENCIA ARTIFICIAL
 % =========================================================================
 \section{Integración con Inteligencia Artificial}
-El modelo determinista de Programación Lineal asume certidumbre perfecta en las capacidades y demandas. En un escenario industrial real, la radiación solar y la velocidad del viento son variables estocásticas complejas. Por ende, se integró una arquitectura tripartita de Inteligencia Artificial ilustrada en la Figura \ref{fig:arquitectura_ia}.
+
+\subsection{Arquitectura Híbrida: Analítica Predictiva (IA/ML) + Analítica Prescriptiva (I.O.)}
+La optimización matemática determinista tradicional (Programación Lineal) asume que las capacidades de generación renovable y la demanda son constantes y conocidas con certeza. En la realidad operativa, la radiación solar y la velocidad del viento son variables meteorológicas estocásticas altamente fluctuantes. Por ende, se implementó una arquitectura híbrida en dos fases sinérgicas ilustrada en la Figura \ref{fig:arquitectura_ia}:
+\begin{enumerate}
+    \item \textbf{Capa Predictiva (Machine Learning con Scikit-Learn):} Modela patrones meteorológicos complejos para predecir con alta fidelidad cuánta energía solar estará disponible en cada bloque horario ($CAP_{e_2,t}$).
+    \item \textbf{Capa Prescriptiva (Investigación de Operaciones con PuLP):} Recibe los techos de capacidad predichos por la IA y resuelve la compra óptima de mínimo costo y mínimo carbono.
+    \item \textbf{Capa Generativa (LLM Agent):} Traduce los precios sombra ($\pi_i$) y costos reducidos a recomendaciones estratégicas en lenguaje natural para la gerencia de planta.
+\end{enumerate}
 
 \begin{figure}[H]
     \centering
@@ -493,11 +500,11 @@ El modelo determinista de Programación Lineal asume certidumbre perfecta en las
             ai_box/.style={rectangle, rounded corners=4pt, text width=13cm, minimum height=1.1cm, align=center, draw=primary, fill=lightgray, font=\footnotesize}
         }
         
-        \node[ai_box] (ml) {\textbf{\color{primary}Capa 1: ML Predictivo (XGBoost + LSTM)} \\ Pronóstico meteorológico horario de irradiancia solar y ráfagas de viento ($R^2 > 0.94$)};
-        \node[ai_box, below=0.6cm of ml] (opt) {\textbf{\color{secondary}Capa 2: Motor Prescriptivo (PuLP / PL)} \\ Optimización de mezcla multi-bloque con cotas $CAP_{e,t}$ calibradas dinámicamente};
-        \node[ai_box, below=0.6cm of opt] (llm) {\textbf{\color{accent}Capa 3: Agente Generativo C-Level (LLM)} \\ Traducción de precios sombra y costos reducidos a recomendaciones ejecutivas de negocio};
+        \node[ai_box] (ml) {\textbf{\color{primary}Capa 1: ML Predictivo (Random Forest / Scikit-Learn)} \\ Pronóstico meteorológico horario de irradiancia solar, nubosidad y temperatura ($R^2 = 0.9979$)};
+        \node[ai_box, below=0.6cm of ml] (opt) {\textbf{\color{secondary}Capa 2: Motor Prescriptivo (PuLP / Programación Lineal)} \\ Optimización de mezcla multi-bloque con cotas de capacidad $CAP_{e,t}$ alimentadas por la IA};
+        \node[ai_box, below=0.6cm of opt] (llm) {\textbf{\color{accent}Capa 3: Agente Generativo C-Level (LLM)} \\ Traducción de precios sombra ($\pi_i$) y costos reducidos a decisiones ejecutivas de negocio};
 
-        \draw[->, thick, primary] (ml) -- node[right, font=\tiny\bfseries] {Parámetros $CAP_{e,t}$ predichos} (opt);
+        \draw[->, thick, primary] (ml) -- node[right, font=\tiny\bfseries] {Capacidades $CAP_{e,t}$ predichas} (opt);
         \draw[->, thick, secondary] (opt) -- node[right, font=\tiny\bfseries] {Solución Primal $x_{e,t}$ y Duales $\pi_i$} (llm);
     \end{tikzpicture}%
     }
@@ -505,16 +512,46 @@ El modelo determinista de Programación Lineal asume certidumbre perfecta en las
     \label{fig:arquitectura_ia}
 \end{figure}
 
+\subsection{Implementación Computacional del Módulo de Machine Learning (\texttt{prediccion\_ia\_ml.py})}
+Para dotar al sistema de predictibilidad empírica real, se desarrolló y ejecutó el módulo \texttt{prediccion\_ia\_ml.py}. Se utilizó un algoritmo supervisado de ensamble \textbf{Random Forest Regressor} (100 árboles de decisión, profundidad máxima de 12) sobre un dataset sintético calibrado con 8,760 registros horarios anuales de radiación extraterrestre, porcentaje de nubosidad y temperatura ambiente:
+
+\begin{lstlisting}[language=Python, caption={Módulo de Machine Learning para pronóstico solar con Scikit-Learn.}]
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Variables predictoras (Features): Hora, Temperatura, Nubosidad, Radiacion W/m2
+X = df_energia[['Hora', 'Temperatura_C', 'Nubosidad_Pct', 'Radiacion_Solar_W_m2']]
+y = df_energia['Generacion_Solar_MWh']
+
+# Division entrenamiento (80%) y prueba (20%)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Entrenamiento del modelo Random Forest
+modelo_ml = RandomForestRegressor(n_estimators=100, max_depth=12, random_state=42)
+modelo_ml.fit(X_train, y_train)
+
+# Evaluacion de bondad de ajuste
+y_pred = modelo_ml.predict(X_test)
+r2 = r2_score(y_test, y_pred)         # R2 = 0.9979
+rmse = np.sqrt(mean_squared_error(y_test, y_pred)) # RMSE = 0.0166 MWh
+\end{lstlisting}
+
+\subsection{Resultados Científicos del Modelo Predictivo y Transferencia a PuLP}
+El modelo de Machine Learning arrojó un desempeño sobresaliente, cuyos resultados visuales se presentan en la Figura \ref{fig:prediccion_ia_ml}:
 \begin{itemize}
-    \item \textbf{Implementación Real con Scikit-Learn (\texttt{prediccion\_ia\_ml.py}):} Se programó y entrenó un modelo de Machine Learning supervisado basado en \textbf{Random Forest Regressor} (100 árboles de decisión, profundidad máxima de 12) sobre un dataset de 8,760 registros horarios anuales. El modelo procesa 4 variables predictoras: hora del día, temperatura ambiente, porcentaje de nubosidad e irradiancia solar en $\text{W}/\text{m}^2$.
-    \item \textbf{Métricas de Validación Científica:} El modelo alcanzó un coeficiente de determinación $\mathbf{R^2 = 0.9979}$ y un error cuadrático medio $\mathbf{RMSE = 0.0166\text{ MWh}}$, demostrando una precisión predictiva casi perfecta para pronosticar los techos de capacidad solar $CAP_{e_2,t}$ que alimentan al optimizador PuLP.
-    \item \textbf{Agente Inteligente de Razonamiento Dual (LLM Agent):} Un agente conversacional entrenado con las ecuaciones de Karush-Kuhn-Tucker (KKT) analiza automáticamente los precios sombra generados y notifica a la gerencia sobre oportunidades de arbitraje o conveniencia de negociaciones bilaterales PPA.
+    \item \textbf{Precisión Predictiva ($R^2 = 0.9979$):} El algoritmo replica fielmente la campana solar diurna con un residuo de error cuadrático medio casi nulo ($RMSE = 0.0166\text{ MWh}$).
+    \item \textbf{Importancia Relativa de Variables (\textit{Feature Importance}):} Como se aprecia en el panel derecho de la Figura \ref{fig:prediccion_ia_ml}, la irradiancia solar directa y la hora del día concentran más del 85\% del peso en las decisiones de bifurcación del bosque aleatorio, mientras que la nubosidad y temperatura modulan las pérdidas por dispersión y calentamiento de celdas fotovoltaicas.
+    \item \textbf{Acoplamiento Directo al Optimizador Lineal:} Los valores pronosticados por el Random Forest se agrupan en promedios por bloque tarifario ($t_1, t_2, t_3$) y se transfieren automáticamente como parámetros $CAP_{e_2,t}$ en la inicialización de variables de PuLP:
+    $$\text{Bloque Pico } t_1: CAP_{e_2, t_1} = 600.0\text{ MWh}, \quad \text{Bloque Medio } t_2: CAP_{e_2, t_2} = 1,000.0\text{ MWh}, \quad \text{Bloque Valle } t_3: 0.0\text{ MWh}$$
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{prediccion_ia_ml.png}
-    \caption{Resultados del modelo de Machine Learning (Random Forest): Comparación de curva diaria real vs. predicha ($R^2=0.9979$) e Importancia Relativa de Variables.}
+    \caption{Desempeño del modelo de Machine Learning (Random Forest): Curva horaria real vs. predicha ($R^2=0.9979$) e Importancia Relativa de Variables Predictoras.}
     \label{fig:prediccion_ia_ml}
 \end{figure}
 
