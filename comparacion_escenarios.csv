@@ -1,0 +1,5 @@
+﻿Métrica,Sin Optimizar,Optimizado (PuLP),Mejora Absoluta,Mejora Porcentual
+Costo Total Mensual ($USD),"$422,500.00","$267,000.00","-$155,500.00",-36.80%
+Emisiones CO2 (Toneladas),"2,187.50 ton",850.00 ton,"-1,337.50 ton",-61.14%
+Participación Renovable (%),0.0%,62.0%,+62.0%,N/A (Desde 0%)
+Cumplimiento Regulatorio CO2,NO CUMPLE (Violación +82.3%),CUMPLE (Holgura de 350 ton),100% Mitigación de Multas,Conformidad Legal Total

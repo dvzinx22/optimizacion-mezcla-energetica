@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary text logs / guide scrapers
+guia_extracted.txt
+guia_parsed.txt
+*.docx
+
+# LaTeX aux files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# OS artifacts
+.DS_Store
+Thumbs.db
