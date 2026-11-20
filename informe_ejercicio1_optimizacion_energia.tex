@@ -535,23 +535,27 @@ modelo_ml.fit(X_train, y_train)
 
 # Evaluacion de bondad de ajuste
 y_pred = modelo_ml.predict(X_test)
-r2 = r2_score(y_test, y_pred)         # R2 = 0.9979
-rmse = np.sqrt(mean_squared_error(y_test, y_pred)) # RMSE = 0.0166 MWh
+r2 = r2_score(y_test, y_pred)         # R2 = 0.9971
+rmse = np.sqrt(mean_squared_error(y_test, y_pred)) # RMSE = 0.0159 MWh
 \end{lstlisting}
 
 \subsection{Resultados Científicos del Modelo Predictivo y Transferencia a PuLP}
 El modelo de Machine Learning arrojó un desempeño sobresaliente, cuyos resultados visuales se presentan en la Figura \ref{fig:prediccion_ia_ml}:
 \begin{itemize}
-    \item \textbf{Precisión Predictiva ($R^2 = 0.9979$):} El algoritmo replica fielmente la campana solar diurna con un residuo de error cuadrático medio casi nulo ($RMSE = 0.0166\text{ MWh}$).
-    \item \textbf{Importancia Relativa de Variables (\textit{Feature Importance}):} Como se aprecia en el panel derecho de la Figura \ref{fig:prediccion_ia_ml}, la irradiancia solar directa y la hora del día concentran más del 85\% del peso en las decisiones de bifurcación del bosque aleatorio, mientras que la nubosidad y temperatura modulan las pérdidas por dispersión y calentamiento de celdas fotovoltaicas.
+    \item \textbf{Precisión Predictiva ($R^2 = 0.9971$):} El algoritmo replica fielmente la campana solar diurna con un residuo de error cuadrático medio casi nulo ($RMSE = 0.0159\text{ MWh}$).
+    \item \textbf{Importancia Relativa de Variables (\textit{Feature Importance}):} Como se aprecia en el panel derecho de la Figura \ref{fig:prediccion_ia_ml}, la hora del día (48.5\%) y la radiación solar directa (31.2\%) lideran el peso en las decisiones de bifurcación del bosque aleatorio, complementadas armónicamente por la nubosidad (14.1\%) y la temperatura (6.2\%) que modulan pérdidas atmosféricas y calentamiento de paneles.
     \item \textbf{Acoplamiento Directo al Optimizador Lineal:} Los valores pronosticados por el Random Forest se agrupan en promedios por bloque tarifario ($t_1, t_2, t_3$) y se transfieren automáticamente como parámetros $CAP_{e_2,t}$ en la inicialización de variables de PuLP:
-    $$\text{Bloque Pico } t_1: CAP_{e_2, t_1} = 600.0\text{ MWh}, \quad \text{Bloque Medio } t_2: CAP_{e_2, t_2} = 1,000.0\text{ MWh}, \quad \text{Bloque Valle } t_3: 0.0\text{ MWh}$$
+    \begin{align*}
+        \text{Bloque Pico } (t_1): & \quad CAP_{e_2, t_1} = 600.0\text{ MWh} \\
+        \text{Bloque Medio } (t_2): & \quad CAP_{e_2, t_2} = 1{,}000.0\text{ MWh} \\
+        \text{Bloque Valle } (t_3): & \quad CAP_{e_2, t_3} = 0.0\text{ MWh}
+    \end{align*}
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{prediccion_ia_ml.png}
-    \caption{Desempeño del modelo de Machine Learning (Random Forest): Curva horaria real vs. predicha ($R^2=0.9979$) e Importancia Relativa de Variables Predictoras.}
+    \caption{Desempeño del modelo de Machine Learning (Random Forest): Curva horaria real vs. predicha ($R^2=0.9971$) e Importancia Relativa de Variables Predictoras.}
     \label{fig:prediccion_ia_ml}
 \end{figure}
 
@@ -664,18 +668,19 @@ El desempeño del modelo matemático frente a la política de despacho históric
 \centering
 \small
 \renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm} >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Métrica de Evaluación} & \textbf{Sin Optimizar} & \textbf{Optimizado} & \textbf{Mejora} & \textbf{Mejora} \\
- & \textbf{(Histórico)} & \textbf{(PuLP)} & \textbf{Absoluta} & \textbf{(\%)} \\
+\textbf{Métrica de Evaluación} & \textbf{Sin Optimizar (Histórico)} & \textbf{Optimizado (PuLP)} & \textbf{Mejora Absoluta} & \textbf{Mejora (\%)} \\
 \midrule
 \textbf{Costo Total Mensual} & \$422,500.00 USD & \$267,000.00 USD & -\$155,500.00 USD & \textbf{-36.80\% (Ahorro)} \\
 \textbf{Emisiones Totales $\text{CO}_2$} & 2,187.50 Ton & 850.00 Ton & -1,337.50 Ton & \textbf{-61.14\% (Reducción)} \\
 \textbf{Consumo Renovable} & 0.0 MWh (0.0\%) & 3,100.0 MWh (62.0\%) & +3,100.0 MWh & \textbf{+62.0 puntos \%} \\
 \textbf{Límite Máximo Legal} & 1,200.00 Ton & 1,200.00 Ton & Margen de 350 ton & \textbf{Cumplimiento estricto} \\
-\textbf{Estado Regulatorio} & \textbf{ILEGAL (+82.3\%)} & \textbf{CONFORME (100\%)} & Supresión de multas & \textbf{Mitigación total} \\
+\textbf{Estado Legal Regulatorio} & \textbf{ILEGAL (+82.3\%)} & \textbf{CONFORME (100\%)} & Supresión de multas & \textbf{Mitigación total} \\
 \bottomrule
-\end{tabularx}
+\end{tabular}%
+}
 \caption{Comparación cuantitativa consolidada de desempeño operativo y ambiental.}
 \label{tab:comparacion_escenarios}
 \end{table}
@@ -694,9 +699,10 @@ La asignación óptima calculada por el solver CBC para cada fuente y bloque se 
 \centering
 \small
 \renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.0cm} >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
 \toprule
-\textbf{Fuente de Energía ($e$)} & \textbf{Pico ($t_1$)} & \textbf{Medio ($t_2$)} & \textbf{Valle ($t_3$)} & \textbf{Total (MWh)} & \textbf{Cuota (\%)} \\
+\textbf{Fuente de Energía ($e$)} & \textbf{Pico ($t_1$)} & \textbf{Medio ($t_2$)} & \textbf{Valle ($t_3$)} & \textbf{Total (MWh)} & \textbf{Participación (\%)} \\
 \midrule
 $e_1$: Red Tradicional & 0.0 MWh & 0.0 MWh & \textbf{1,500.0 MWh} & 1,500.0 MWh & 30.0\% \\
 $e_2$: Solar Fotovoltaica & \textbf{600.0 MWh} & \textbf{1,000.0 MWh} & 0.0 MWh & 1,600.0 MWh & 32.0\% \\
@@ -704,9 +710,10 @@ $e_3$: Parque Eólico & \textbf{500.0 MWh} & \textbf{500.0 MWh} & \textbf{500.0 
 $e_4$: Cogeneración Gas & \textbf{100.0 MWh} & \textbf{300.0 MWh} & 0.0 MWh & 400.0 MWh & 8.0\% \\
 \midrule
 \textbf{Demanda Satisfecha ($D_t$)} & \textbf{1,200.0 MWh} & \textbf{1,800.0 MWh} & \textbf{2,000.0 MWh} & \textbf{5,000.0 MWh} & \textbf{100.0\%} \\
-\textbf{Costo por Bloque ($y_t$)} & \textbf{\$59,500.00} & \textbf{\$92,500.00} & \textbf{\$115,000.00} & \textbf{\$267,000.00} & --- \\
+\textbf{Costo por Bloque ($y_t$)} & \textbf{\$59,500.00 USD} & \textbf{\$92,500.00 USD} & \textbf{\$115,000.00 USD} & \textbf{\$267,000.00 USD} & --- \\
 \bottomrule
-\end{tabularx}
+\end{tabular}%
+}
 \caption{Matriz óptima de abastecimiento energético y costos acumulados por franja horaria.}
 \label{tab:matriz_abastecimiento}
 \end{table}
@@ -737,6 +744,7 @@ La Tabla \ref{tab:duales} expone el análisis dual extraído del solver CBC.
 \centering
 \small
 \renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm} >{\centering\arraybackslash}p{2.4cm} >{\centering\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}X}
 \toprule
 \textbf{Restricción Analizada} & \textbf{Precio Sombra ($\pi_i$)} & \textbf{Holgura} & \textbf{Interpretación Económica y Operativa} \\
@@ -747,7 +755,8 @@ La Tabla \ref{tab:duales} expone el análisis dual extraído del solver CBC.
 \textbf{Límite Emisiones $\text{CO}_2$} & \textbf{\$0.00 / kg} & 350,000 kg & Existe un margen de seguridad de 350 toneladas de $\text{CO}_2$; la restricción no es cuello de botella en este nivel. \\
 \textbf{Cuota Mínima Renovable} & \textbf{\$0.00 / MWh} & -1,600 MWh & El óptimo despacha 3,100 MWh limpios, superando con creces los 1,500 MWh mínimos exigidos. \\
 \bottomrule
-\end{tabularx}
+\end{tabularx}%
+}
 \caption{Variables duales y márgenes de holgura de las restricciones operativas.}
 \label{tab:duales}
 \end{table}

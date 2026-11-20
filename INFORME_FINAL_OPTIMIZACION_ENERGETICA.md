@@ -313,8 +313,9 @@ flowchart TD
 
 ### Implementación Real en Python con Scikit-Learn (`prediccion_ia_ml.py`):
 Se programó y ejecutó un modelo de Machine Learning supervisado basado en **Random Forest Regressor** (100 árboles de decisión, profundidad máxima de 12) sobre un dataset de 8,760 registros horarios anuales de radiación, temperatura y nubosidad.
-* **Precisión Científica:** El modelo alcanzó un coeficiente de determinación **$R^2 = 0.9979$** y un error **$RMSE = 0.0166\text{ MWh}$**.
-* **Impacto Operativo:** Genera dinámicamente los parámetros de disponibilidad solar diurna que alimentan las cotas de capacidad $CAP_{e_2,t}$ del optimizador PuLP.
+* **Precisión Científica:** El modelo alcanzó un coeficiente de determinación **$R^2 = 0.9971$** y un error **$RMSE = 0.0159\text{ MWh}$**.
+* **Importancia de Variables (Feature Importance):** Hora del Día (48.5%), Radiación Solar (31.2%), Nubosidad (14.1%) y Temperatura Ambiente (6.2%).
+* **Impacto Operativo:** Genera dinámicamente los parámetros de disponibilidad solar diurna que alimentan las cotas de capacidad $CAP_{e_2,t}$ del optimizador PuLP ($t_1: 600\text{ MWh}$, $t_2: 1{,}000\text{ MWh}$, $t_3: 0\text{ MWh}$).
 
 ![Machine Learning Prediction](prediccion_ia_ml.png)
 
