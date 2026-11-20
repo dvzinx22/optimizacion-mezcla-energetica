@@ -146,6 +146,55 @@ flowchart LR
     Core -->|"y_t3"| T3
 ```
 
+### 5.3 Solución Analítica Paso a Paso (Despacho por Orden de Mérito Económico)
+En Programación Lineal con variables continuas sin costos fijos de arranque, el algoritmo Simplex ejecuta de forma exacta la regla económica de **Orden de Mérito (Merit Order)**, asignando primero las fuentes más baratas hasta saturar su capacidad técnica o satisfacer la demanda:
+
+#### Paso 1: Franja Pico ($t_1$, Demanda = 1,200 MWh)
+* Fuentes ordenadas por costo unitario: Solar (\$45) < Eólica (\$50) < Gas (\$75) < Red (\$110).
+* **Asignación Solar ($e_2$):** Se compran $600.0\text{ MWh}$ (tope diurno pico). Restan 600 MWh.
+* **Asignación Eólica ($e_3$):** Se compran $500.0\text{ MWh}$ (tope del parque). Restan 100 MWh.
+* **Asignación Cogeneración Gas ($e_4$):** Se compran $100.0\text{ MWh}$ a \$75/MWh para completar la franja.
+* **Asignación Red ($e_1$):** Queda en $0.0\text{ MWh}$ por ser la opción más cara (\$110/MWh).
+* **Costo Acumulado Bloque 1 ($y_{t_1}$):** $(600 \times 45) + (500 \times 50) + (100 \times 75) = 27,000 + 25,000 + 7,500 = \mathbf{\$59,500.00\text{ USD}}$.
+
+#### Paso 2: Franja Medio ($t_2$, Demanda = 1,800 MWh)
+* Fuentes ordenadas por costo unitario: Solar (\$45) < Eólica (\$50) < Gas (\$75) < Red (\$85).
+* **Asignación Solar ($e_2$):** Se compran $1,000.0\text{ MWh}$ (tope solar diurno). Restan 800 MWh.
+* **Asignación Eólica ($e_3$):** Se compran $500.0\text{ MWh}$ (tope del parque). Restan 300 MWh.
+* **Asignación Cogeneración Gas ($e_4$):** Se compran $300.0\text{ MWh}$ a \$75/MWh.
+* **Asignación Red ($e_1$):** Queda en $0.0\text{ MWh}$ (\$85 > \$75).
+* **Costo Acumulado Bloque 2 ($y_{t_2}$):** $(1,000 \times 45) + (500 \times 50) + (300 \times 75) = 45,000 + 25,000 + 22,500 = \mathbf{\$92,500.00\text{ USD}}$.
+
+#### Paso 3: Franja Valle ($t_3$, Demanda = 2,000 MWh)
+* En la noche la solar es nula ($CAP_{e_2,t_3} = 0$). Orden de costo: Eólica (\$50) < Red Tradicional (\$60) < Gas (\$75).
+* **Asignación Eólica ($e_3$):** Se compran $500.0\text{ MWh}$ (tope del parque). Restan 1,500 MWh.
+* **Asignación Red Tradicional ($e_1$):** En la madrugada la red baja a \$60/MWh, resultando más económica que el gas (\$75/MWh). Se adquieren los $1,500.0\text{ MWh}$ restantes.
+* **Asignación Cogeneración Gas ($e_4$):** Queda en $0.0\text{ MWh}$ por costo desfavorable.
+* **Costo Acumulado Bloque 3 ($y_{t_3}$):** $(500 \times 50) + (1,500 \times 60) = 25,000 + 90,000 = \mathbf{\$115,000.00\text{ USD}}$.
+
+#### Paso 4: Consolidación del Costo Global ($Z$)
+$$\min Z = y_{t_1} + y_{t_2} + y_{t_3} = 59,500 + 92,500 + 115,000 = \mathbf{\$267,000.00\text{ USD}}$$
+
+#### Paso 5: Validación Cruzada de Restricciones Globales
+* **Cuota Renovable ($\ge 1,500\text{ MWh}$):** $(600 + 1,000) + (500 + 500 + 500) = \mathbf{3,100\text{ MWh}} \ge 1,500\text{ MWh}$ (**62.0%** de penetración).
+* **Tope de Emisiones ($\le 1,200\text{ ton}$):** $(1,500 \times 500\text{ kg}) + (400 \times 250\text{ kg}) = 750,000 + 100,000 = \mathbf{850,000\text{ kg} = 850\text{ ton}} \le 1,200\text{ ton}$ (**Holgura de 350 ton**).
+
+### 5.4 Demostración Geométrica por el Método Gráfico 2D
+El problema general reside en $\mathbb{R}^{12}$ y no puede graficarse completo en un plano cartesiano. Sin embargo, para ilustrar el **Método Gráfico 2D de aula**, se aísla el subsistema de decisión térmico del Bloque Valle ($t_3$): distribuir la demanda residual de 1,500 MWh entre Red Tradicional ($x_1$) y Cogeneración Gas ($x_2$):
+
+$$\min Z_{valle} = 60x_1 + 75x_2$$
+Sujeto a:
+* $x_1 + x_2 = 1,500$ (Demanda neta)
+* $x_2 \le 800$ (Capacidad máxima de gas)
+* $x_1 \ge 0, \; x_2 \ge 0$
+
+![Método Gráfico 2D](metodo_grafico_2d.png)
+
+* **Vértice A $(700, 800)$:** $Z(A) = 60(700) + 75(800) = 42,000 + 60,000 = \mathbf{\$102,000\text{ USD}}$.
+* **Vértice B $(1500, 0)$:** $Z(B) = 60(1500) + 75(0) = \mathbf{\$90,000\text{ USD}}$ (**VÉRTICE ÓPTIMO MÍNIMO**).
+
+La recta de isocosto $Z = 60x_1 + 75x_2$ se traslada hacia el origen hasta hacer contacto extremo en el vértice $B(1500, 0)$, demostrando visualmente por qué la solución óptima selecciona 1,500 MWh de red y 0 MWh de gas.
+
 ---
 
 ## 6. CÓDIGO O IMPLEMENTACIÓN TECNOLÓGICA

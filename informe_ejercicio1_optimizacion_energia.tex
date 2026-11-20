@@ -301,6 +301,87 @@ En la Figura \ref{fig:topologia_red} se ilustra la topología de abastecimiento.
     \label{fig:topologia_red}
 \end{figure}
 
+\subsection{Solución Analítica Paso a Paso: Despacho por Orden de Mérito Económico}
+Dado que el problema integral involucra 12 variables de decisión ($4 \text{ fuentes} \times 3 \text{ bloques}$), la técnica analítica implementada por el algoritmo Simplex en Programación Lineal sigue el principio de \textit{Orden de Mérito Económico} (\textit{Merit Order Dispatch}), optimizando bloque por bloque y validando los acoplamientos globales:
+
+\subsubsection{Paso 1: Resolución del Bloque Pico ($t_1$, Demanda = 1,200 MWh)}
+Se clasifican las fuentes disponibles en orden ascendente de costo unitario:
+\begin{enumerate}
+    \item \textbf{1.ª Opción: Solar ($e_2$) a \$45/MWh.} Capacidad disponible = 600 MWh. Se despacha al 100\%: $x_{e_2, t_1} = 600.0\text{ MWh}$. Demanda remanente = $1,200 - 600 = 600\text{ MWh}$.
+    \item \textbf{2.ª Opción: Eólica ($e_3$) a \$50/MWh.} Capacidad disponible = 500 MWh. Se despacha al 100\%: $x_{e_3, t_1} = 500.0\text{ MWh}$. Demanda remanente = $600 - 500 = 100\text{ MWh}$.
+    \item \textbf{3.ª Opción: Cogeneración Gas ($e_4$) a \$75/MWh.} Capacidad disponible = 800 MWh. Se compran los 100 MWh necesarios para cerrar la franja: $x_{e_4, t_1} = 100.0\text{ MWh}$. Demanda satisfecha.
+    \item \textbf{4.ª Opción: Red Tradicional ($e_1$) a \$110/MWh.} Es la fuente más onerosa; su costo reducido es positivo ($d_j = +\$35$) y se mantiene inactiva: $x_{e_1, t_1} = 0.0\text{ MWh}$.
+\end{enumerate}
+\textbf{Costo acumulado en Pico ($y_{t_1}$):}
+\begin{equation}
+y_{t_1} = (600 \times 45) + (500 \times 50) + (100 \times 75) + (0 \times 110) = 27,000 + 25,000 + 7,500 = \mathbf{\$59,500.00\text{ USD}}
+\end{equation}
+
+\subsubsection{Paso 2: Resolución del Bloque Medio ($t_2$, Demanda = 1,800 MWh)}
+Se ordenan las fuentes por costo unitario:
+\begin{enumerate}
+    \item \textbf{Solar ($e_2$) a \$45/MWh:} Capacidad disponible = 1,000 MWh. Se adquiere al 100\%: $x_{e_2, t_2} = 1,000.0\text{ MWh}$. Remanente = $1,800 - 1,000 = 800\text{ MWh}$.
+    \item \textbf{Eólica ($e_3$) a \$50/MWh:} Capacidad disponible = 500 MWh. Se adquiere al 100\%: $x_{e_3, t_2} = 500.0\text{ MWh}$. Remanente = $800 - 500 = 300\text{ MWh}$.
+    \item \textbf{Cogeneración Gas ($e_4$) a \$75/MWh:} Cubre el déficit de 300 MWh: $x_{e_4, t_2} = 300.0\text{ MWh}$.
+    \item \textbf{Red Tradicional ($e_1$) a \$85/MWh:} Resulta más cara que el gas en esta franja ($85 > 75$); por tanto: $x_{e_1, t_2} = 0.0\text{ MWh}$.
+\end{enumerate}
+\textbf{Costo acumulado en Medio ($y_{t_2}$):}
+\begin{equation}
+y_{t_2} = (1,000 \times 45) + (500 \times 50) + (300 \times 75) + (0 \times 85) = 45,000 + 25,000 + 22,500 = \mathbf{\$92,500.00\text{ USD}}
+\end{equation}
+
+\subsubsection{Paso 3: Resolución del Bloque Valle ($t_3$, Demanda = 2,000 MWh)}
+En horario nocturno, la energía solar es nula ($CAP_{e_2, t_3} = 0$). La jerarquía económica de despacho cambia:
+\begin{enumerate}
+    \item \textbf{Eólica ($e_3$) a \$50/MWh:} Se adquiere completa: $x_{e_3, t_3} = 500.0\text{ MWh}$. Remanente = $2,000 - 500 = 1,500\text{ MWh}$.
+    \item \textbf{Red Tradicional ($e_1$) a \$60/MWh:} En la madrugada, la tarifa de red cae a \$60/MWh, siendo más económica que el gas (\$75/MWh). Por ende, cubre todo el saldo: $x_{e_1, t_3} = 1,500.0\text{ MWh}$.
+    \item \textbf{Cogeneración Gas ($e_4$) a \$75/MWh:} Resulta económicamente desfavorable frente a la red nocturna, asignándose: $x_{e_4, t_3} = 0.0\text{ MWh}$.
+\end{enumerate}
+\textbf{Costo acumulado en Valle ($y_{t_3}$):}
+\begin{equation}
+y_{t_3} = (500 \times 50) + (1,500 \times 60) + (0 \times 75) = 25,000 + 90,000 = \mathbf{\$115,000.00\text{ USD}}
+\end{equation}
+
+\subsubsection{Paso 4: Consolidación del Costo Óptimo Total ($Z$)}
+\begin{equation}
+\min Z = y_{t_1} + y_{t_2} + y_{t_3} = 59,500 + 92,500 + 115,000 = \mathbf{\$267,000.00\text{ USD}}
+\end{equation}
+
+\subsubsection{Paso 5: Verificación de Restricciones Globales}
+\begin{itemize}
+    \item \textbf{Cuota Obligatoria de Energía Renovable ($\ge 1,500\text{ MWh}$):}
+    $$\text{Solar} + \text{Eólica} = (600 + 1,000) + (500 + 500 + 500) = 1,600 + 1,500 = \mathbf{3,100\text{ MWh}} \quad \text{\textbf{(62.0\% vs. 30.0\% legal)}}$$
+    \item \textbf{Límite Máximo de Emisiones de $\text{CO}_2$ ($\le 1,200\text{ ton}$):}
+    $$\text{Emisiones} = (1,500 \text{ MWh} \times 500\text{ kg}) + (400 \text{ MWh} \times 250\text{ kg}) = 750,000 + 100,000 = \mathbf{850,000\text{ kg} = 850\text{ ton}}$$
+    Se confirma una holgura de seguridad de \textbf{350 toneladas de $\text{CO}_2$} por debajo del techo regulatorio.
+\end{itemize}
+
+\subsection{Demostración por el Método Gráfico 2D en el Subsistema Representativo}
+El método gráfico geométrico clásico opera en un espacio cartesiano bidimensional ($X, Y \in \mathbb{R}^2$), mientras que el problema integral de la planta reside en $\mathbb{R}^{12}$. Con fines pedagógicos y para corroborar visualmente la solución del solver, se aísla el subsistema de decisión más crítico: la asignación del déficit térmico de 1,500 MWh en el Bloque Valle ($t_3$) entre la Red Tradicional ($x_1$) y la Cogeneración a Gas ($x_2$):
+
+\begin{align*}
+    \min Z_{valle} &= 60x_1 + 75x_2 \\
+    \text{sujeto a:} \quad x_1 + x_2 &= 1,500 \quad \text{(Demanda neta por satisfacer)} \\
+    x_2 &\le 800 \quad \text{(Capacidad máxima técnica de gas)} \\
+    x_1, x_2 &\ge 0
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{metodo_grafico_2d.png}
+    \caption{Método Gráfico 2D: Determinación geométrica del vértice óptimo $B(1500, 0)$ en la franja Valle.}
+    \label{fig:metodo_grafico_2d}
+\end{figure}
+
+\textbf{Evaluación de Vértices Extremos de la Frontera Factible:}
+\begin{enumerate}
+    \item \textbf{Vértice A $(700, 800)$:} Intersección de la capacidad máxima de gas ($x_2 = 800$) con la demanda ($x_1 = 1500 - 800 = 700$):
+    $$Z(A) = 60(700) + 75(800) = 42,000 + 60,000 = \mathbf{\$102,000.00\text{ USD}}$$
+    \item \textbf{Vértice B $(1500, 0)$:} Intersección del eje de abscisas ($x_2 = 0$) con la demanda ($x_1 = 1500$):
+    $$Z(B) = 60(1500) + 75(0) = \mathbf{\$90,000.00\text{ USD}} \quad \text{\textbf{(VÉRTICE ÓPTIMO MÍNIMO)}}$$
+\end{enumerate}
+Como se evidencia en la Figura \ref{fig:metodo_grafico_2d}, la recta de isocosto con pendiente $-60/75 = -0.8$ se desplaza minimizando hacia el origen, tocando como último punto de contacto factible al vértice $B(1500, 0)$, lo que demuestra matemáticamente por qué el modelo decide apagar el gas y comprar 1,500 MWh de la red en horas valle.
+
 % =========================================================================
 % 6. CÓDIGO O IMPLEMENTACIÓN TECNOLÓGICA
 % =========================================================================
@@ -688,6 +769,7 @@ Al simular límites más estrictos de emisiones:
     \item \textbf{\texttt{comparacion\_costos\_emisiones.png}:} Gráfico de barras comparativo de costos y abatimiento de $\text{CO}_2$.
     \item \textbf{\texttt{matriz\_despacho\_energia.png}:} Gráfico de barras apiladas con el despacho óptimo por bloque horario y fuente.
     \item \textbf{\texttt{analisis\_sensibilidad.png}:} Curva de compensación del costo óptimo frente a variaciones en el límite ambiental.
+    \item \textbf{\texttt{metodo\_grafico\_2d.png}:} Gráfico del método gráfico bidimensional con región factible, curvas de isocosto y evaluación de vértices.
 \end{itemize}
 
 \subsection{Anexo B: Repositorio en GitHub y Registro de Trazabilidad}
