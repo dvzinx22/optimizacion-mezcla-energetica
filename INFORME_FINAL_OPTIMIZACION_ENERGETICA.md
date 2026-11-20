@@ -408,6 +408,21 @@ Se programó y ejecutó un modelo de Machine Learning supervisado basado en **Ra
 2. **Aprovechamiento Máximo Renovable ($e_2, e_3$):** Tanto la energía solar como la eólica se despachan al 100% de su capacidad disponible en todos los bloques debido a sus costos marginales mínimos (\$45 y \$50/MWh) y cero emisiones.
 3. **Rol Marginal de la Cogeneración ($e_4$):** Actúa como fuente de balance (*peaking plant*) en horas Pico (100 MWh) y Medio (300 MWh) para cerrar el déficit no cubierto por las renovables, evitando la costosa red tradicional.
 
+### 13.4 Síntesis Cuantitativa de Impacto: "Las Tres Cifras de Oro"
+> #### 🏆 1. Ahorro Financiero Mensual y Anualizado
+> * **Ahorro mensual directo:** **\$155,500.00 USD/mes** (un recorte neto del **36.80%** en la factura eléctrica industrial).
+> * **Proyección anualizada (12 meses):** **\$1,866,000.00 USD/año** (ahorro recurrente cercano a los 1.87 millones de dólares).
+> * **Desglose de costos por franja horaria ($y_t$):** Bloque Pico ($y_{t_1}$): \$59,500.00 USD | Bloque Medio ($y_{t_2}$): \$92,500.00 USD | Bloque Valle ($y_{t_3}$): \$115,000.00 USD. **Total mensual: \$267,000.00 USD**.
+>
+> #### 🌿 2. Descarbonización Industrial y Conformidad Legal Total
+> * **Reducción de $\text{CO}_2$:** **-1,337.50 Toneladas de $\text{CO}_2$/mes** (disminución del **61.14%** respecto a la línea base histórica).
+> * **Supresión del 100% del riesgo regulatorio:** La planta operaba en ilegalidad severa (+82.3% por encima de la norma de 1,200 ton). El modelo la sitúa en **850.00 toneladas**, generando una holgura de seguridad de **350 toneladas de $\text{CO}_2$** libres de sanciones, multas o cierres.
+>
+> #### ☀️ 3. Penetración Renovable Certificada
+> * **Cuota verde alcanzada:** **62.0%** de la matriz total (3,100.0 MWh limpios consumidos de los 5,000 MWh mensuales).
+> * **Superación regulatoria:** Sobrepasa en más del doble el requisito normativo mínimo del 30% (1,500 MWh).
+> * **Composición limpia:** 1,600 MWh Solar Fotovoltaica (32.0%) + 1,500 MWh Parque Eólico (30.0%).
+
 ---
 
 ## 14. ANÁLISIS DE SENSIBILIDAD Y DUALIDAD
