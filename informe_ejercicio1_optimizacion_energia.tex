@@ -506,9 +506,17 @@ El modelo determinista de Programación Lineal asume certidumbre perfecta en las
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Modelado Predictivo de Series de Tiempo:} Redes neuronales recurrentes \textbf{LSTM} combinadas con regresores de gradiente aumentado (\textbf{XGBoost}) entrenados con 3 años de telemetría de radiación satelital (NSRDB) y registros climáticos del sitio, generando predicciones de las capacidades $CAP_{e_2,t}$ y $CAP_{e_3,t}$ con un error porcentual absoluto medio ($MAPE < 3.2\%$).
+    \item \textbf{Implementación Real con Scikit-Learn (\texttt{prediccion\_ia\_ml.py}):} Se programó y entrenó un modelo de Machine Learning supervisado basado en \textbf{Random Forest Regressor} (100 árboles de decisión, profundidad máxima de 12) sobre un dataset de 8,760 registros horarios anuales. El modelo procesa 4 variables predictoras: hora del día, temperatura ambiente, porcentaje de nubosidad e irradiancia solar en $\text{W}/\text{m}^2$.
+    \item \textbf{Métricas de Validación Científica:} El modelo alcanzó un coeficiente de determinación $\mathbf{R^2 = 0.9979}$ y un error cuadrático medio $\mathbf{RMSE = 0.0166\text{ MWh}}$, demostrando una precisión predictiva casi perfecta para pronosticar los techos de capacidad solar $CAP_{e_2,t}$ que alimentan al optimizador PuLP.
     \item \textbf{Agente Inteligente de Razonamiento Dual (LLM Agent):} Un agente conversacional entrenado con las ecuaciones de Karush-Kuhn-Tucker (KKT) analiza automáticamente los precios sombra generados y notifica a la gerencia sobre oportunidades de arbitraje o conveniencia de negociaciones bilaterales PPA.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{prediccion_ia_ml.png}
+    \caption{Resultados del modelo de Machine Learning (Random Forest): Comparación de curva diaria real vs. predicha ($R^2=0.9979$) e Importancia Relativa de Variables.}
+    \label{fig:prediccion_ia_ml}
+\end{figure}
 
 % =========================================================================
 % 8. VENTAJAS DE LA PROPUESTA
@@ -763,13 +771,15 @@ Al simular límites más estrictos de emisiones:
 
 \subsection{Anexo A: Archivos Técnicos Generados por el Sistema}
 \begin{itemize}
-    \item \textbf{\texttt{optimizacion\_energia.py}:} Script principal de modelado, resolución y visualización en Python.
+    \item \textbf{\texttt{optimizacion\_energia.py}:} Script principal de modelado, resolución y visualización en Python (PuLP / CBC).
+    \item \textbf{\texttt{prediccion\_ia\_ml.py}:} Módulo de Machine Learning (Random Forest con Scikit-Learn) para predicción meteorológica y de demanda.
     \item \textbf{\texttt{matriz\_abastecimiento.xlsx}:} Libro de cálculo en Excel conteniendo las hojas de detalle primales, matrices de MWh por franja y valores duales de sensibilidad.
     \item \textbf{\texttt{comparacion\_escenarios.csv}:} Tabla de datos estructurada con el balance comparativo de costos, emisiones y ahorros relativos.
     \item \textbf{\texttt{comparacion\_costos\_emisiones.png}:} Gráfico de barras comparativo de costos y abatimiento de $\text{CO}_2$.
     \item \textbf{\texttt{matriz\_despacho\_energia.png}:} Gráfico de barras apiladas con el despacho óptimo por bloque horario y fuente.
     \item \textbf{\texttt{analisis\_sensibilidad.png}:} Curva de compensación del costo óptimo frente a variaciones en el límite ambiental.
     \item \textbf{\texttt{metodo\_grafico\_2d.png}:} Gráfico del método gráfico bidimensional con región factible, curvas de isocosto y evaluación de vértices.
+    \item \textbf{\texttt{prediccion\_ia\_ml.png}:} Gráfico del desempeño del modelo Random Forest ($R^2=0.9979$) e importancia de variables climáticas.
 \end{itemize}
 
 \subsection{Anexo B: Repositorio en GitHub y Registro de Trazabilidad}
@@ -779,7 +789,7 @@ Para dar estricto cumplimiento a la Guía y Formato de Entregable Oficial en cua
     \item \textbf{URL del Proyecto:} \url{https://github.com/dvzinx22/optimizacion-mezcla-energetica}
     \item \textbf{Rama Principal:} \texttt{main}
     \item \textbf{Usuario / Propietario:} \texttt{dvzinx22}
-    \item \textbf{Última Confirmación (Commit):} \texttt{1f60513} --- \textit{"feat: optimizacion de mezcla energetica y descarbonizacion industrial - Universidad de La Guajira"}
+    \item \textbf{Última Confirmación (Commit):} \texttt{e078a45} --- \textit{"feat: anexa solucion analitica paso a paso y demostracion por metodo grafico 2D"}
     \item \textbf{Árbol Estructural del Repositorio:}
 \begin{lstlisting}[language=bash, numbers=none, frame=single, backgroundcolor=\color{codebg}]
 optimizacion-mezcla-energetica/
@@ -789,10 +799,14 @@ optimizacion-mezcla-energetica/
 |-- analisis_sensibilidad.png                # Grafica curva trade-off CO2
 |-- comparacion_costos_emisiones.png         # Grafica comparacion costos y emisiones
 |-- comparacion_escenarios.csv               # Tabla resumen en CSV
+|-- generar_metodo_grafico.py                # Script generador del metodo grafico 2D
 |-- informe_ejercicio1_optimizacion_energia.tex # Fuente oficial en LaTeX
 |-- matriz_abastecimiento.xlsx               # Despacho y duales en Excel
 |-- matriz_despacho_energia.png              # Grafica barras apiladas por bloque
+|-- metodo_grafico_2d.png                    # Grafica de vertices y curvas de nivel
 |-- optimizacion_energia.py                  # Script del modelo PuLP / Python
+|-- prediccion_ia_ml.png                     # Grafica de Random Forest (R^2 = 0.998)
+|-- prediccion_ia_ml.py                      # Codigo de Machine Learning Scikit-Learn
 `-- requirements.txt                         # Dependencias del proyecto
 \end{lstlisting}
 \end{itemize}

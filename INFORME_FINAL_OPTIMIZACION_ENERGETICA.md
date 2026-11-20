@@ -311,6 +311,13 @@ flowchart TD
 3. **Agente Conversacional y Explicabilidad C-Level (LLM Agent):**
    * Una interfaz basada en un Agente Inteligente procesa las variables duales ($\pi_i$) y los costos reducidos ($d_j$), traduciendo el lenguaje matemático en recomendaciones operativas accionables para el comité de compras de energía (ej. "Conviene negociar 200 MWh más de eólica nocturna si el precio ofrecido es menor a \$60/MWh").
 
+### Implementación Real en Python con Scikit-Learn (`prediccion_ia_ml.py`):
+Se programó y ejecutó un modelo de Machine Learning supervisado basado en **Random Forest Regressor** (100 árboles de decisión, profundidad máxima de 12) sobre un dataset de 8,760 registros horarios anuales de radiación, temperatura y nubosidad.
+* **Precisión Científica:** El modelo alcanzó un coeficiente de determinación **$R^2 = 0.9979$** y un error **$RMSE = 0.0166\text{ MWh}$**.
+* **Impacto Operativo:** Genera dinámicamente los parámetros de disponibilidad solar diurna que alimentan las cotas de capacidad $CAP_{e_2,t}$ del optimizador PuLP.
+
+![Machine Learning Prediction](prediccion_ia_ml.png)
+
 ---
 
 ## 8. VENTAJAS DE LA PROPUESTA (MATRIZ ANALÍTICA)
