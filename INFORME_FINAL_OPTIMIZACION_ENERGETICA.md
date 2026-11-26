@@ -4,7 +4,14 @@
 **Programa Académico:** Ingeniería de Sistemas  
 **Asignatura:** Investigación de Operaciones + Desarrollo Tecnológico + IA  
 **Docente:** Prof. Nicolás de Jesús Sánchez  
-**Estudiante(s):** Equipo de Proyecto de Investigación de Operaciones e IA  
+**Integrantes / Estudiantes:**  
+* Sneyder Joaquín Madrid Arcia  
+* Moisés Bolívar  
+* Andrés Aguilar  
+* Dylan David Cáceres Montiel  
+* Milder Oñate  
+* Jorge Escudero  
+* William Redondo  
 **Ubicación y Fecha:** Riohacha, La Guajira --- Noviembre de 2026  
 
 ---

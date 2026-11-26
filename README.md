@@ -9,7 +9,14 @@
 > **Programa Académico:** Ingeniería de Sistemas  
 > **Institución:** Universidad de La Guajira (Facultad de Ingeniería)  
 > **Docente:** Prof. Nicolás de Jesús Sánchez  
-> **Estudiante:** dvzinx22 (Equipo de Investigación de Operaciones e IA)  
+> **Integrantes / Autores:**  
+> - Sneyder Joaquín Madrid Arcia  
+> - Moisés Bolívar  
+> - Andrés Aguilar  
+> - Dylan David Cáceres Montiel  
+> - Milder Oñate  
+> - Jorge Escudero  
+> - William Redondo  
 > **Fecha:** Noviembre de 2026  
 
 ---
