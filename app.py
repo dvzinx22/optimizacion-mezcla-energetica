@@ -10,6 +10,7 @@ Universidad de La Guajira - Facultad de Ingeniería
 import json
 import math
 import os
+import re
 import sys
 import time
 import webbrowser
@@ -121,7 +122,7 @@ VIENTO_MS = 6.5 + 3.0 * np.sin((H_VEC - 15) * np.pi / 12) + np.random.normal(0, 
 IRRAD_WM2 = ANG_SOLAR * 950 * (1 - 0.7 * (NUBOSIDAD / 100)) + np.random.normal(0, 20, N_HORAS)
 IRRAD_WM2 = np.maximum(0, IRRAD_WM2)
 
-# Generación solar y eólica real física
+# Generación física
 GEN_SOLAR = np.maximum(0, ANG_SOLAR * 0.95 * (1 - 0.45 * (NUBOSIDAD / 100)) * (1 - 0.0035 * (TEMP_C - 25)) + np.random.normal(0, 0.02, N_HORAS))
 GEN_EOLICA = np.maximum(0, 0.48 * (VIENTO_MS / 9.5)**3 + np.random.normal(0, 0.03, N_HORAS))
 GEN_EOLICA = np.clip(GEN_EOLICA, 0, 1.0)
@@ -148,15 +149,15 @@ def resolver_optimizacion(config_empresa):
     limite_co2_ton = float(config_empresa['limite_co2_ton'])
     cuota_ren_pct = float(config_empresa['cuota_renovable_pct'])
     costos = config_empresa['costos']
-    peajes = config_empresa.get('peajes_transporte', {'e1': 4.5, "e2": 0.0, "e3": 3.2, "e4": 1.0})
+    peajes = config_empresa.get('peajes_transporte', {'e1': 0.0, "e2": 0.0, "e3": 0.0, "e4": 0.0})
     perdidas = config_empresa.get('perdidas_transporte_pct', {'e1': 2.8, "e2": 1.2, "e3": 2.1, "e4": 0.5})
 
     cap_max = {}
     for t in bloques:
-        cap_max[('e1', t)] = float(config_empresa['cap_red'].get(t, 10000.0))
-        cap_max[('e2', t)] = float(config_empresa['cap_solar'].get(t, 600.0))
-        cap_max[('e3', t)] = float(config_empresa['cap_eolica'].get(t, 500.0))
-        cap_max[('e4', t)] = float(config_empresa['cap_gas'].get(t, 800.0))
+        cap_max[('e1', t)] = float(config_empresa.get('cap_red', {}).get(t, 10000.0))
+        cap_max[('e2', t)] = float(config_empresa.get('cap_solar', {}).get(t, 600.0))
+        cap_max[('e3', t)] = float(config_empresa.get('cap_eolica', {}).get(t, 500.0))
+        cap_max[('e4', t)] = float(config_empresa.get('cap_gas', {}).get(t, 800.0))
 
     emisiones = {'e1': 500.0, 'e2': 0.0, 'e3': 0.0, 'e4': 250.0}
     demanda_total = sum(demanda.values())
@@ -166,29 +167,26 @@ def resolver_optimizacion(config_empresa):
     costo_efectivo_ruta = {}
     for e in fuentes:
         for t in bloques:
-            costo_efectivo_ruta[(e, t)] = costos[(e, t)] + peajes.get(e, 0.0)
+            costo_efectivo_ruta[(e, t)] = costos.get((e, t), 70.0) + peajes.get(e, 0.0)
 
     prob = pulp.LpProblem("OptiGrid_Enterprise_Despacho", pulp.LpMinimize)
 
-    # Variables de decisión: Energía adquirida en barra de salida
+    # Variables de decisión
     x = {
         (e, t): pulp.LpVariable(f"x_{e}_{t}", lowBound=0.0, upBound=cap_max[(e, t)], cat=pulp.LpContinuous)
         for e in fuentes for t in bloques
     }
     y = {t: pulp.LpVariable(f"y_{t}", lowBound=0.0, cat=pulp.LpContinuous) for t in bloques}
 
-    # Función Objetivo: Minimizar costo total de compra y transporte
+    # Función Objetivo: Minimizar costo total
     prob += pulp.lpSum([y[t] for t in bloques]), "Costo_Total_Operativo"
 
-    # Restricciones de costo por bloque
+    # Restricciones
     for t in bloques:
         prob += y[t] == pulp.lpSum([costo_efectivo_ruta[(e, t)] * x[(e, t)] for e in fuentes]), f"R_Costo_{t}"
         prob += pulp.lpSum([x[(e, t)] for e in fuentes]) == demanda[t], f"R_Demanda_{t}"
 
-    # Límite máximo de emisiones
     prob += pulp.lpSum([emisiones[e] * x[(e, t)] for e in fuentes for t in bloques]) <= limite_co2_ton * 1000.0, "R_CO2"
-
-    # Cuota mínima obligatoria renovable
     prob += pulp.lpSum([x[(e, t)] for e in ['e2', 'e3'] for t in bloques]) >= cuota_min_renovable, "R_Renovable"
 
     t_inicio = time.time()
@@ -211,7 +209,7 @@ def resolver_optimizacion(config_empresa):
     renovable_total = sum(pulp.value(x[(e, t)]) for e in ['e2', 'e3'] for t in bloques)
     renovable_pct = (renovable_total / demanda_total) * 100.0 if demanda_total > 0 else 0.0
 
-    # Línea base de comparación (operación tradicional sin optimizar: 75% red fósil, 25% cogeneración)
+    # Línea base de comparación (75% red, 25% cogeneración)
     costo_base = 0.0
     emisiones_base = 0.0
     for t in bloques:
@@ -224,7 +222,6 @@ def resolver_optimizacion(config_empresa):
     reduccion_co2_ton = emisiones_base - emisiones_totales
     reduccion_co2_pct = (reduccion_co2_ton / emisiones_base) * 100.0 if emisiones_base > 0 else 0.0
 
-    # Matriz y Rutas de Despacho Detalladas
     nombres_fuentes = {
         'e1': 'Red Nacional STN/STR',
         'e2': 'Parque Solar Fotovoltaico',
@@ -255,7 +252,7 @@ def resolver_optimizacion(config_empresa):
         for t in bloques:
             flujo = pulp.value(x[(e, t)])
             if flujo > 0.001:
-                costo_u = costos[(e, t)]
+                costo_u = costos.get((e, t), 70.0)
                 peaje_u = peajes.get(e, 0.0)
                 perd_pct = perdidas.get(e, 0.0)
                 perdida_mwh = flujo * (perd_pct / 100.0)
@@ -276,12 +273,12 @@ def resolver_optimizacion(config_empresa):
                     "perdidas_pct": perd_pct,
                     "costo_total_usd": round(costo_total_ruta, 2),
                     "emisiones_ton_co2": round(co2_ruta, 2),
-                    "estado_ruta": "Activa (100% de Capacidad)" if flujo >= cap_max[(e, t)] - 0.001 else "Activa (Despacho Parcial)"
+                    "estado_ruta": "Activa (Capacidad Completa)" if flujo >= cap_max[(e, t)] - 0.001 else "Activa (Despacho Parcial)"
                 })
 
     costos_bloque = {t: pulp.value(y[t]) for t in bloques}
 
-    # Precios sombra y dualidad
+    # Precios sombra y holguras
     precios_sombra = {}
     for name, c in prob.constraints.items():
         if "R_Demanda_" in name or "R_CO2" in name or "R_Renovable" in name:
@@ -328,6 +325,35 @@ def calcular_tradeoff_empresa(config_empresa):
             puntos.append({"limite_co2": lim, "costo": None, "status": "Infactible"})
     return puntos
 
+# --- GENERADOR DE INFORME ESTRATÉGICO CON EL ASISTENTE VIRTUAL (AI COPILOT) ---
+def generar_informe_estrategico_ia(nombre_empresa, sector, opt_res, ml_pred, config):
+    ahorro_usd = opt_res["ahorro_usd"]
+    ahorro_pct = opt_res["ahorro_pct"]
+    ahorro_anual = opt_res["ahorro_anual_usd"]
+    costo_optimo = opt_res["costo_optimo"]
+    emisiones = opt_res["emisiones_totales"]
+    limite_co2 = config["limite_co2_ton"]
+    renovable_pct = opt_res["renovable_pct"]
+    demanda_total = opt_res["demanda_total"]
+
+    # Precios sombra principales
+    pi_pico = opt_res["precios_sombra"].get("R_Demanda_t1", {}).get("pi", 75.0)
+    pi_valle = opt_res["precios_sombra"].get("R_Demanda_t3", {}).get("pi", 60.0)
+
+    informe = {
+        "empresa": nombre_empresa,
+        "sector": sector,
+        "resumen_ejecutivo": f"El análisis prescriptivo para '{nombre_empresa}' logró una solución óptima de abastecimiento valorada en ${costo_optimo:,.2f} USD/mes, logrando un ahorro mensual neto de ${ahorro_usd:,.2f} USD ({ahorro_pct:.1f}% frente a la compra tradicional) y una reducción anual proyectada de ${ahorro_anual:,.2f} USD.",
+        "diagnostico_ambiental": f"La huella de carbono se estabilizó en {emisiones:,.1f} toneladas de CO2/mes, cumpliendo holgadamente el límite legal de {limite_co2:,.1f} t (margen de seguridad de {opt_res['holgura_co2_ton']:,.1f} t). La matriz de suministro alcanza un {renovable_pct:.1f}% de energía limpia.",
+        "analisis_marginal": f"El costo marginal de abastecimiento en Bloque Punta (t1) es de +${pi_pico:.2f} USD/MWh, mientras que en Bloque Valle (t3) desciende a +${pi_valle:.2f} USD/MWh. Cada MWh que se desplace de horas pico a valle generará un beneficio económico directo de +${(pi_pico - pi_valle):.2f} USD/MWh.",
+        "recomendaciones": [
+            f"1. Gestión de Flexibilidad de Carga: Desplazar los procesos térmicos o mecánicos no críticos hacia el Bloque 3 (Valle, 22:00-08:00 hrs) para aprovechar tarifas base de red y excedentes eólicos.",
+            f"2. Aprovechamiento del PPA Solar en Sitio: El modelo Machine Learning proyecta una ventana de máxima radiación entre las 10:00 y las 14:00 hrs ({ml_pred['curva_solar'][12]:,.1f} MWh pico). Se recomienda programar los ciclos de máxima potencia en esa franja.",
+            f"3. Respaldo Térmico en Pico: Operar la cogeneración a gas al 100% durante el Bloque 1 (18:00-22:00 hrs) para blindar a la empresa contra los sobrecostos de la tarifa de red en punta."
+        ]
+    }
+    return informe
+
 # --- CONTROLADOR HTTP Y REST API MULTI-EMPRESA ---
 class OptiGridHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -371,7 +397,10 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
                 "perfil_activo": default_comp["id"],
                 "optimizacion": res,
                 "tradeoff": trade,
-                "empresas": list(PERFILES_EMPRESAS.keys())
+                "empresas": [
+                    {"id": p["id"], "nombre": p["nombre"], "sector": p["sector"]}
+                    for p in PERFILES_EMPRESAS.values()
+                ]
             }
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -386,11 +415,164 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
         raw_body = self.rfile.read(length).decode('utf-8')
         body = json.loads(raw_body) if raw_body else {}
 
-        if self.path == '/api/optimize':
+        if self.path == '/api/register_and_optimize':
+            # PIPELINE UNIFICADO: REGISTRO + ML EN TIEMPO REAL + OPTIMIZADOR CBC + INFORME IA
+            t_inicio_total = time.time()
+            nombre = body.get('nombre', 'Nueva Empresa Industrial').strip()
+            sector = body.get('sector', 'Manufactura General').strip()
+            ciudad = body.get('ciudad', 'Región Caribe').strip()
+            
+            # Demandas
+            demanda = {
+                't1': float(body.get('demanda_t1', 1500.0)),
+                't2': float(body.get('demanda_t2', 2000.0)),
+                't3': float(body.get('demanda_t3', 2500.0))
+            }
+            limite_co2 = float(body.get('limite_co2', 1300.0))
+            cuota_ren = float(body.get('cuota_renovable', 35.0))
+
+            # Capacidades instaladas
+            cap_solar_inst = float(body.get('cap_solar_instalada', 1200.0))
+            cap_eolica_inst = float(body.get('cap_eolica_instalada', 600.0))
+            cap_gas_inst = float(body.get('cap_gas_instalada', 1000.0))
+
+            # Tarifas
+            costo_red_t1 = float(body.get('tarifa_red_t1', 115.0))
+            costo_red_t2 = float(body.get('tarifa_red_t2', 88.0))
+            costo_red_t3 = float(body.get('tarifa_red_t3', 62.0))
+            costo_solar = float(body.get('costo_solar_ppa', 42.0))
+            costo_eolica = float(body.get('costo_eolica_ppa', 46.0))
+            costo_gas = float(body.get('costo_gas', 76.0))
+
+            # Clima
+            rad = float(body.get('radiacion', 850.0))
+            viento = float(body.get('viento', 8.0))
+            temp = float(body.get('temperatura', 31.0))
+            nub = float(body.get('nubosidad', 20.0))
+
+            # PASO 1: MACHINE LEARNING EN TIEMPO REAL
+            t_inicio_ml = time.time()
+            curva_solar_24h = []
+            curva_eolica_24h = []
+            curva_total_renovable_24h = []
+            horas_eje = [f"{h:02d}:00" for h in range(24)]
+
+            for h in range(24):
+                ang = max(0.0, math.sin((h - 6) * math.pi / 12))
+                rad_h = ang * 950.0 * (1.0 - 0.7 * (nub / 100.0))
+                temp_h = 21.0 + 11.0 * math.sin((h - 9) * math.pi / 12)
+                viento_h = max(2.0, viento + 2.0 * math.sin((h - 15) * math.pi / 12))
+
+                f_h = np.array([[h, temp_h, nub, rad_h, viento_h]])
+                s_h = float(ml_solar_model.predict(f_h)[0]) * cap_solar_inst
+                w_h = float(ml_eolica_model.predict(f_h)[0]) * cap_eolica_inst
+                curva_solar_24h.append(round(s_h, 2))
+                curva_eolica_24h.append(round(w_h, 2))
+                curva_total_renovable_24h.append(round(s_h + w_h, 2))
+
+            t_inferencia_ms = round((time.time() - t_inicio_ml) * 1000.0, 2)
+
+            # Promedios por bloque derivados de ML
+            cap_pred_solar_t1 = round(sum(curva_solar_24h[18:22]) / 4.0 * 2.0, 1)
+            cap_pred_solar_t2 = round(sum(curva_solar_24h[8:18]) / 10.0 * 10.0, 1)
+            cap_pred_solar_t3 = 0.0
+
+            cap_pred_eolica_t1 = round(sum(curva_eolica_24h[18:22]) / 4.0 * 4.0, 1)
+            cap_pred_eolica_t2 = round(sum(curva_eolica_24h[8:18]) / 10.0 * 10.0, 1)
+            cap_pred_eolica_t3 = round((sum(curva_eolica_24h[0:8]) + sum(curva_eolica_24h[22:24])) / 10.0 * 10.0, 1)
+
+            # Generar identificador de empresa único
+            slug = re.sub(r'[^a-zA-Z0-9]', '_', nombre.lower())[:16]
+            comp_id = f"emp_{slug}_{int(time.time()) % 10000}"
+
+            nueva_config = {
+                "id": comp_id,
+                "nombre": nombre,
+                "sector": sector,
+                "descripcion": f"Empresa del sector {sector} ubicada en {ciudad}. Perfil configurado mediante asistente inteligente.",
+                "demanda": demanda,
+                "limite_co2_ton": limite_co2,
+                "cuota_renovable_pct": cuota_ren,
+                "cap_solar": {"t1": cap_pred_solar_t1, "t2": cap_pred_solar_t2, "t3": cap_pred_solar_t3},
+                "cap_eolica": {"t1": cap_pred_eolica_t1, "t2": cap_pred_eolica_t2, "t3": cap_pred_eolica_t3},
+                "cap_gas": {"t1": cap_gas_inst, "t2": cap_gas_inst, "t3": cap_gas_inst},
+                "cap_red": {"t1": 15000.0, "t2": 15000.0, "t3": 15000.0},
+                "costos": {
+                    ("e1", "t1"): costo_red_t1, ("e1", "t2"): costo_red_t2, ("e1", "t3"): costo_red_t3,
+                    ("e2", "t1"): costo_solar,  ("e2", "t2"): costo_solar,  ("e2", "t3"): costo_solar,
+                    ("e3", "t1"): costo_eolica, ("e3", "t2"): costo_eolica, ("e3", "t3"): costo_eolica,
+                    ("e4", "t1"): costo_gas,    ("e4", "t2"): costo_gas,    ("e4", "t3"): costo_gas
+                },
+                "peajes_transporte": {"e1": 4.5, "e2": 0.0, "e3": 3.0, "e4": 1.0},
+                "perdidas_transporte_pct": {"e1": 2.8, "e2": 1.2, "e3": 2.1, "e4": 0.5}
+            }
+
+            # PASO 2: RESOLVER OPTIMIZACIÓN PULP / CBC
+            res_opt = resolver_optimizacion(nueva_config)
+
+            if res_opt["status"] != "Optimal":
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "status": "Infeasible",
+                    "mensaje": res_opt.get("mensaje", "Combinación infactible. Verifique que la demanda no exceda las capacidades y que el límite de CO2 sea físicamente posible.")
+                }).encode('utf-8'))
+                return
+
+            # PASO 3: CALCULAR TRADEOFF PARETO
+            trade = calcular_tradeoff_empresa(nueva_config)
+
+            # PASO 4: GENERAR INFORME DEL ASISTENTE VIRTUAL
+            ml_bundle = {
+                "curva_solar": curva_solar_24h,
+                "curva_eolica": curva_eolica_24h,
+                "curva_total": curva_total_renovable_24h,
+                "horas_eje": horas_eje,
+                "tiempo_inferencia_ms": t_inferencia_ms,
+                "capacidades_bloque": {
+                    "solar": nueva_config["cap_solar"],
+                    "eolica": nueva_config["cap_eolica"]
+                }
+            }
+            informe_ia = generar_informe_estrategico_ia(nombre, sector, res_opt, ml_bundle, nueva_config)
+
+            # Registrar en memoria del servidor
+            PERFILES_EMPRESAS[comp_id] = nueva_config
+
+            t_total_ms = round((time.time() - t_inicio_total) * 1000.0, 2)
+
+            response_payload = {
+                "status": "Optimal",
+                "tiempo_total_ms": t_total_ms,
+                "empresa_id": comp_id,
+                "empresa_info": {
+                    "id": comp_id,
+                    "nombre": nombre,
+                    "sector": sector,
+                    "ciudad": ciudad,
+                    "descripcion": nueva_config["descripcion"]
+                },
+                "optimizacion": res_opt,
+                "ml_prediccion": ml_bundle,
+                "tradeoff": trade,
+                "ai_informe": informe_ia,
+                "empresas_actualizadas": [
+                    {"id": p["id"], "nombre": p["nombre"], "sector": p["sector"]}
+                    for p in PERFILES_EMPRESAS.values()
+                ]
+            }
+
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(response_payload).encode('utf-8'))
+            return
+
+        elif self.path == '/api/optimize':
             comp_id = body.get('empresa_id', 'ejercicio1')
             base_config = PERFILES_EMPRESAS.get(comp_id, PERFILES_EMPRESAS['ejercicio1']).copy()
 
-            # Sobrescribir con parámetros dinámicos si se enviaron
             if 'demanda' in body:
                 base_config['demanda'] = {k: float(v) for k, v in body['demanda'].items()}
             if 'limite_co2' in body:
@@ -420,7 +602,6 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
             return
 
         elif self.path == '/api/predict':
-            # Predicción en tiempo real con Scikit-Learn
             t_inicio_ml = time.time()
             hora = float(body.get('hora', 12.0))
             rad = float(body.get('radiacion', 750.0))
@@ -437,7 +618,6 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
             mwh_solar_pred = round(factor_solar * cap_solar_max, 2)
             mwh_eolica_pred = round(factor_eolica * cap_eolica_max, 2)
 
-            # Generar curva de 24 horas proyectada para la jornada
             curva_solar_24h = []
             curva_eolica_24h = []
             curva_total_renovable_24h = []
@@ -458,13 +638,9 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
 
             t_inferencia_ms = round((time.time() - t_inicio_ml) * 1000.0, 2)
 
-            # Cálculo de capacidades resultantes agrupadas por bloque tarifario
-            # Bloque 1 (Pico): 18:00 - 22:00 (h 18 a 21)
-            # Bloque 2 (Medio): 08:00 - 18:00 (h 8 a 17)
-            # Bloque 3 (Valle): 22:00 - 08:00 (h 22 a 23 y 0 a 7)
-            cap_pred_solar_t1 = round(sum(curva_solar_24h[18:22]) / 4.0 * 2.0, 1) # Pico
-            cap_pred_solar_t2 = round(sum(curva_solar_24h[8:18]) / 10.0 * 10.0, 1) # Medio diurno
-            cap_pred_solar_t3 = 0.0 # Valle nocturno
+            cap_pred_solar_t1 = round(sum(curva_solar_24h[18:22]) / 4.0 * 2.0, 1)
+            cap_pred_solar_t2 = round(sum(curva_solar_24h[8:18]) / 10.0 * 10.0, 1)
+            cap_pred_solar_t3 = 0.0
 
             cap_pred_eolica_t1 = round(sum(curva_eolica_24h[18:22]) / 4.0 * 4.0, 1)
             cap_pred_eolica_t2 = round(sum(curva_eolica_24h[8:18]) / 10.0 * 10.0, 1)
@@ -528,10 +704,11 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
                     }
                 }
             else:
+                comp_nombre = PERFILES_EMPRESAS.get(empresa_activa, {}).get('nombre', 'Empresa Activa')
                 response_data = {
                     "tipo": "general",
                     "titulo": "Asistente Corporativo OptiGrid Copilot",
-                    "mensaje": f"OptiGrid Enterprise está activo y sincronizado con el perfil '{PERFILES_EMPRESAS.get(empresa_activa, {}).get('nombre', 'Empresa Activa')}'. Puede solicitar explicabilidad del despacho de rutas, consultar costos reducidos o ejecutar predicciones meteorológicas en tiempo real."
+                    "mensaje": f"OptiGrid Enterprise está activo y sincronizado con '{comp_nombre}'. Puede solicitar diagnósticos de costo marginal, consultar las rutas activas o registrar una nueva empresa industrial."
                 }
 
             self.send_response(200)

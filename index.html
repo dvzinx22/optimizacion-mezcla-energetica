@@ -78,6 +78,101 @@
             background: var(--bg-card-hover);
         }
 
+        /* --- LOGIN MODAL & OVERLAY --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 520px;
+            padding: 36px 32px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #ffffff;
+            margin: 0 auto 18px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+        }
+
+        .login-logo svg {
+            width: 28px;
+            height: 28px;
+            color: #000000;
+        }
+
+        .login-card h2 {
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .login-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.45;
+        }
+
+        .login-section-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .login-section-box label {
+            display: block;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-dim);
+            font-size: 0.74rem;
+            margin: 16px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-glass);
+        }
+
         /* --- HEADER & TOP NAVIGATION --- */
         header {
             position: sticky;
@@ -170,7 +265,7 @@
             font-weight: 500;
             outline: none;
             cursor: pointer;
-            min-width: 280px;
+            min-width: 260px;
             transition: all 0.2s ease;
         }
 
@@ -184,7 +279,7 @@
             color: #ffffff;
         }
 
-        .header-badges {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -587,15 +682,17 @@
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-glass);
             color: #ffffff;
-            padding: 9px 14px;
+            padding: 10px 14px;
             border-radius: var(--radius-sm);
             font-size: 0.88rem;
             outline: none;
             transition: border-color 0.2s;
+            width: 100%;
         }
 
         .apple-input:focus {
             border-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
         }
 
         /* --- NETWORK ROUTES DIAGRAM --- */
@@ -667,6 +764,50 @@
         .arrow-connector svg {
             width: 24px;
             height: 24px;
+        }
+
+        /* --- AI REPORT CARD --- */
+        .ai-report-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .ai-report-box h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-report-box p {
+            font-size: 0.88rem;
+            color: #d1d1d6;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .ai-rec-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ai-rec-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 0.84rem;
+            color: #ffffff;
+            line-height: 1.45;
         }
 
         /* --- CHAT / COPILOT --- */
@@ -793,18 +934,56 @@
 </head>
 <body>
 
+    <!-- ==================== LOGIN MODAL (APPLE LIQUID GLASS) ==================== -->
+    <div id="modalLogin" class="modal-overlay" style="display:flex;">
+        <div class="glass-panel login-card">
+            <div class="login-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </div>
+            <h2>OptiGrid Enterprise</h2>
+            <p>Acceso Corporativo & Plataforma de Optimización Energética e Inteligencia Artificial</p>
+
+            <!-- ACCESO DIRECTO A EMPRESAS REGISTRADAS -->
+            <div class="login-section-box">
+                <label for="selectLoginEmpresa">Seleccionar Empresa o Caso de Prueba:</label>
+                <select id="selectLoginEmpresa" class="company-select" style="width:100%; margin-bottom:12px;">
+                    <option value="ejercicio1" selected>Planta Electro-intensiva (Caso Benchmark - Ejercicio 1)</option>
+                    <option value="cementera">Cementera del Caribe S.A. (Procesamiento Continuo)</option>
+                    <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Hornos de Arco)</option>
+                    <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
+                </select>
+                <button class="btn-apple-primary" style="width:100%; justify-content:center;" onclick="iniciarSesionEmpresaExistente()">
+                    Ingresar al Tablero de Control
+                </button>
+            </div>
+
+            <div class="login-divider">O también</div>
+
+            <!-- REGISTRAR NUEVA EMPRESA -->
+            <button class="btn-apple-secondary" style="width:100%; justify-content:center; padding: 12px 20px;" onclick="abrirRegistroNuevaEmpresa()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Registrar y Configurar Nueva Empresa
+            </button>
+        </div>
+    </div>
+
     <!-- ==================== HEADER ==================== -->
     <header>
         <div class="header-content">
             <div class="brand-section">
                 <div class="brand-logo">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
                 </div>
                 <div class="brand-titles">
                     <h1>OPTIGRID ENTERPRISE</h1>
-                    <p>Optimización Energética Industrial, Rutas de Suministro y Machine Learning en Tiempo Real</p>
+                    <p>Optimización Prescriptiva, Machine Learning y Asistente Virtual para Industrias</p>
                 </div>
             </div>
 
@@ -821,21 +1000,20 @@
                     <option value="cementera">Cementera del Caribe S.A. (Procesamiento Continuo)</option>
                     <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Hornos de Arco)</option>
                     <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
-                    <option value="custom">Configurar Empresa Personalizada...</option>
                 </select>
             </div>
 
-            <div class="header-badges">
+            <div class="header-actions">
+                <button class="btn-apple-secondary" style="font-size:0.78rem; padding: 6px 14px;" onclick="document.getElementById('modalLogin').style.display='flex'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Cambiar Empresa / Login
+                </button>
                 <span class="badge-glass">
                     <span class="badge-dot"></span>
-                    Solver: PuLP / CBC Activo
-                </span>
-                <span class="badge-glass">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span id="headerSolverTime">&lt; 15 ms</span>
+                    CBC Solver: <strong id="headerSolverTime" style="margin-left:4px; color:#ffffff;">&lt; 15 ms</strong>
                 </span>
             </div>
         </div>
@@ -852,6 +1030,12 @@
                     <rect x="3" y="16" width="7" height="5"></rect>
                 </svg>
                 Tablero Ejecutivo
+            </button>
+            <button class="tab-btn" onclick="switchTab('nueva_empresa', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                Registrar & Optimizar Nueva Empresa
             </button>
             <button class="tab-btn" onclick="switchTab('rutas', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -921,6 +1105,21 @@
                 <span class="pill-badge" id="heroDemandaTotal">Demanda: 5,000 MWh/mes</span>
                 <span class="pill-badge" id="heroLimiteCO2">Límite CO2: 1,200 t</span>
             </div>
+        </div>
+
+        <!-- INFORME GENERADO POR EL ASISTENTE VIRTUAL PARA LA EMPRESA ACTIVA -->
+        <div id="boxInformeIA" class="glass-panel ai-report-box" style="display:none;">
+            <h4>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Informe Ejecutivo del Asistente Virtual (OptiGrid Copilot)
+            </h4>
+            <p id="txtInformeResumen"></p>
+            <p id="txtInformeAmbiental"></p>
+            <p id="txtInformeMarginal"></p>
+            <strong style="color:#ffffff; font-size:0.86rem;">Recomendaciones Prescriptivas para la Dirección de Operaciones:</strong>
+            <ul class="ai-rec-list" id="listaInformeRecs"></ul>
         </div>
 
         <!-- ==================== TAB 1: TABLERO EJECUTIVO ==================== -->
@@ -1032,7 +1231,152 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 2: RUTAS Y RED DE ABASTECIMIENTO ==================== -->
+        <!-- ==================== TAB 2: REGISTRAR Y OPTIMIZAR NUEVA EMPRESA ==================== -->
+        <section id="nueva_empresa" class="tab-content">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                        Portal de Registro y Optimización para Nueva Empresa
+                    </h3>
+                    <span class="pill-badge">Integración ML + Solver CBC + Asistente Virtual</span>
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom: 24px; line-height:1.5;">
+                        Ingrese los parámetros operativos de su empresa. Al hacer clic en <strong>"Optimizar con Machine Learning & Asistente Virtual"</strong>, el sistema proyectará las curvas renovables en tiempo real, calculará la asignación óptima de mínimo costo en PuLP y generará un informe gerencial personalizado con gráficos completos.
+                    </p>
+
+                    <!-- GRUPOS DE CAMPOS -->
+                    <div style="display:flex; flex-direction:column; gap:24px;">
+                        
+                        <!-- SECCIÓN 1: DATOS CORPORATIVOS -->
+                        <div class="glass-panel" style="padding:20px;">
+                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">1. Información General de la Empresa</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre Comercial de la Empresa</label>
+                                    <input type="text" class="apple-input" id="newNombre" value="BioAgro Andina S.A.S." placeholder="Ej: Acerías del Caribe S.A.">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Sector Industrial</label>
+                                    <input type="text" class="apple-input" id="newSector" value="Agroindustria & Procesamiento de Alimentos" placeholder="Ej: Minería, Siderurgia, Cemento...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ubicación / Ciudad</label>
+                                    <input type="text" class="apple-input" id="newCiudad" value="Cali, Valle del Cauca" placeholder="Ej: Barranquilla, Riohacha, Medellín...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 2: DEMANDA ELÉCTRICA -->
+                        <div class="glass-panel" style="padding:20px;">
+                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">2. Demanda Eléctrica por Bloque Tarifario (MWh/mes)</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Demanda en Bloque 1 - Pico (18:00 - 22:00 hrs)</label>
+                                    <input type="number" class="apple-input" id="newDemandaT1" value="1500" min="100" max="10000" step="50">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Demanda en Bloque 2 - Medio (08:00 - 18:00 hrs)</label>
+                                    <input type="number" class="apple-input" id="newDemandaT2" value="2100" min="100" max="10000" step="50">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Demanda en Bloque 3 - Valle (22:00 - 08:00 hrs)</label>
+                                    <input type="number" class="apple-input" id="newDemandaT3" value="1400" min="100" max="10000" step="50">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 3: METAS AMBIENTALES -->
+                        <div class="glass-panel" style="padding:20px;">
+                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">3. Metas Ambientales y de Sostenibilidad</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Límite Máximo de Emisiones de CO2 (Toneladas/mes)</label>
+                                    <input type="number" class="apple-input" id="newLimiteCO2" value="1150" min="200" max="8000" step="25">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cuota Mínima Obligatoria Renovable (%)</label>
+                                    <input type="number" class="apple-input" id="newCuotaRenovable" value="35" min="5" max="80" step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 4: FUENTES Y CAPACIDADES INSTALADAS -->
+                        <div class="glass-panel" style="padding:20px;">
+                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">4. Capacidades Instaladas y Contratos de Suministro</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Capacidad Solar en Sitio Instalada (MWh pico)</label>
+                                    <input type="number" class="apple-input" id="newCapSolar" value="1300" min="0" max="5000" step="50">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Capacidad Eólica Contratada (MWh)</label>
+                                    <input type="number" class="apple-input" id="newCapEolica" value="550" min="0" max="5000" step="50">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Capacidad Cogeneración a Gas (MWh)</label>
+                                    <input type="number" class="apple-input" id="newCapGas" value="900" min="0" max="5000" step="50">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tarifa Red en Pico ($/MWh)</label>
+                                    <input type="number" class="apple-input" id="newTarifaRedT1" value="114" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tarifa Red en Medio ($/MWh)</label>
+                                    <input type="number" class="apple-input" id="newTarifaRedT2" value="86" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tarifa Red en Valle ($/MWh)</label>
+                                    <input type="number" class="apple-input" id="newTarifaRedT3" value="60" step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 5: METEOROLOGÍA LOCAL -->
+                        <div class="glass-panel" style="padding:20px;">
+                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">5. Condiciones Meteorológicas Locales (Para Machine Learning)</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Radiación Solar Promedio Diurna (W/m²)</label>
+                                    <input type="number" class="apple-input" id="newRad" value="860" min="200" max="1100" step="10">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Velocidad Típica del Viento (m/s)</label>
+                                    <input type="number" class="apple-input" id="newViento" value="7.8" min="1" max="20" step="0.5">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Temperatura Ambiente Promedio (°C)</label>
+                                    <input type="number" class="apple-input" id="newTemp" value="31" min="15" max="45" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nubosidad Típica (%)</label>
+                                    <input type="number" class="apple-input" id="newNubes" value="18" min="0" max="100" step="5">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BOTÓN DE ACCIÓN CENTRAL -->
+                        <div style="text-align:center; padding: 12px 0;">
+                            <button id="btnRegistrarYOptimizar" class="btn-apple-primary" style="padding: 14px 34px; font-size: 0.95rem;" onclick="ejecutarRegistroYOptimizacionCompleta()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                                Optimizar con Machine Learning & Asistente Virtual
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: RUTAS Y RED DE ABASTECIMIENTO ==================== -->
         <section id="rutas" class="tab-content">
             <div class="glass-panel" style="margin-bottom: 24px;">
                 <div class="panel-header">
@@ -1154,7 +1498,7 @@
                                 <div class="node-sub">Subestación Receptora Principal</div>
                                 <div class="node-val" id="nodePlantaDemandaTotal">5,000 MWh</div>
                                 <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:8px;">
-                                    Balance de Potencia: 100% Cumplido
+                                    Balance de Potencia: 100% Satisfecho
                                 </div>
                             </div>
                         </div>
@@ -1202,7 +1546,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 3: OPTIMIZADOR PRESCRIPTIVO ==================== -->
+        <!-- ==================== TAB 4: OPTIMIZADOR PRESCRIPTIVO ==================== -->
         <section id="optimizador" class="tab-content">
             <div class="dashboard-grid-2">
                 <!-- FORMULARIO DE CONTROL DE PARÁMETROS -->
@@ -1229,7 +1573,7 @@
                                     <label class="form-label">Demanda en Pico - t1 (MWh)</label>
                                     <span class="form-val-badge" id="valDemandaT1">1,200</span>
                                 </div>
-                                <input type="range" class="apple-slider" id="sliderDemandaT1" min="600" max="3000" step="50" value="1200" oninput="actualizarValLabel('valDemandaT1', this.value)">
+                                <input type="range" class="apple-slider" id="sliderDemandaT1" min="600" max="3500" step="50" value="1200" oninput="actualizarValLabel('valDemandaT1', this.value)">
                             </div>
 
                             <div class="form-group">
@@ -1237,7 +1581,7 @@
                                     <label class="form-label">Demanda en Medio - t2 (MWh)</label>
                                     <span class="form-val-badge" id="valDemandaT2">1,800</span>
                                 </div>
-                                <input type="range" class="apple-slider" id="sliderDemandaT2" min="800" max="4000" step="50" value="1800" oninput="actualizarValLabel('valDemandaT2', this.value)">
+                                <input type="range" class="apple-slider" id="sliderDemandaT2" min="800" max="4500" step="50" value="1800" oninput="actualizarValLabel('valDemandaT2', this.value)">
                             </div>
 
                             <div class="form-group">
@@ -1245,7 +1589,7 @@
                                     <label class="form-label">Demanda en Valle - t3 (MWh)</label>
                                     <span class="form-val-badge" id="valDemandaT3">2,000</span>
                                 </div>
-                                <input type="range" class="apple-slider" id="sliderDemandaT3" min="500" max="4000" step="50" value="2000" oninput="actualizarValLabel('valDemandaT3', this.value)">
+                                <input type="range" class="apple-slider" id="sliderDemandaT3" min="500" max="4500" step="50" value="2000" oninput="actualizarValLabel('valDemandaT3', this.value)">
                             </div>
 
                             <div class="form-group">
@@ -1253,7 +1597,7 @@
                                     <label class="form-label">Límite Máximo de Emisiones (t CO2)</label>
                                     <span class="form-val-badge" id="valLimiteCO2">1,200</span>
                                 </div>
-                                <input type="range" class="apple-slider" id="sliderLimiteCO2" min="650" max="2500" step="25" value="1200" oninput="actualizarValLabel('valLimiteCO2', this.value)">
+                                <input type="range" class="apple-slider" id="sliderLimiteCO2" min="650" max="3000" step="25" value="1200" oninput="actualizarValLabel('valLimiteCO2', this.value)">
                             </div>
 
                             <div class="form-group">
@@ -1269,7 +1613,7 @@
                                     <label class="form-label">Capacidad Solar en Medio - t2 (MWh)</label>
                                     <span class="form-val-badge" id="valCapSolarT2">1,000</span>
                                 </div>
-                                <input type="range" class="apple-slider" id="sliderCapSolarT2" min="200" max="2500" step="50" value="1000" oninput="actualizarValLabel('valCapSolarT2', this.value)">
+                                <input type="range" class="apple-slider" id="sliderCapSolarT2" min="200" max="3000" step="50" value="1000" oninput="actualizarValLabel('valCapSolarT2', this.value)">
                             </div>
                         </div>
                     </div>
@@ -1338,7 +1682,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 4: MACHINE LEARNING EN TIEMPO REAL ==================== -->
+        <!-- ==================== TAB 5: MACHINE LEARNING EN TIEMPO REAL ==================== -->
         <section id="ml" class="tab-content">
             <div class="glass-panel" style="margin-bottom: 24px;">
                 <div class="panel-header">
@@ -1462,7 +1806,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 5: CURVA TRADE-OFF ==================== -->
+        <!-- ==================== TAB 6: CURVA TRADE-OFF ==================== -->
         <section id="tradeoff" class="tab-content">
             <div class="glass-panel">
                 <div class="panel-header">
@@ -1485,7 +1829,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 6: COPILOT & AUTOCORRECCIÓN ==================== -->
+        <!-- ==================== TAB 7: COPILOT & AUTOCORRECCIÓN ==================== -->
         <section id="copilot" class="tab-content">
             <div class="dashboard-grid-2">
                 <div class="glass-panel">
@@ -1548,7 +1892,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 7: EQUIPO UNIGUAJIRA ==================== -->
+        <!-- ==================== TAB 8: EQUIPO UNIGUAJIRA ==================== -->
         <section id="equipo" class="tab-content">
             <div class="glass-panel" style="margin-bottom: 24px;">
                 <div class="panel-header">
@@ -1652,7 +1996,8 @@
             empresas_info: {},
             optimizacion: null,
             tradeoff: null,
-            prediccion_ml: null
+            prediccion_ml: null,
+            ai_informe: null
         };
 
         let chartDespachoInstance = null;
@@ -1680,6 +2025,10 @@
                 const data = await res.json();
                 estadoActual.optimizacion = data.optimizacion;
                 estadoActual.tradeoff = data.tradeoff;
+
+                if (data.empresas) {
+                    actualizarListaEmpresas(data.empresas);
+                }
                 
                 // Actualizar interfaz completa
                 renderizarDashboard(data.optimizacion);
@@ -1695,55 +2044,59 @@
             }
         }
 
+        // --- LOGIN FLOWS ---
+        function iniciarSesionEmpresaExistente() {
+            const empId = document.getElementById('selectLoginEmpresa').value;
+            document.getElementById('modalLogin').style.display = 'none';
+            document.getElementById('companySelect').value = empId;
+            cambiarEmpresa(empId);
+        }
+
+        function abrirRegistroNuevaEmpresa() {
+            document.getElementById('modalLogin').style.display = 'none';
+            // Ir a la pestaña de registro
+            const tabBtnNueva = document.querySelectorAll('.tab-btn')[1];
+            switchTab('nueva_empresa', tabBtnNueva);
+        }
+
+        function actualizarListaEmpresas(lista) {
+            const selectHeader = document.getElementById('companySelect');
+            const selectModal = document.getElementById('selectLoginEmpresa');
+            
+            const currentVal = selectHeader.value;
+            selectHeader.innerHTML = '';
+            selectModal.innerHTML = '';
+
+            lista.forEach(e => {
+                const opt1 = document.createElement('option');
+                opt1.value = e.id;
+                opt1.innerText = `${e.nombre} (${e.sector})`;
+                selectHeader.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = e.id;
+                opt2.innerText = `${e.nombre} (${e.sector})`;
+                selectModal.appendChild(opt2);
+            });
+
+            selectHeader.value = currentVal || lista[0].id;
+        }
+
         // --- CAMBIO DE TABS ---
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+            if (btn) btn.classList.add('active');
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         // --- CAMBIO DE EMPRESA (MULTI-TENANT) ---
         async function cambiarEmpresa(empresaId) {
-            if (empresaId === 'custom') {
-                switchTab('optimizador', document.querySelectorAll('.tab-btn')[2]);
-                alert("Modo Empresa Personalizada activado: Ajuste libremente las demandas, límites de CO2 y capacidades en los deslizadores.");
-                return;
-            }
-
             estadoActual.empresa_activa = empresaId;
-            const titulos = {
-                "ejercicio1": {
-                    nombre: "Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)",
-                    sector: "Sector: Manufactura Pesada",
-                    desc: "Instalación de manufactura electro-intensiva bajo esquema tarifario multi-bloque con metas de descarbonización regulatorias."
-                },
-                "cementera": {
-                    nombre: "Cementera del Caribe S.A. (Procesamiento Continuo)",
-                    sector: "Sector: Materiales de Construcción",
-                    desc: "Operación continua de hornos rotatorios y molinos de cemento con alta sensibilidad a tarifas en bloque punta."
-                },
-                "siderurgica": {
-                    nombre: "Metalúrgica & Siderúrgica del Norte (Hornos de Arco)",
-                    sector: "Sector: Siderurgia & Metalurgia",
-                    desc: "Concentración masiva de coladas de acero en bloques nocturnos para aprovechar la energía de menor costo y excedentes eólicos."
-                },
-                "frigorificos": {
-                    nombre: "Agroindustria & Frigoríficos del Valle (Cadena de Frío)",
-                    sector: "Sector: Cadena de Frío & Agroindustria",
-                    desc: "Demanda impulsada por compresores frigoríficos en horas diurnas de mayor calor con amplio aprovechamiento solar en sitio."
-                }
-            };
+            document.getElementById('companySelect').value = empresaId;
 
-            const info = titulos[empresaId];
-            if (info) {
-                document.getElementById('heroNombreEmpresa').innerText = info.nombre;
-                document.getElementById('heroSector').innerText = info.sector;
-                document.getElementById('heroDescripcionEmpresa').innerText = info.desc;
-                document.getElementById('nodePlantaDestino').innerText = info.nombre.split(' (')[0];
-            }
-
-            // Consultar optimización para la empresa seleccionada
             try {
                 const res = await fetch('/api/optimize', {
                     method: 'POST',
@@ -1752,18 +2105,29 @@
                 });
                 const data = await res.json();
                 estadoActual.optimizacion = data;
+
+                if (data.empresa_config) {
+                    document.getElementById('heroNombreEmpresa').innerText = data.empresa_config.nombre;
+                    document.getElementById('heroSector').innerText = `Sector: ${data.empresa_config.sector}`;
+                    document.getElementById('heroDescripcionEmpresa').innerText = `Instalación industrial bajo optimización prescriptiva y machine learning.`;
+                    document.getElementById('nodePlantaDestino').innerText = data.empresa_config.nombre.split(' (')[0];
+                }
+
                 if (data.tradeoff) {
                     estadoActual.tradeoff = data.tradeoff;
                     renderizarTradeoffChart(data.tradeoff);
                 }
 
-                // Sincronizar sliders con los valores de la empresa
                 sincronizarSlidersConOptimizacion(data);
-
                 renderizarDashboard(data);
                 renderizarRutas(data.rutas_suministro);
                 renderizarMatriz(data.matriz_despacho);
                 renderizarPreciosSombra(data.precios_sombra);
+
+                // Ocultar informe IA si es una empresa predefinida sin informe reciente
+                if (!data.ai_informe) {
+                    document.getElementById('boxInformeIA').style.display = 'none';
+                }
             } catch (err) {
                 console.error("Error al optimizar empresa:", err);
             }
@@ -1773,6 +2137,114 @@
             if (!data) return;
             document.getElementById('heroDemandaTotal').innerText = `Demanda: ${data.demanda_total.toLocaleString()} MWh/mes`;
             document.getElementById('nodePlantaDemandaTotal').innerText = `${data.demanda_total.toLocaleString()} MWh`;
+        }
+
+        // --- PIPELINE COMPLETO: REGISTRAR Y OPTIMIZAR NUEVA EMPRESA ---
+        async function ejecutarRegistroYOptimizacionCompleta() {
+            const btn = document.getElementById('btnRegistrarYOptimizar');
+            const txtOriginal = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Ejecutando Machine Learning, Solver PuLP y Copilot...';
+            btn.disabled = true;
+
+            const payload = {
+                nombre: document.getElementById('newNombre').value.trim(),
+                sector: document.getElementById('newSector').value.trim(),
+                ciudad: document.getElementById('newCiudad').value.trim(),
+                demanda_t1: parseFloat(document.getElementById('newDemandaT1').value),
+                demanda_t2: parseFloat(document.getElementById('newDemandaT2').value),
+                demanda_t3: parseFloat(document.getElementById('newDemandaT3').value),
+                limite_co2: parseFloat(document.getElementById('newLimiteCO2').value),
+                cuota_renovable: parseFloat(document.getElementById('newCuotaRenovable').value),
+                cap_solar_instalada: parseFloat(document.getElementById('newCapSolar').value),
+                cap_eolica_instalada: parseFloat(document.getElementById('newCapEolica').value),
+                cap_gas_instalada: parseFloat(document.getElementById('newCapGas').value),
+                tarifa_red_t1: parseFloat(document.getElementById('newTarifaRedT1').value),
+                tarifa_red_t2: parseFloat(document.getElementById('newTarifaRedT2').value),
+                tarifa_red_t3: parseFloat(document.getElementById('newTarifaRedT3').value),
+                costo_solar_ppa: 42.0,
+                costo_eolica_ppa: 46.0,
+                costo_gas: 76.0,
+                radiacion: parseFloat(document.getElementById('newRad').value),
+                viento: parseFloat(document.getElementById('newViento').value),
+                temperatura: parseFloat(document.getElementById('newTemp').value),
+                nubosidad: parseFloat(document.getElementById('newNubes').value)
+            };
+
+            try {
+                const res = await fetch('/api/register_and_optimize', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.status !== 'Optimal') {
+                    alert("Aviso de Infactibilidad: " + (data.mensaje || "Revise las cotas de demanda y límites ambientales."));
+                    return;
+                }
+
+                // Actualizar estado
+                estadoActual.empresa_activa = data.empresa_id;
+                estadoActual.optimizacion = data.optimizacion;
+                estadoActual.tradeoff = data.tradeoff;
+                estadoActual.prediccion_ml = data.ml_prediccion;
+                estadoActual.ai_informe = data.ai_informe;
+
+                // Actualizar listas de empresas registradas
+                if (data.empresas_actualizadas) {
+                    actualizarListaEmpresas(data.empresas_actualizadas);
+                    document.getElementById('companySelect').value = data.empresa_id;
+                }
+
+                // Actualizar Hero
+                document.getElementById('heroNombreEmpresa').innerText = data.empresa_info.nombre;
+                document.getElementById('heroSector').innerText = `Sector: ${data.empresa_info.sector} (${data.empresa_info.ciudad})`;
+                document.getElementById('heroDescripcionEmpresa').innerText = data.empresa_info.descripcion;
+                document.getElementById('nodePlantaDestino').innerText = data.empresa_info.nombre;
+                sincronizarSlidersConOptimizacion(data.optimizacion);
+
+                // Renderizar Informe del Asistente Virtual
+                renderizarInformeIA(data.ai_informe);
+
+                // Renderizar todos los gráficos y tablas
+                renderizarDashboard(data.optimizacion);
+                renderizarRutas(data.optimizacion.rutas_suministro);
+                renderizarMatriz(data.optimizacion.matriz_despacho);
+                renderizarPreciosSombra(data.optimizacion.precios_sombra);
+                renderizarTradeoffChart(data.tradeoff);
+                renderizarChartML24h(data.ml_prediccion);
+
+                // Cambiar al Tablero Ejecutivo
+                const tabBtnTablero = document.querySelectorAll('.tab-btn')[0];
+                switchTab('tablero', tabBtnTablero);
+
+            } catch (err) {
+                console.error("Error en registro y optimización:", err);
+                alert("Ocurrió un error al procesar la optimización en el servidor.");
+            } finally {
+                btn.innerHTML = txtOriginal;
+                btn.disabled = false;
+            }
+        }
+
+        // --- RENDERIZAR INFORME IA ---
+        function renderizarInformeIA(informe) {
+            if (!informe) return;
+            const box = document.getElementById('boxInformeIA');
+            box.style.display = 'block';
+
+            document.getElementById('txtInformeResumen').innerHTML = `<strong>Diagnóstico Financiero:</strong> ${informe.resumen_ejecutivo}`;
+            document.getElementById('txtInformeAmbiental').innerHTML = `<strong>Cumplimiento Ambiental:</strong> ${informe.diagnostico_ambiental}`;
+            document.getElementById('txtInformeMarginal').innerHTML = `<strong>Costos Marginales (Precios Sombra):</strong> ${informe.analisis_marginal}`;
+
+            const ul = document.getElementById('listaInformeRecs');
+            ul.innerHTML = '';
+            informe.recomendaciones.forEach(r => {
+                const li = document.createElement('li');
+                li.className = 'ai-rec-item';
+                li.innerText = r;
+                ul.appendChild(li);
+            });
         }
 
         // --- RENDERIZADO DEL DASHBOARD EJECUTIVO ---
@@ -1932,7 +2404,7 @@
             });
         }
 
-        // --- EJECUTAR OPTIMIZACION EN VIVO ---
+        // --- EJECUTAR OPTIMIZACION EN VIVO (SLIDERS) ---
         async function ejecutarOptimizacionEnVivo() {
             const payload = {
                 empresa_id: estadoActual.empresa_activa,
@@ -2066,7 +2538,7 @@
             const caps = estadoActual.prediccion_ml.capacidades_bloque_sugeridas;
             document.getElementById('sliderCapSolarT2').value = caps.cap_solar.t2;
             actualizarValLabel('valCapSolarT2', caps.cap_solar.t2);
-            switchTab('optimizador', document.querySelectorAll('.tab-btn')[2]);
+            switchTab('optimizador', document.querySelectorAll('.tab-btn')[3]);
             ejecutarOptimizacionEnVivo();
             alert(`Capacidades meteorológicas transferidas: Solar en Bloque Medio ajustada a ${caps.cap_solar.t2} MWh. Optimizador recalculado.`);
         }
