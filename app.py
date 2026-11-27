@@ -411,6 +411,18 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
             return super().do_GET()
 
     def do_POST(self):
+        try:
+            self._manejar_post()
+        except Exception as ex:
+            import traceback
+            traceback.print_exc()
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({"status": "Error", "mensaje": str(ex)}).encode('utf-8'))
+            return
+
+    def _manejar_post(self):
         length = int(self.headers.get('Content-Length', 0))
         raw_body = self.rfile.read(length).decode('utf-8')
         body = json.loads(raw_body) if raw_body else {}
@@ -715,6 +727,13 @@ class OptiGridHandler(SimpleHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps(response_data).encode('utf-8'))
+            return
+
+        else:
+            self.send_response(404)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({"status": "Error", "mensaje": f"Ruta {self.path} no encontrada."}).encode('utf-8'))
             return
 
 def iniciar_servidor():

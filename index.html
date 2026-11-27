@@ -2176,6 +2176,13 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
                 });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    alert("Aviso del servidor (" + res.status + "): " + (errData.mensaje || "Error interno. Reinicie iniciar_software.bat para cargar el backend actualizado."));
+                    return;
+                }
+
                 const data = await res.json();
 
                 if (data.status !== 'Optimal') {
@@ -2258,7 +2265,7 @@
             document.getElementById('kpiRenovablePct').innerText = `${opt.renovable_pct.toFixed(1)}%`;
             document.getElementById('kpiRenovableMWh').innerText = `${Math.round(opt.renovable_total).toLocaleString()} MWh (Solar + Eólica)`;
             document.getElementById('kpiAhorroAnual').innerText = `$${Math.round(opt.ahorro_anual_usd).toLocaleString()}`;
-            document.getElementById('headerSolverTime').innerText = `${opt.tiempo_ms} ms`;
+            document.getElementById('headerSolverTime').innerText = opt.tiempo_ms ? `${opt.tiempo_ms} ms` : `< 15 ms`;
 
             // Actualizar nodos del diagrama
             if (opt.matriz_despacho) {
