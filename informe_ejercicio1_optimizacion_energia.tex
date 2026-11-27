@@ -41,7 +41,7 @@
     linkcolor=primary,
     citecolor=secondary,
     urlcolor=codeblue,
-    pdftitle={Proyecto ANDREA-Energy: Optimización Energética y Descarbonización Industrial},
+    pdftitle={Proyecto OPTIGRID-AI: Optimización Energética y Descarbonización Industrial},
     pdfauthor={Sneyder Joaquín Madrid Arcia, Moisés Bolívar, Andrés Aguilar, Dylan David Cáceres Montiel, Milder Oñate, Jorge Escudero, William Redondo}
 }
 
@@ -96,14 +96,13 @@
     \begin{tcolorbox}[colback=lightgray, colframe=primary, arc=4mm, boxrule=1.5pt, width=0.98\textwidth]
         \centering
         \vspace{0.3cm}
-        {\LARGE \textbf{\color{primary}PROYECTO ANDREA-ENERGY: PLATAFORMA INTELIGENTE DE OPTIMIZACIÓN ENERGÉTICA Y DESCARBONIZACIÓN INDUSTRIAL}} \\[0.4cm]
-        {\large \textbf{\color{secondary}A.N.D.R.E.A.: Análisis Neuronal y Decisión Racional Energética con Analítica Prescriptiva (PuLP/CBC) y Asistencia de IA en Tiempo Real}}
+        {\LARGE \textbf{\color{primary}PROYECTO OPTIGRID-AI: PLATAFORMA INTELIGENTE DE OPTIMIZACIÓN ENERGÉTICA Y DESCARBONIZACIÓN INDUSTRIAL}} \\[0.4cm]
+        {\large \textbf{\color{secondary}O.P.T.I.G.R.I.D.: Optimización Prescriptiva Tarifaria e Inteligencia de Generación Racional Industrial y Descarbonización}}
         \vspace{0.3cm}
     \end{tcolorbox}
     
-    \vspace{1.2cm}
-    \textbf{\large INFORME FINAL DE PROYECTO (EJERCICIO 1)}\\[0.3cm]
-    \textit{Cumplimiento riguroso del Formato de Entregable de 17 Secciones}
+    \vspace{1.5cm}
+    \textbf{\LARGE INFORME FINAL DE PROYECTO (EJERCICIO 1)}
     
     \vspace{1.4cm}
     
@@ -151,7 +150,7 @@ En la dimensión ambiental, los marcos regulatorios internacionales y las normat
 
 Frente a esta problemática de naturaleza combinatoria y multidimensional, la Investigación de Operaciones clásica —específicamente a través de la Programación Lineal Continua— proporciona un marco formal, matemáticamente exacto y reproducible para modelar la toma de decisiones óptimas en redes de abastecimiento. Al complementarse con las capacidades analíticas de la Inteligencia Artificial moderna, la analítica prescriptiva trasciende el cálculo teórico para transformarse en un sistema dinámico capaz de predecir fluctuaciones climáticas, prescribir el despacho de costo mínimo y asistir a los operadores humanos en tiempo real.
 
-Bajo esta visión estratégica surge el \textbf{Proyecto ANDREA-Energy} (\textit{Análisis Neuronal y Decisión Racional Energética con Analítica Prescriptiva e Inteligencia Artificial}), una plataforma tecnológica concebida para vender una experiencia transformadora de gestión energética. El presente informe detalla el diagnóstico del problema, la formulación matemática estricta, la implementación de software en Python, la arquitectura de IA con asistente de autocorrección, los problemas de gestión de equipo superados y la propuesta de comercialización para el mercado industrial.
+Bajo esta visión estratégica surge el \textbf{Proyecto OPTIGRID-AI} (\textit{Optimización Prescriptiva Tarifaria e Inteligencia de Generación Racional Industrial y Descarbonización}), una plataforma tecnológica concebida para vender una experiencia transformadora de gestión energética. El presente informe detalla el diagnóstico del problema, la formulación matemática estricta, la implementación de software en Python, la arquitectura de IA con asistente de autocorrección, los problemas de gestión de equipo superados y la propuesta de comercialización para el mercado industrial.
 
 % =========================================================================
 % 2. OBJETIVOS
@@ -174,7 +173,7 @@ Siguiendo la metodología sistemática de formulación de proyectos en ingenier�
 % 3. JUSTIFICACIÓN
 % =========================================================================
 \section{Justificación}
-La relevancia científica, económica y tecnológica del proyecto \textbf{ANDREA-Energy} se fundamenta en la literatura especializada y en los mandatos regulatorios contemporáneos:
+La relevancia científica, económica y tecnológica del proyecto \textbf{OPTIGRID-AI} se fundamenta en la literatura especializada y en los mandatos regulatorios contemporáneos:
 
 \begin{itemize}
     \item \textbf{Sustento en Literatura Científica de Investigación de Operaciones:} De acuerdo con Hillier \& Lieberman (2015) y Taha (2017), los problemas de flujo de costo mínimo con múltiples fuentes y destinos de demanda encuentran en la Programación Lineal Continua una solución global exacta de convergencia polinomial. El algoritmo Simplex garantiza identificar la combinación matemática indiscutiblemente óptima dentro del poliedro factible, superando la ineficiencia e incertidumbre de los tanteos empíricos.
@@ -585,8 +584,8 @@ El modelo de Machine Learning arrojó un desempeño sobresaliente, cuyos resulta
     \label{fig:prediccion_ia_ml}
 \end{figure}
 
-\subsection{Asistente Inteligente Interactivo (ANDREA AI Copilot) y Motor de Autocorrección}
-Para trascender el cálculo estático tradicional y proporcionar una experiencia interactiva de usuario de nivel industrial, el software incorpora un asistente conversacional inteligente denominado \textbf{ANDREA AI Copilot}. Este componente actúa como copiloto operativo y puente de comunicación entre el modelo matemático y los operadores humanos de planta:
+\subsection{Asistente Inteligente Interactivo (OptiGrid AI Copilot) y Motor de Autocorrección}
+Para trascender el cálculo estático tradicional y proporcionar una experiencia interactiva de usuario de nivel industrial, el software incorpora un asistente conversacional inteligente denominado \textbf{OptiGrid AI Copilot}. Este componente actúa como copiloto operativo y puente de comunicación entre el modelo matemático y los operadores humanos de planta:
 
 \begin{enumerate}
     \item \textbf{Asistencia Conversacional en Tiempo Real:} Los operadores de sala de control disponen de una interfaz de chat inteligente donde pueden formular consultas operativas en lenguaje natural (por ejemplo: \textit{«¿Por qué el sistema apagó la red tradicional a las 2:00 p.m.?»} o \textit{«¿Qué impacto tendría un descenso imprevisto del 20\% en la generación eólica esta noche?»}). El copiloto interroga las matrices de solución y responde de forma inmediata, justificando que la red se apagó debido a su alta tarifa horaria (\$110/MWh) y elevado factor contaminante (500 kg $\text{CO}_2$/MWh) frente al costo mínimo de la energía solar (\$45/MWh).
@@ -598,11 +597,11 @@ Para trascender el cálculo estático tradicional y proporcionar una experiencia
 % 8. VENTAJAS DE LA PROPUESTA
 % =========================================================================
 \section{Ventajas de la Propuesta (Argumentario de Venta para el Experto)}
-La sección central de nuestra propuesta ante el jurado y los expertos industriales radica en demostrar de manera contundente \textbf{por qué una gran empresa manufacturera debe adquirir e implementar ANDREA-Energy}:
+La sección central de nuestra propuesta ante el jurado y los expertos industriales radica en demostrar de manera contundente \textbf{por qué una gran empresa manufacturera debe adquirir e implementar OptiGrid-AI}:
 
 \begin{itemize}
-    \item \textbf{¿Por qué comprar ANDREA-Energy y no seguir con hojas de cálculo o ERPs genéricos?}
-    Las hojas de cálculo tipo Excel y los módulos tradicionales de compras operan con decisiones estáticas, lentas y desarticuladas, incapaces de procesar combinaciones en 12 dimensiones bajo restricciones simultáneas de carbono. ANDREA-Energy entrega la \textbf{garantía matemática del costo mínimo absoluto} en menos de 20 milisegundos, erradicando los sesgos humanos y el sobrecosto por compras empíricas.
+    \item \textbf{¿Por qué comprar OptiGrid-AI y no seguir con hojas de cálculo o ERPs genéricos?}
+    Las hojas de cálculo tipo Excel y los módulos tradicionales de compras operan con decisiones estáticas, lentas y desarticuladas, incapaces de procesar combinaciones en 12 dimensiones bajo restricciones simultáneas de carbono. OptiGrid-AI entrega la \textbf{garantía matemática del costo mínimo absoluto} en menos de 20 milisegundos, erradicando los sesgos humanos y el sobrecosto por compras empíricas.
     \item \textbf{Respuestas Inmediatas a Preguntas Estratégicas de Negocio:}
     El sistema no es una caja negra; responde con precisión a preguntas neurálgicas: \textit{«¿Cuánto nos cuesta producir una tonelada adicional de producto en hora pico?»} (\$75.00 USD/MWh, fijado por el precio sombra de la cogeneración a gas). \textit{«¿Es rentable instalar 1 MW adicional de paneles solares?»} (Sí, cada MWh solar adicional reduce la factura en \$30.00 USD).
     \item \textbf{Inmunidad Regulatoria y Blindaje Jurídico Total:}
@@ -618,7 +617,7 @@ A continuación se resume la matriz comparativa consolidada de ventajas competit
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lp{8.5cm}l}
 \toprule
-\textbf{Categoría} & \textbf{Ventajas Clave de la Solución (ANDREA-Energy)} & \textbf{Evidencia Cuantitativa Comprobable} \\
+\textbf{Categoría} & \textbf{Ventajas Clave de la Solución (OptiGrid-AI)} & \textbf{Evidencia Cuantitativa Comprobable} \\
 \midrule
 \multirow{3}{*}{\textbf{Técnicas}} 
 & $\bullet$ Convergencia matemática exacta al óptimo global en milisegundos. & Tiempo de cómputo: \textbf{$< 20$ ms}. \\
@@ -702,20 +701,20 @@ El desarrollo del proyecto no estuvo exento de dificultades operativas, técnica
 % =========================================================================
 % 12. PROPUESTA DE VALOR Y VENTA DEL PRODUCTO (PITCH DE NEGOCIO)
 % =========================================================================
-\section{Propuesta de Valor y Venta del Producto: Proyecto ANDREA-Energy}
+\section{Propuesta de Valor y Venta del Producto: Proyecto OptiGrid-AI}
 
-\begin{tcolorbox}[colback=codebg, colframe=primary, arc=3mm, title=\textbf{Elevator Pitch Comercial: Proyecto ANDREA-Energy}]
-\textit{``No vendemos un simple software de cálculo; vendemos la tranquilidad financiera y ambiental de su fábrica. ANDREA-Energy es la primera plataforma inteligente en la nube que optimiza en milisegundos la compra de energía multi-bloque, reduciendo su factura eléctrica en más de un 36\% y garantizando que su empresa jamás pague una multa por emisiones de carbono, todo respaldado por un asistente de IA que previene errores humanos en tiempo real.''}
+\begin{tcolorbox}[colback=codebg, colframe=primary, arc=3mm, title=\textbf{Elevator Pitch Comercial: Proyecto OptiGrid-AI}]
+\textit{``No vendemos un simple software de cálculo; vendemos la tranquilidad financiera y ambiental de su fábrica. OptiGrid-AI es la primera plataforma inteligente en la nube que optimiza en milisegundos la compra de energía multi-bloque, reduciendo su factura eléctrica en más de un 36\% y garantizando que su empresa jamás pague una multa por emisiones de carbono, todo respaldado por un asistente de IA que previene errores humanos en tiempo real.''}
 \end{tcolorbox}
 
 Para consolidar una estrategia de entrada al mercado sólida y convincente ante inversionistas y jurados expertos, la propuesta comercial se estructura bajo cuatro dimensiones fundamentales:
 
 \subsection{1. ¿Qué se Vende?}
-Se comercializa \textbf{ANDREA-Energy} (\textit{Análisis Neuronal y Decisión Racional Energética con Analítica Prescriptiva e Inteligencia Artificial}), una solución integral de software empresarial bajo modalidad SaaS (\textit{Software as a Service}) B2B. La plataforma integra en un único entorno web centralizado:
+Se comercializa \textbf{OptiGrid-AI} (\textit{Optimización Prescriptiva Tarifaria e Inteligencia de Generación Racional Industrial y Descarbonización}), una solución integral de software empresarial bajo modalidad SaaS (\textit{Software as a Service}) B2B. La plataforma integra en un único entorno web centralizado:
 \begin{itemize}
     \item Un motor prescriptivo determinista que resuelve el despacho energético de mínimo costo mediante Programación Lineal en tiempo real ($<20$ ms).
     \item Un módulo predictivo de Machine Learning (Random Forest) que pronostica la radiación solar y la disponibilidad renovable con un 99.7\% de precisión.
-    \item El copiloto conversacional \textbf{ANDREA AI Copilot}, dotado de un motor de autocorrección inteligente que valida parámetros operativos y traduce variables duales a lenguaje ejecutivo.
+    \item El copiloto conversacional \textbf{OptiGrid AI Copilot}, dotado de un motor de autocorrección inteligente que valida parámetros operativos y traduce variables duales a lenguaje ejecutivo.
 \end{itemize}
 
 \subsection{2. ¿Por qué Comprarlo? (Propuesta de Valor y Retorno de Inversión)}
@@ -735,7 +734,7 @@ El mercado objetivo primario comprende:
 \end{itemize}
 
 \subsection{4. Diferencial Tecnológico e Innovador de Entrada al Mercado}
-A diferencia de los ERPs tradicionales (como SAP o Oracle) que solo registran compras pasadas de energía, o de simuladores académicos aislados, \textbf{ANDREA-Energy} es la única plataforma que fusiona tres tecnologías de punta en una arquitectura unificada:
+A diferencia de los ERPs tradicionales (como SAP o Oracle) que solo registran compras pasadas de energía, o de simuladores académicos aislados, \textbf{OptiGrid-AI} es la única plataforma que fusiona tres tecnologías de punta en una arquitectura unificada:
 \begin{enumerate}
     \item \textbf{Exactitud Matemática Global:} Algoritmo Bounded Simplex que garantiza convergencia exacta al mínimo costo global, sin la incertidumbre de los algoritmos genéticos.
     \item \textbf{Machine Learning Climático:} Calibrado con series temporales para transformar pronósticos meteorológicos en parámetros de despacho.
@@ -898,7 +897,7 @@ Al simular límites más estrictos de emisiones:
 % 15. CONCLUSIONES
 % =========================================================================
 \section{Conclusiones}
-En estricta correspondencia con los cuatro objetivos específicos formulados para el proyecto \textbf{ANDREA-Energy}, se presentan las conclusiones derivadas de la investigación:
+En estricta correspondencia con los cuatro objetivos específicos formulados para el proyecto \textbf{OptiGrid-AI}, se presentan las conclusiones derivadas de la investigación:
 
 \begin{enumerate}
     \item \textbf{Conclusión sobre el Diagnóstico Operativo (Objetivo Específico 1):}  
@@ -908,10 +907,10 @@ En estricta correspondencia con los cuatro objetivos específicos formulados par
     La formulación en Programación Lineal Continua con variables estrictas de decisión $x_{e,t}$ y de estado acumulado $y_t$ demostró ser el instrumento metodológico idóneo y matemáticamente infalible para resolver el problema de asignación de recursos. Al modelarse como un politopo convexo cerrado, el algoritmo Simplex acotado convergió en menos de 20 milisegundos a un \textbf{óptimo global exacto de \$267,000.00 USD/mes} y \textbf{850.00 toneladas de $\text{CO}_2$}, garantizando una reducción del gasto del \textbf{36.80\%} (ahorro neto de \textbf{\$155,500.00 USD/mes}) y una mitigación de emisiones del \textbf{61.14\%}, alcanzando un \textbf{62.0\% de penetración renovable} con brecha de dualidad nula ($Z^* = W^*$).
 
     \item \textbf{Conclusión sobre el Desarrollo Algorítmico e IA (Objetivo Específico 3):}  
-    La integración tecnológica en Python (PuLP/CBC) en sinergia con el modelo predictivo Random Forest ($R^2 = 0.9971$, $RMSE = 0.0159\text{ MWh}$) y el asistente conversacional \textbf{ANDREA AI Copilot} cerró con éxito la brecha entre la optimización determinista y la operación estocástica en planta. Se comprobó la eficacia del motor de autocorrección preventiva, el cual detectó y subsanó inconsistencias lógicas en los datos de entrada antes de la optimización, eliminando al 100\% el riesgo de arrojar infactibilidades operativas por error humano de digitación.
+    La integración tecnológica en Python (PuLP/CBC) en sinergia con el modelo predictivo Random Forest ($R^2 = 0.9971$, $RMSE = 0.0159\text{ MWh}$) y el asistente conversacional \textbf{OptiGrid AI Copilot} cerró con éxito la brecha entre la optimización determinista y la operación estocástica en planta. Se comprobó la eficacia del motor de autocorrección preventiva, el cual detectó y subsanó inconsistencias lógicas en los datos de entrada antes de la optimización, eliminando al 100\% el riesgo de arrojar infactibilidades operativas por error humano de digitación.
 
     \item \textbf{Conclusión sobre la Propuesta Comercial y Pivote Tecnológico (Objetivo Específico 4):}  
-    La formulación de la propuesta de valor demostró la viabilidad financiera de comercializar ANDREA-Energy como un SaaS B2B con un ROI de 7x en el primer mes y un ahorro anualizado de \textbf{\$1,866,000.00 USD}. No obstante, en la concepción inicial del proyecto se planteó el desarrollo de una aplicación móvil nativa (App Android/iOS); durante las pruebas de interacción y entrevistas de validación con operadores de sala de control, se evidenció que la visualización de matrices de 12 variables, curvas de sensibilidad y análisis dual resultaba inoperante y poco ergonómica en pantallas de smartphone. Por consiguiente, \textbf{el objetivo de la app móvil no se cumplió de forma positiva y el equipo decidió pivotar estratégicamente hacia una plataforma Web Dashboard Cloud centralizada de alta disponibilidad}, logrando una tasa de adopción efectiva del 100\% en los operadores y directivos de planta.
+    La formulación de la propuesta de valor demostró la viabilidad financiera de comercializar OptiGrid-AI como un SaaS B2B con un ROI de 7x en el primer mes y un ahorro anualizado de \textbf{\$1,866,000.00 USD}. No obstante, en la concepción inicial del proyecto se planteó el desarrollo de una aplicación móvil nativa (App Android/iOS); durante las pruebas de interacción y entrevistas de validación con operadores de sala de control, se evidenció que la visualización de matrices de 12 variables, curvas de sensibilidad y análisis dual resultaba inoperante y poco ergonómica en pantallas de smartphone. Por consiguiente, \textbf{el objetivo de la app móvil no se cumplió de forma positiva y el equipo decidió pivotar estratégicamente hacia una plataforma Web Dashboard Cloud centralizada de alta disponibilidad}, logrando una tasa de adopción efectiva del 100\% en los operadores y directivos de planta.
 \end{enumerate}
 
 % =========================================================================
@@ -928,10 +927,10 @@ En concordancia biunívoca con las conclusiones y objetivos del proyecto, se emi
     Aprobar en el comité de inversiones corporativo el despliegue de una granja solar propia de 1 MW en los techos y terrenos ociosos de la fábrica. El análisis dual del modelo comprobó que la capacidad solar opera saturada al 100\% con un costo reducido de $-\$30.00\text{ USD/MWh}$, lo cual garantiza que cada MWh solar añadido reducirá la factura mensual en \$30 USD adicionales, amortizando la inversión en un período récord de 2.4 años.
 
     \item \textbf{Recomendación para la Infraestructura de TI y Analítica (Vinculada a la IA y Algoritmos):}  
-    Desplegar el software ANDREA-Energy en contenedores de microservicios Docker montados en servidores locales o en la nube (AWS/Azure), acoplándolos mediante APIs REST a las estaciones meteorológicas satelitales (IDEAM/NSRDB) y al sistema SCADA industrial para automatizar el re-despacho dinámico cada hora bajo la supervisión del copiloto inteligente con autocorrección.
+    Desplegar el software OptiGrid-AI en contenedores de microservicios Docker montados en servidores locales o en la nube (AWS/Azure), acoplándolos mediante APIs REST a las estaciones meteorológicas satelitales (IDEAM/NSRDB) y al sistema SCADA industrial para automatizar el re-despacho dinámico cada hora bajo la supervisión del copiloto inteligente con autocorrección.
 
     \item \textbf{Recomendación para los Usuarios y Plan de Adopción de la Plataforma (Vinculada a la Propuesta Comercial):}  
-    Implementar de forma inmediata un \textbf{Plan Formal de Capacitación y Uso de la Plataforma Web} estructurado en un programa de inducción de 4 semanas para jefes de planta, ingenieros de turno y analistas financieros. Este plan debe incluir manuales de usuario estandarizados, talleres interactivos sobre la validación de alertas de autocorrección emitidas por el asistente ANDREA Copilot y protocolos de contingencia operativa ante contingencias climáticas severas.
+    Implementar de forma inmediata un \textbf{Plan Formal de Capacitación y Uso de la Plataforma Web} estructurado en un programa de inducción de 4 semanas para jefes de planta, ingenieros de turno y analistas financieros. Este plan debe incluir manuales de usuario estandarizados, talleres interactivos sobre la validación de alertas de autocorrección emitidas por el asistente OptiGrid Copilot y protocolos de contingencia operativa ante contingencias climáticas severas.
 \end{enumerate}
 
 % =========================================================================
