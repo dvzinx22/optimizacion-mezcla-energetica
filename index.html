@@ -1343,11 +1343,159 @@
                             </div>
                         </div>
                     </div>
+                    <!-- SECCIÓN EXPANDIBLE: FUENTES Y VARIABLES ADICIONALES -->
+                    <div class="glass-panel" style="padding:14px; margin-top:14px; margin-bottom:14px; background:rgba(255,255,255,0.02);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; font-weight:600;">
+                                4. Fuentes y Variables Adicionales (Opcional)
+                            </span>
+                            <button type="button" class="btn-apple-secondary" style="font-size:0.72rem; padding:4px 8px;" onclick="toggleSeccionVariablesReg()">
+                                <span id="txtToggleRegVars">+ Agregar Variable Custom</span>
+                            </button>
+                        </div>
+                        <div id="seccionRegVariablesExtras" style="display:none; margin-top:12px;">
+                            <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">
+                                Incorpore activos complementarios (BESS almacenamiento, Biomasa, PCH, Diésel) antes del primer despacho.
+                            </p>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre del Activo</label>
+                                    <input type="text" class="apple-input" id="regExtraNombre" placeholder="Ej: BESS Baterías de Litio 500 kWh">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tipo</label>
+                                    <select class="apple-input" id="regExtraTipo">
+                                        <option value="almacenamiento">Almacenamiento (BESS)</option>
+                                        <option value="renovable">Renovable en Sitio</option>
+                                        <option value="biomasa">Biomasa / Biogás</option>
+                                        <option value="termica">Térmica / Respaldo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Capacidad Máx (MWh)</label>
+                                    <input type="number" class="apple-input" id="regExtraCap" value="400">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Costo Promedio ($/MWh)</label>
+                                    <input type="number" class="apple-input" id="regExtraCosto" value="35">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button id="btnRegistrarSubmit" class="btn-apple-primary" style="width:100%; justify-content:center; padding:12px;" onclick="registrarYOptimizarNuevaEmpresa()">
                     Registrar Cuenta y Optimizar Portafolio
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL PARA AGREGAR NUEVA VARIABLE / FUENTE ==================== -->
+    <div id="modalAgregarVariable" class="auth-overlay" style="display:none;">
+        <div class="glass-panel auth-card" style="max-width: 620px;">
+            <button class="modal-close-btn" onclick="cerrarModalAgregarVariable()" title="Cerrar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="auth-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+            <h2>Agregar Nueva Variable de Decisión</h2>
+            <p>Incorpore una nueva tecnología de generación, almacenamiento o contrato PPA al modelo de optimización lineal PuLP / CBC.</p>
+
+            <!-- PRESETS INDUSTRIALES RÁPIDOS -->
+            <div style="margin-bottom: 16px; text-align: left;">
+                <label style="display:block; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary); margin-bottom:8px; font-weight:600;">
+                    Plantillas Rápidas Industriales:
+                </label>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <button type="button" class="copilot-chip" onclick="cargarPresetVariable('bess')">BESS (Baterías)</button>
+                    <button type="button" class="copilot-chip" onclick="cargarPresetVariable('biomasa')">Biomasa / Biogás</button>
+                    <button type="button" class="copilot-chip" onclick="cargarPresetVariable('pch')">Hidroeléctrica PCH</button>
+                    <button type="button" class="copilot-chip" onclick="cargarPresetVariable('diesel')">Diésel Emergencia</button>
+                </div>
+            </div>
+
+            <div style="text-align:left;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nombre de la Fuente / Activo</label>
+                        <input type="text" class="apple-input" id="newVarNombre" placeholder="Ej: BESS Almacenamiento 1 MW">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Tecnología</label>
+                        <select class="apple-input" id="newVarTipo" onchange="actualizarRenovableCheck(this.value)">
+                            <option value="almacenamiento">Almacenamiento (BESS)</option>
+                            <option value="renovable">Renovable en Sitio</option>
+                            <option value="termica">Térmica / Respaldo</option>
+                            <option value="red">Red / PPA Contratado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Factor de Emisión (kg CO2/MWh)</label>
+                        <input type="number" class="apple-input" id="newVarEmision" value="0.0" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Peaje de Transmisión ($/MWh)</label>
+                        <input type="number" class="apple-input" id="newVarPeaje" value="0.0" min="0" step="0.1">
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="padding:14px; margin-top:14px; margin-bottom:14px;">
+                    <span style="font-size:0.74rem; text-transform:uppercase; color:var(--text-secondary); font-weight:600; display:block; margin-bottom:10px;">
+                        Costos Unitarios por Bloque Horario ($/MWh)
+                    </span>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Pico - t1 ($/MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCostoT1" value="38.0" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Medio - t2 ($/MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCostoT2" value="38.0" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Valle - t3 ($/MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCostoT3" value="38.0" step="0.5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="padding:14px; margin-bottom:18px;">
+                    <span style="font-size:0.74rem; text-transform:uppercase; color:var(--text-secondary); font-weight:600; display:block; margin-bottom:10px;">
+                        Capacidades Máximas por Bloque (MWh)
+                    </span>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Capacidad en Pico - t1 (MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCapT1" value="400" min="0" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacidad en Medio - t2 (MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCapT2" value="400" min="0" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacidad en Valle - t3 (MWh)</label>
+                            <input type="number" class="apple-input" id="newVarCapT3" value="400" min="0" step="10">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-apple-primary" id="btnGuardarVariableSubmit" style="flex:1; justify-content:center; padding:12px;" onclick="guardarNuevaVariable()">
+                        Incorporar al Solver CBC
+                    </button>
+                    <button class="btn-apple-secondary" style="padding:12px 18px;" onclick="cerrarModalAgregarVariable()">
+                        Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -2204,6 +2352,54 @@
                 </div>
             </div>
 
+            <!-- GESTOR DINÁMICO DE VARIABLES Y FUENTES ENERGÉTICAS (APPLE LIQUID GLASS) -->
+            <div class="glass-panel" style="margin-top: 24px; margin-bottom: 24px;">
+                <div class="panel-header" style="flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h3 style="display:flex; align-items:center; gap:8px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px; height:20px;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            Gestor Dinámico de Variables de Decisión y Fuentes
+                        </h3>
+                        <p style="font-size:0.80rem; color:var(--text-secondary); margin-top:2px;">
+                            Configure, agregue o elimine variables de suministro (BESS, Biomasa, PCH, Diésel) optimizadas en tiempo real con CBC.
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <button class="btn-apple-primary" onclick="abrirModalAgregarVariable()" style="padding:7px 14px; font-size:0.80rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:13px; height:13px;">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            + Agregar Variable / Fuente
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="apple-table" id="tablaVariablesDecision">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Fuente / Activo</th>
+                                <th>Tipo</th>
+                                <th>Factor Emisión (kg CO2/MWh)</th>
+                                <th>Costo Pico ($)</th>
+                                <th>Costo Medio ($)</th>
+                                <th>Costo Valle ($)</th>
+                                <th>Capacidad Máx (MWh)</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyVariablesDecision">
+                            <!-- Inyectado dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- MATRIZ DE ASIGNACIÓN DETALLADA -->
             <div class="glass-panel">
                 <div class="panel-header">
@@ -2561,10 +2757,20 @@
             const liveFuente = document.getElementById('liveFuentePrincipal');
             if (liveFuente) {
                 let detalle = [];
-                if (slot.solar_mw > 0.05) detalle.push(`Solar: ${slot.solar_mw.toFixed(1)} MW`);
-                if (slot.eolica_mw > 0.05) detalle.push(`Eólica: ${slot.eolica_mw.toFixed(1)} MW`);
-                if (slot.gas_mw > 0.05) detalle.push(`Gas: ${slot.gas_mw.toFixed(1)} MW`);
-                if (slot.red_mw > 0.05) detalle.push(`Red: ${slot.red_mw.toFixed(1)} MW`);
+                if (slot.despacho_fuentes && opt.fuentes_config) {
+                    Object.keys(slot.despacho_fuentes).forEach(k => {
+                        const val = slot.despacho_fuentes[k];
+                        if (val > 0.05) {
+                            const nom = opt.fuentes_config[k]?.nombre || k;
+                            detalle.push(`${nom}: ${val.toFixed(1)} MW`);
+                        }
+                    });
+                } else {
+                    if (slot.solar_mw > 0.05) detalle.push(`Solar: ${slot.solar_mw.toFixed(1)} MW`);
+                    if (slot.eolica_mw > 0.05) detalle.push(`Eólica: ${slot.eolica_mw.toFixed(1)} MW`);
+                    if (slot.gas_mw > 0.05) detalle.push(`Gas: ${slot.gas_mw.toFixed(1)} MW`);
+                    if (slot.red_mw > 0.05) detalle.push(`Red: ${slot.red_mw.toFixed(1)} MW`);
+                }
                 liveFuente.innerText = detalle.length > 0 ? detalle.join(' | ') : `${slot.fuente_principal}`;
             }
 
@@ -2714,6 +2920,206 @@
             }
         }
 
+        // --- CONTROL DE VARIABLES DINÁMICAS (APPLE LIQUID GLASS) ---
+        function abrirModalAgregarVariable() {
+            document.getElementById('modalAgregarVariable').style.display = 'flex';
+        }
+
+        function cerrarModalAgregarVariable() {
+            document.getElementById('modalAgregarVariable').style.display = 'none';
+        }
+
+        function toggleSeccionVariablesReg() {
+            const sec = document.getElementById('seccionRegVariablesExtras');
+            const txt = document.getElementById('txtToggleRegVars');
+            if (!sec) return;
+            if (sec.style.display === 'none' || sec.style.display === '') {
+                sec.style.display = 'block';
+                if (txt) txt.innerText = 'Ocultar Variables Adicionales';
+            } else {
+                sec.style.display = 'none';
+                if (txt) txt.innerText = '+ Agregar Variable Custom';
+            }
+        }
+
+        function actualizarRenovableCheck(tipo) {
+            const emInp = document.getElementById('newVarEmision');
+            if (!emInp) return;
+            if (tipo === 'almacenamiento' || tipo === 'renovable' || tipo === 'biomasa') {
+                emInp.value = '0.0';
+            } else if (tipo === 'termica') {
+                emInp.value = '350.0';
+            } else {
+                emInp.value = '450.0';
+            }
+        }
+
+        function cargarPresetVariable(preset) {
+            const presets = {
+                'bess': {
+                    nombre: 'BESS - Banco de Baterías 400 kWh',
+                    tipo: 'almacenamiento',
+                    emision: 0.0,
+                    peaje: 0.0,
+                    cT1: 32.0, cT2: 32.0, cT3: 32.0,
+                    capT1: 400.0, capT2: 250.0, capT3: 400.0
+                },
+                'biomasa': {
+                    nombre: 'Central Biomasa / Biogás Industrial',
+                    tipo: 'renovable',
+                    emision: 0.0,
+                    peaje: 1.5,
+                    cT1: 44.0, cT2: 44.0, cT3: 44.0,
+                    capT1: 350.0, capT2: 350.0, capT3: 350.0
+                },
+                'pch': {
+                    nombre: 'PPA Pequeña Central Hidroeléctrica (PCH)',
+                    tipo: 'renovable',
+                    emision: 0.0,
+                    peaje: 2.8,
+                    cT1: 48.0, cT2: 48.0, cT3: 48.0,
+                    capT1: 500.0, capT2: 500.0, capT3: 500.0
+                },
+                'diesel': {
+                    nombre: 'Generador Diésel de Emergencia',
+                    tipo: 'termica',
+                    emision: 650.0,
+                    peaje: 0.0,
+                    cT1: 135.0, cT2: 135.0, cT3: 135.0,
+                    capT1: 300.0, capT2: 300.0, capT3: 300.0
+                }
+            };
+
+            const p = presets[preset];
+            if (!p) return;
+            document.getElementById('newVarNombre').value = p.nombre;
+            document.getElementById('newVarTipo').value = p.tipo;
+            document.getElementById('newVarEmision').value = p.emision;
+            document.getElementById('newVarPeaje').value = p.peaje;
+            document.getElementById('newVarCostoT1').value = p.cT1;
+            document.getElementById('newVarCostoT2').value = p.cT2;
+            document.getElementById('newVarCostoT3').value = p.cT3;
+            document.getElementById('newVarCapT1').value = p.capT1;
+            document.getElementById('newVarCapT2').value = p.capT2;
+            document.getElementById('newVarCapT3').value = p.capT3;
+        }
+
+        async function guardarNuevaVariable() {
+            const nom = document.getElementById('newVarNombre').value.trim();
+            if (!nom) {
+                alert("Por favor ingrese el nombre del activo o variable.");
+                return;
+            }
+
+            const btn = document.getElementById('btnGuardarVariableSubmit');
+            const txtOrig = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Optimizando CBC...';
+            btn.disabled = true;
+
+            const payload = {
+                empresa_id: estadoActual.empresa_activa,
+                nombre: nom,
+                tipo: document.getElementById('newVarTipo').value,
+                emision_kg_mwh: parseFloat(document.getElementById('newVarEmision').value) || 0.0,
+                peaje: parseFloat(document.getElementById('newVarPeaje').value) || 0.0,
+                costo_t1: parseFloat(document.getElementById('newVarCostoT1').value) || 40.0,
+                costo_t2: parseFloat(document.getElementById('newVarCostoT2').value) || 40.0,
+                costo_t3: parseFloat(document.getElementById('newVarCostoT3').value) || 40.0,
+                cap_t1: parseFloat(document.getElementById('newVarCapT1').value) || 400.0,
+                cap_t2: parseFloat(document.getElementById('newVarCapT2').value) || 400.0,
+                cap_t3: parseFloat(document.getElementById('newVarCapT3').value) || 400.0
+            };
+
+            try {
+                const res = await fetch('/api/add_variable', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.status === 'Optimal') {
+                    cerrarModalAgregarVariable();
+                    aplicarEstadoEmpresa(data);
+                    mostrarToast(`Variable '${nom}' incorporada. Costo óptimo: $${Math.round(data.costo_optimo).toLocaleString()} USD.`);
+                } else {
+                    alert("Aviso de Infactibilidad: " + (data.mensaje || "La variable configurada produce un problema infactible."));
+                }
+            } catch (err) {
+                console.error("Error al agregar variable:", err);
+                alert("Error al conectar con el solver de optimización.");
+            } finally {
+                btn.innerHTML = txtOrig;
+                btn.disabled = false;
+            }
+        }
+
+        async function eliminarVariable(varId) {
+            if (!confirm(`¿Está seguro de eliminar la variable ${varId} del modelo de optimización?`)) return;
+            mostrarToast("Actualizando modelo lineal CBC...");
+
+            try {
+                const res = await fetch('/api/remove_variable', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        empresa_id: estadoActual.empresa_activa,
+                        variable_id: varId
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'Optimal') {
+                    aplicarEstadoEmpresa(data);
+                    mostrarToast(`Variable ${varId} removida. Despacho re-optimizado.`);
+                } else {
+                    alert("Aviso: " + (data.mensaje || "Infactible tras remover la variable."));
+                }
+            } catch (err) {
+                console.error("Error al remover variable:", err);
+            }
+        }
+
+        function renderizarTablaVariables(fuentesConfig) {
+            const tbody = document.getElementById('tbodyVariablesDecision');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const cfg = fuentesConfig || (estadoActual.optimizacion && estadoActual.optimizacion.fuentes_config) || {};
+            const keys = Object.keys(cfg);
+            if (keys.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--text-secondary);">No hay variables registradas.</td></tr>';
+                return;
+            }
+
+            keys.forEach(k => {
+                const item = cfg[k];
+                const tr = document.createElement('tr');
+                const esCustom = item.es_personalizada || !['e1', 'e2', 'e3', 'e4'].includes(k);
+                const cT1 = item.costos?.t1 ?? 70;
+                const cT2 = item.costos?.t2 ?? 70;
+                const cT3 = item.costos?.t3 ?? 70;
+                const capTotal = Math.max(item.cap_max?.t1 ?? 0, item.cap_max?.t2 ?? 0, item.cap_max?.t3 ?? 0);
+
+                tr.innerHTML = `
+                    <td><strong>${k}</strong></td>
+                    <td><strong>${item.nombre}</strong></td>
+                    <td><span class="pill-badge">${(item.tipo || 'GENERAL').toUpperCase()}</span></td>
+                    <td>${item.emision_kg_mwh !== undefined ? item.emision_kg_mwh.toFixed(1) : '0.0'}</td>
+                    <td>$${Number(cT1).toFixed(1)}</td>
+                    <td>$${Number(cT2).toFixed(1)}</td>
+                    <td>$${Number(cT3).toFixed(1)}</td>
+                    <td>${Number(capTotal).toLocaleString()} MWh</td>
+                    <td>
+                        ${esCustom ? 
+                            `<button class="btn-apple-secondary" style="padding:3px 8px; font-size:0.72rem; color:#ff453a; border-color:rgba(255,69,58,0.3);" onclick="eliminarVariable('${k}')">Eliminar</button>` : 
+                            `<span style="font-size:0.72rem; color:var(--text-muted);">Base</span>`
+                        }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
         // --- REGISTRO Y OPTIMIZACIÓN DE NUEVA EMPRESA ---
         async function registrarYOptimizarNuevaEmpresa() {
             const btn = document.getElementById('btnRegistrarSubmit');
@@ -2722,18 +3128,18 @@
             btn.disabled = true;
 
             const payload = {
-                nombre: document.getElementById('regNombre').value.trim(),
-                sector: document.getElementById('regSector').value.trim(),
-                ciudad: document.getElementById('regCiudad').value.trim(),
-                demanda_t1: parseFloat(document.getElementById('regDemandaT1').value),
-                demanda_t2: parseFloat(document.getElementById('regDemandaT2').value),
-                demanda_t3: parseFloat(document.getElementById('regDemandaT3').value),
-                limite_co2: parseFloat(document.getElementById('regLimiteCO2').value),
-                cuota_renovable: parseFloat(document.getElementById('regCuotaRen').value),
-                cap_solar_instalada: parseFloat(document.getElementById('regCapSolar').value),
-                cap_eolica_instalada: parseFloat(document.getElementById('regCapEolica').value),
-                cap_gas_instalada: parseFloat(document.getElementById('regCapGas').value),
-                tarifa_red_t1: parseFloat(document.getElementById('regTarifaRedT1').value),
+                nombre: document.getElementById('regNombre').value.trim() || "Nueva Empresa Industrial",
+                sector: document.getElementById('regSector').value.trim() || "Manufactura",
+                ciudad: document.getElementById('regCiudad').value.trim() || "Región Caribe",
+                demanda_t1: parseFloat(document.getElementById('regDemandaT1').value) || 1200.0,
+                demanda_t2: parseFloat(document.getElementById('regDemandaT2').value) || 1800.0,
+                demanda_t3: parseFloat(document.getElementById('regDemandaT3').value) || 2000.0,
+                limite_co2: parseFloat(document.getElementById('regLimiteCO2').value) || 1200.0,
+                cuota_renovable: parseFloat(document.getElementById('regCuotaRen').value) || 30.0,
+                cap_solar_instalada: parseFloat(document.getElementById('regCapSolar').value) || 1200.0,
+                cap_eolica_instalada: parseFloat(document.getElementById('regCapEolica').value) || 500.0,
+                cap_gas_instalada: parseFloat(document.getElementById('regCapGas').value) || 900.0,
+                tarifa_red_t1: parseFloat(document.getElementById('regTarifaRedT1').value) || 114.0,
                 tarifa_red_t2: 86.0,
                 tarifa_red_t3: 60.0,
                 costo_solar_ppa: 42.0,
@@ -2744,6 +3150,19 @@
                 temperatura: 31.0,
                 nubosidad: 18.0
             };
+
+            // Fuentes o variables adicionales configuradas durante el registro
+            const extraNom = document.getElementById('regExtraNombre')?.value.trim();
+            if (extraNom) {
+                payload.fuentes_adicionales = [{
+                    nombre: extraNom,
+                    tipo: document.getElementById('regExtraTipo')?.value || 'almacenamiento',
+                    cap_max: parseFloat(document.getElementById('regExtraCap')?.value) || 400.0,
+                    costo: parseFloat(document.getElementById('regExtraCosto')?.value) || 35.0,
+                    es_renovable: true,
+                    emision_kg_mwh: 0.0
+                }];
+            }
 
             try {
                 const res = await fetch('/api/register_and_optimize', {
@@ -2759,8 +3178,9 @@
                 }
 
                 const data = await res.json();
-                if (data.status !== 'Optimal') {
-                    alert("Aviso de Infactibilidad: " + (data.mensaje || "Verifique los límites ingresados."));
+                const opt = data.optimizacion || data;
+                if (data.status !== 'Optimal' && opt.status !== 'Optimal') {
+                    alert("Aviso de Infactibilidad: " + (data.mensaje || opt.mensaje || "Verifique los límites ingresados."));
                     return;
                 }
 
@@ -2782,7 +3202,7 @@
 
             } catch (err) {
                 console.error("Error en registro:", err);
-                alert("Ocurrió un error al registrar la empresa.");
+                alert("Ocurrió un error al procesar la solicitud en el cliente: " + err.message);
             } finally {
                 btn.innerHTML = txtOrig;
                 btn.disabled = false;
@@ -2800,21 +3220,27 @@
                 descripcion: "Instalación industrial bajo esquema tarifario multi-bloque con metas de descarbonización."
             };
 
-            // Encabezados
-            document.getElementById('headerNombreEmpresa').innerText = empInfo.nombre;
-            document.getElementById('headerSectorEmpresa').innerText = `Sector: ${empInfo.sector}`;
-            document.getElementById('heroNombreEmpresa').innerText = empInfo.nombre;
-            document.getElementById('heroSector').innerText = `Sector: ${empInfo.sector}`;
-            document.getElementById('heroDescripcionEmpresa').innerText = empInfo.descripcion || "Instalación industrial en operación continua.";
-            document.getElementById('nodePlantaDestino').innerText = empInfo.nombre.split(' (')[0];
-            document.getElementById('heroDemandaTotal').innerText = `Demanda: ${opt.demanda_total.toLocaleString()} MWh/mes`;
-            document.getElementById('nodePlantaDemandaTotal').innerText = `${opt.demanda_total.toLocaleString()} MWh`;
+            // Encabezados seguros
+            const safeSetText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = text;
+            };
 
-            // Renderizar dashboard
+            safeSetText('headerNombreEmpresa', empInfo.nombre);
+            safeSetText('headerSectorEmpresa', `Sector: ${empInfo.sector}`);
+            safeSetText('heroNombreEmpresa', empInfo.nombre);
+            safeSetText('heroSector', `Sector: ${empInfo.sector}`);
+            safeSetText('heroDescripcionEmpresa', empInfo.descripcion || "Instalación industrial en operación continua.");
+            safeSetText('nodePlantaDestino', empInfo.nombre.split(' (')[0]);
+            safeSetText('heroDemandaTotal', `Demanda: ${opt.demanda_total ? opt.demanda_total.toLocaleString() : '5,000'} MWh/mes`);
+            safeSetText('nodePlantaDemandaTotal', `${opt.demanda_total ? opt.demanda_total.toLocaleString() : '5,000'} MWh`);
+
+            // Renderizar dashboard y variables
             renderizarDashboard(opt);
             renderizarRutas(opt.rutas_suministro);
             renderizarMatriz(opt.matriz_despacho);
             renderizarPreciosSombra(opt.precios_sombra);
+            renderizarTablaVariables(opt.fuentes_config || data.fuentes_config);
 
             // Trade-off
             if (data.tradeoff) {
@@ -2833,20 +3259,28 @@
         function renderizarInformeIA(informe) {
             if (!informe) return;
             const box = document.getElementById('boxInformeIA');
+            if (!box) return;
             box.style.display = 'block';
 
-            document.getElementById('txtInformeResumen').innerHTML = `<strong>Diagnóstico Financiero:</strong> ${informe.resumen_ejecutivo}`;
-            document.getElementById('txtInformeAmbiental').innerHTML = `<strong>Cumplimiento Ambiental:</strong> ${informe.diagnostico_ambiental}`;
-            document.getElementById('txtInformeMarginal').innerHTML = `<strong>Costos Marginales (Precios Sombra):</strong> ${informe.analisis_marginal}`;
+            const safeSetHtml = (id, html) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = html;
+            };
+
+            safeSetHtml('txtInformeResumen', `<strong>Diagnóstico Financiero:</strong> ${informe.resumen_ejecutivo}`);
+            safeSetHtml('txtInformeAmbiental', `<strong>Cumplimiento Ambiental:</strong> ${informe.diagnostico_ambiental}`);
+            safeSetHtml('txtInformeMarginal', `<strong>Costos Marginales (Precios Sombra):</strong> ${informe.analisis_marginal}`);
 
             const ul = document.getElementById('listaInformeRecs');
-            ul.innerHTML = '';
-            informe.recomendaciones.forEach(r => {
-                const li = document.createElement('li');
-                li.className = 'ai-rec-item';
-                li.innerText = r;
-                ul.appendChild(li);
-            });
+            if (ul && informe.recomendaciones) {
+                ul.innerHTML = '';
+                informe.recomendaciones.forEach(r => {
+                    const li = document.createElement('li');
+                    li.className = 'ai-rec-item';
+                    li.innerText = r;
+                    ul.appendChild(li);
+                });
+            }
         }
 
         // --- CAMBIO DE TABS ---
@@ -2863,20 +3297,25 @@
         function renderizarDashboard(opt) {
             if (!opt || opt.status !== 'Optimal') return;
 
-            document.getElementById('kpiCostoOptimo').innerText = `$${Math.round(opt.costo_optimo).toLocaleString()}`;
-            document.getElementById('kpiAhorroMensual').innerText = `$${Math.round(opt.ahorro_usd).toLocaleString()} (${opt.ahorro_pct.toFixed(1)}%)`;
-            document.getElementById('kpiEmisiones').innerText = `${opt.emisiones_totales.toFixed(1)} t`;
-            document.getElementById('kpiLimiteCO2').innerText = `Límite: ${(opt.emisiones_totales + opt.holgura_co2_ton).toFixed(0)} t (Holgura: ${opt.holgura_co2_ton.toFixed(1)} t)`;
-            document.getElementById('kpiRenovablePct').innerText = `${opt.renovable_pct.toFixed(1)}%`;
-            document.getElementById('kpiRenovableMWh').innerText = `${Math.round(opt.renovable_total).toLocaleString()} MWh (Solar + Eólica)`;
-            document.getElementById('kpiAhorroAnual').innerText = `$${Math.round(opt.ahorro_anual_usd).toLocaleString()}`;
-            document.getElementById('headerSolverTime').innerText = opt.tiempo_ms ? `${opt.tiempo_ms} ms` : `< 15 ms`;
+            const safeSetText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = text;
+            };
+
+            safeSetText('kpiCostoOptimo', `$${Math.round(opt.costo_optimo).toLocaleString()}`);
+            safeSetText('kpiAhorroMensual', `$${Math.round(opt.ahorro_usd).toLocaleString()} (${opt.ahorro_pct.toFixed(1)}%)`);
+            safeSetText('kpiEmisiones', `${opt.emisiones_totales.toFixed(1)} t`);
+            safeSetText('kpiLimiteCO2', `Límite: ${(opt.emisiones_totales + opt.holgura_co2_ton).toFixed(0)} t (Holgura: ${opt.holgura_co2_ton.toFixed(1)} t)`);
+            safeSetText('kpiRenovablePct', `${opt.renovable_pct.toFixed(1)}%`);
+            safeSetText('kpiRenovableMWh', `${Math.round(opt.renovable_total).toLocaleString()} MWh`);
+            safeSetText('kpiAhorroAnual', `$${Math.round(opt.ahorro_anual_usd).toLocaleString()}`);
+            safeSetText('headerSolverTime', opt.tiempo_ms ? `${opt.tiempo_ms} ms` : `< 15 ms`);
 
             if (opt.matriz_despacho) {
-                document.getElementById('node-e1-val').innerText = `${Math.round(opt.matriz_despacho.e1.total).toLocaleString()} MWh`;
-                document.getElementById('node-e2-val').innerText = `${Math.round(opt.matriz_despacho.e2.total).toLocaleString()} MWh`;
-                document.getElementById('node-e3-val').innerText = `${Math.round(opt.matriz_despacho.e3.total).toLocaleString()} MWh`;
-                document.getElementById('node-e4-val').innerText = `${Math.round(opt.matriz_despacho.e4.total).toLocaleString()} MWh`;
+                if (opt.matriz_despacho.e1) safeSetText('node-e1-val', `${Math.round(opt.matriz_despacho.e1.total).toLocaleString()} MWh`);
+                if (opt.matriz_despacho.e2) safeSetText('node-e2-val', `${Math.round(opt.matriz_despacho.e2.total).toLocaleString()} MWh`);
+                if (opt.matriz_despacho.e3) safeSetText('node-e3-val', `${Math.round(opt.matriz_despacho.e3.total).toLocaleString()} MWh`);
+                if (opt.matriz_despacho.e4) safeSetText('node-e4-val', `${Math.round(opt.matriz_despacho.e4.total).toLocaleString()} MWh`);
             }
 
             renderizarChartsDashboard(opt);
@@ -2886,23 +3325,32 @@
 
         function renderizarChartsDashboard(opt) {
             const m = opt.matriz_despacho;
-            const ctx1 = document.getElementById('chartDespachoBloques').getContext('2d');
+            if (!m) return;
+            const canvas1 = document.getElementById('chartDespachoBloques');
+            if (!canvas1) return;
+            const ctx1 = canvas1.getContext('2d');
             const isLight = document.body.classList.contains('light-theme');
             const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.05)';
             const textColor = isLight ? '#1d1d1f' : '#d1d1d6';
             
             if (chartDespachoInstance) chartDespachoInstance.destroy();
 
+            const PALETA_APPLE = isLight ?
+                ['#2c2c2e', '#8e8e93', '#aeaeb2', '#636366', '#48484a', '#a1a1aa', '#71717a', '#1c1c1e'] :
+                ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93', '#e4e4e7', '#a1a1aa', '#71717a', '#52525b'];
+
+            const keys = Object.keys(m);
+            const datasetsBar = keys.map((k, idx) => ({
+                label: `${m[k].nombre} (${k})`,
+                data: [m[k].t1, m[k].t2, m[k].t3],
+                backgroundColor: PALETA_APPLE[idx % PALETA_APPLE.length]
+            }));
+
             chartDespachoInstance = new Chart(ctx1, {
                 type: 'bar',
                 data: {
                     labels: ['Bloque 1 (Pico)', 'Bloque 2 (Medio)', 'Bloque 3 (Valle)'],
-                    datasets: [
-                        { label: 'Red STN (e1)', data: [m.e1.t1, m.e1.t2, m.e1.t3], backgroundColor: isLight ? '#2c2c2e' : '#3a3a3c' },
-                        { label: 'Solar On-site (e2)', data: [m.e2.t1, m.e2.t2, m.e2.t3], backgroundColor: isLight ? '#8e8e93' : '#ffffff' },
-                        { label: 'Parque Eólico (e3)', data: [m.e3.t1, m.e3.t2, m.e3.t3], backgroundColor: isLight ? '#aeaeb2' : '#d1d1d6' },
-                        { label: 'Cogeneración Gas (e4)', data: [m.e4.t1, m.e4.t2, m.e4.t3], backgroundColor: isLight ? '#636366' : '#8e8e93' }
-                    ]
+                    datasets: datasetsBar
                 },
                 options: {
                     responsive: true,
@@ -2917,16 +3365,18 @@
                 }
             });
 
-            const ctx2 = document.getElementById('chartMixFuentes').getContext('2d');
+            const canvas2 = document.getElementById('chartMixFuentes');
+            if (!canvas2) return;
+            const ctx2 = canvas2.getContext('2d');
             if (chartMixInstance) chartMixInstance.destroy();
 
             chartMixInstance = new Chart(ctx2, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Red STN', 'Solar On-site', 'Parque Eólico', 'Cogeneración Gas'],
+                    labels: keys.map(k => `${m[k].nombre} (${k})`),
                     datasets: [{
-                        data: [m.e1.total, m.e2.total, m.e3.total, m.e4.total],
-                        backgroundColor: isLight ? ['#2c2c2e', '#8e8e93', '#aeaeb2', '#636366'] : ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93'],
+                        data: keys.map(k => m[k].total),
+                        backgroundColor: keys.map((_, idx) => PALETA_APPLE[idx % PALETA_APPLE.length]),
                         borderColor: isLight ? '#ffffff' : '#000000',
                         borderWidth: 2
                     }]
@@ -2945,69 +3395,63 @@
         function renderizarChartContinuo24h(opt) {
             if (!opt || !opt.despacho_horario_24h) return;
             const datos = opt.despacho_horario_24h;
-            const ctx = document.getElementById('chartDespachoContinuo24h').getContext('2d');
+            const canvas = document.getElementById('chartDespachoContinuo24h');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             if (chartContinuoInstance) chartContinuoInstance.destroy();
 
             const isLight = document.body.classList.contains('light-theme');
             const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
             const textColor = isLight ? '#1d1d1f' : '#ffffff';
 
+            const PALETA_APPLE = isLight ?
+                ['#2c2c2e', '#8e8e93', '#aeaeb2', '#636366', '#48484a', '#a1a1aa', '#71717a', '#1c1c1e'] :
+                ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93', '#e4e4e7', '#a1a1aa', '#71717a', '#52525b'];
+
+            const datasets = [
+                {
+                    label: 'Demanda Requerida (MW)',
+                    data: datos.map(d => d.demanda_mw),
+                    borderColor: isLight ? '#000000' : '#ffffff',
+                    borderWidth: 2.2,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 0
+                }
+            ];
+
+            const primerSlot = datos[0] || {};
+            if (primerSlot.despacho_fuentes) {
+                const fKeys = Object.keys(primerSlot.despacho_fuentes);
+                const fCfg = opt.fuentes_config || {};
+                fKeys.forEach((fk, idx) => {
+                    const nom = fCfg[fk] ? fCfg[fk].nombre : `Fuente ${fk}`;
+                    datasets.push({
+                        label: `${nom} (MW)`,
+                        data: datos.map(d => (d.despacho_fuentes && d.despacho_fuentes[fk] !== undefined) ? d.despacho_fuentes[fk] : 0.0),
+                        backgroundColor: PALETA_APPLE[idx % PALETA_APPLE.length],
+                        borderColor: PALETA_APPLE[idx % PALETA_APPLE.length],
+                        borderWidth: 1,
+                        fill: 'origin',
+                        tension: 0.2,
+                        pointRadius: 0
+                    });
+                });
+            } else {
+                datasets.push(
+                    { label: 'Solar Fotovoltaica (MW)', data: datos.map(d => d.solar_mw), backgroundColor: isLight ? '#8e8e93' : '#ffffff', fill: 'origin', tension: 0.3, pointRadius: 0 },
+                    { label: 'Eólica Regional (MW)', data: datos.map(d => d.eolica_mw), backgroundColor: '#d1d1d6', fill: 'origin', tension: 0.3, pointRadius: 0 },
+                    { label: 'Cogeneración Gas (MW)', data: datos.map(d => d.gas_mw), backgroundColor: '#8e8e93', fill: 'origin', tension: 0.2, pointRadius: 0 },
+                    { label: 'Red Nacional STN (MW)', data: datos.map(d => d.red_mw), backgroundColor: '#3a3a3c', fill: 'origin', tension: 0.1, pointRadius: 0 }
+                );
+            }
+
             chartContinuoInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: datos.map(d => d.hora),
-                    datasets: [
-                        {
-                            label: 'Demanda Requerida (MW)',
-                            data: datos.map(d => d.demanda_mw),
-                            borderColor: isLight ? '#000000' : '#ffffff',
-                            borderWidth: 2.2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.1,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Solar Fotovoltaica (MW)',
-                            data: datos.map(d => d.solar_mw),
-                            backgroundColor: isLight ? 'rgba(120, 120, 120, 0.45)' : 'rgba(255, 255, 255, 0.75)',
-                            borderColor: isLight ? '#636366' : '#ffffff',
-                            borderWidth: 1,
-                            fill: 'origin',
-                            tension: 0.3,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Eólica Regional (MW)',
-                            data: datos.map(d => d.eolica_mw),
-                            backgroundColor: isLight ? 'rgba(150, 150, 150, 0.35)' : 'rgba(200, 200, 200, 0.45)',
-                            borderColor: '#d1d1d6',
-                            borderWidth: 1,
-                            fill: 'origin',
-                            tension: 0.3,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Cogeneración Gas (MW)',
-                            data: datos.map(d => d.gas_mw),
-                            backgroundColor: isLight ? 'rgba(180, 180, 180, 0.30)' : 'rgba(140, 140, 140, 0.40)',
-                            borderColor: '#8e8e93',
-                            borderWidth: 1,
-                            fill: 'origin',
-                            tension: 0.2,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Red Nacional STN (MW)',
-                            data: datos.map(d => d.red_mw),
-                            backgroundColor: isLight ? 'rgba(210, 210, 210, 0.25)' : 'rgba(60, 60, 60, 0.50)',
-                            borderColor: '#3a3a3c',
-                            borderWidth: 1,
-                            fill: 'origin',
-                            tension: 0.1,
-                            pointRadius: 0
-                        }
-                    ]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
@@ -3205,7 +3649,9 @@
                     renderizarRutas(data.rutas_suministro);
                     renderizarMatriz(data.matriz_despacho);
                     renderizarPreciosSombra(data.precios_sombra);
+                    renderizarTablaVariables(data.fuentes_config);
                     if (data.tradeoff) renderizarTradeoffChart(data.tradeoff);
+                    mostrarToast("Modelo lineal CBC resuelto óptimamente.");
                 } else {
                     alert("Aviso de Infactibilidad: " + (data.mensaje || "Restricciones incompatibles."));
                 }
