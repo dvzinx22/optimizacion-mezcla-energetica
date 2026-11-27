@@ -3,47 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OptiGrid-AI | Plataforma de Optimización Energética y Descarbonización</title>
-    <!-- Chart.js CDN con fallback local -->
+    <title>OptiGrid Enterprise | Sistema de Optimización Energética Industrial</title>
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --bg-base: #07090e;
-            --bg-card: rgba(22, 28, 42, 0.48);
-            --bg-card-hover: rgba(28, 36, 56, 0.62);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --border-glass-strong: rgba(255, 255, 255, 0.16);
-            --text-primary: #f5f7fa;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-cyan: #00e5ff;
-            --accent-blue: #0070f3;
-            --accent-green: #30d158;
-            --accent-amber: #ffd60a;
-            --accent-red: #ff453a;
-            --accent-purple: #bf5af2;
-            --glow-cyan: rgba(0, 229, 255, 0.22);
-            --glow-green: rgba(48, 209, 88, 0.22);
-            --radius-lg: 20px;
-            --radius-md: 14px;
+            /* Apple Liquid Glass: Pure Obsidian & Monochrome Grayscale */
+            --bg-base: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.07);
+            --bg-card-active: rgba(255, 255, 255, 0.10);
+            
+            --border-glass: rgba(255, 255, 255, 0.10);
+            --border-glass-strong: rgba(255, 255, 255, 0.22);
+            --border-glass-subtle: rgba(255, 255, 255, 0.06);
+
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1a6;
+            --text-muted: #6e6e73;
+            --text-dim: #48484a;
+
+            --apple-white: #ffffff;
+            --apple-silver: #d1d1d6;
+            --apple-slate: #8e8e93;
+            --apple-graphite: #3a3a3c;
+            --apple-dark: #1c1c1e;
+
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
             --radius-sm: 8px;
-            --blur-glass: blur(28px) saturate(190%);
+
+            --blur-glass: blur(40px) saturate(180%);
+            --shadow-glass: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --shadow-subtle: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
         body {
             background-color: var(--bg-base);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 112, 243, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 25%, rgba(48, 209, 88, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 50% 85%, rgba(191, 90, 242, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
             background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
@@ -52,57 +62,70 @@
             overflow-x: hidden;
         }
 
-        /* --- GLASS PANEL CONTAINER --- */
+        /* --- APPLE LIQUID GLASS PANELS --- */
         .glass-panel {
             background: var(--bg-card);
             backdrop-filter: var(--blur-glass);
             -webkit-backdrop-filter: var(--blur-glass);
             border: 1px solid var(--border-glass);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow-glass);
             border-radius: var(--radius-lg);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-panel:hover {
             border-color: var(--border-glass-strong);
+            background: var(--bg-card-hover);
         }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* --- HEADER & TOP NAVIGATION --- */
         header {
             position: sticky;
             top: 0;
-            z-index: 100;
-            padding: 16px 32px;
-            background: rgba(7, 9, 14, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-glass);
+            padding: 14px 28px;
+        }
+
+        .header-content {
+            max-width: 1480px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .brand-block {
+        .brand-section {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(0, 112, 243, 0.4));
-            border: 1px solid rgba(0, 229, 255, 0.4);
-            border-radius: 12px;
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px var(--glow-cyan);
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
         }
 
-        .brand-text h1 {
+        .brand-logo svg {
+            width: 22px;
+            height: 22px;
+            color: #000000;
+        }
+
+        .brand-titles h1 {
             font-size: 1.15rem;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: -0.02em;
             color: #ffffff;
             display: flex;
@@ -110,185 +133,156 @@
             gap: 8px;
         }
 
-        .brand-text p {
-            font-size: 0.75rem;
+        .brand-titles p {
+            font-size: 0.78rem;
             color: var(--text-secondary);
-            font-weight: 500;
-            letter-spacing: 0.02em;
+            font-weight: 400;
         }
 
-        .badge-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            background: rgba(48, 209, 88, 0.12);
-            border: 1px solid rgba(48, 209, 88, 0.3);
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--accent-green);
-        }
-
-        .pulse-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent-green);
-            box-shadow: 0 0 8px var(--accent-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- SEGMENTED TABS (APPLE STYLE) --- */
-        .tab-bar {
+        /* --- COMPANY SELECTOR (MULTI-EMPRESA) --- */
+        .company-selector-box {
             display: flex;
-            background: rgba(255, 255, 255, 0.04);
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: var(--radius-md);
             border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 4px;
-            gap: 4px;
         }
 
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.82rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-btn:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .tab-btn.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        }
-
-        /* --- MAIN WRAPPER --- */
-        main {
-            flex: 1;
-            padding: 28px 32px;
-            max-width: 1540px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 26px;
-        }
-
-        /* --- KPI SUMMARY ROW --- */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .kpi-card {
-            padding: 22px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kpi-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        }
-
-        .kpi-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .kpi-title {
+        .company-selector-box label {
             font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .kpi-icon-wrap {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
+            gap: 6px;
         }
 
-        .kpi-value {
-            font-size: 1.85rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
+        .company-select {
+            background: rgba(0, 0, 0, 0.6);
             color: #ffffff;
-            line-height: 1.1;
+            border: 1px solid var(--border-glass-strong);
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            min-width: 280px;
+            transition: all 0.2s ease;
         }
 
-        .kpi-footer {
-            margin-top: 14px;
+        .company-select:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .company-select option {
+            background: #111114;
+            color: #ffffff;
+        }
+
+        .header-badges {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-glass {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.74rem;
+            font-weight: 500;
+            border: 1px solid var(--border-glass);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        /* --- TAB NAVIGATION (APPLE PILL STYLE) --- */
+        .nav-tabs-wrapper {
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--border-glass-subtle);
+            padding: 8px 28px;
+        }
+
+        .nav-tabs {
+            max-width: 1480px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            padding: 8px 18px;
+            border-radius: 24px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.78rem;
+            white-space: nowrap;
         }
 
-        .pill-benefit {
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        .tab-btn svg {
+            width: 16px;
+            height: 16px;
         }
 
-        .pill-green {
-            background: rgba(48, 209, 88, 0.15);
-            color: var(--accent-green);
-            border: 1px solid rgba(48, 209, 88, 0.3);
+        .tab-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .pill-blue {
-            background: rgba(0, 112, 243, 0.15);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(0, 229, 255, 0.3);
+        .tab-btn.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
         }
 
-        /* --- CONTENT TABS --- */
-        .tab-pane {
+        .tab-btn.active svg {
+            color: #000000;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        main {
+            max-width: 1480px;
+            width: 100%;
+            margin: 24px auto;
+            padding: 0 28px 48px 28px;
+            flex: 1;
+        }
+
+        .tab-content {
             display: none;
             animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .tab-pane.active {
+        .tab-content.active {
             display: block;
         }
 
@@ -297,100 +291,287 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- COMPANY HERO BANNER --- */
+        .company-hero {
+            padding: 22px 28px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-left: 3px solid #ffffff;
+        }
+
+        .company-hero-info h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .company-hero-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            max-width: 780px;
+            line-height: 1.45;
+        }
+
+        .company-hero-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* --- STATS / KPI GRID --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            padding: 22px 24px;
+            position: relative;
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-title {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .stat-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .stat-value {
+            font-size: 1.85rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .stat-meta {
+            font-size: 0.80rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* --- GRID LAYOUTS --- */
-        .two-col-grid {
+        .dashboard-grid-2 {
             display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 24px;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+            margin-bottom: 28px;
         }
 
-        .three-col-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
+        @media (max-width: 1024px) {
+            .dashboard-grid-2 {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* --- GLASS TABLES --- */
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-glass-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .panel-header h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .panel-header h3 svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+        }
+
+        .panel-body {
+            padding: 24px;
+        }
+
+        /* --- BUTTONS (APPLE MINIMALIST MONOCHROME) --- */
+        .btn-apple-primary {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.18);
+            transition: all 0.2s ease;
+        }
+
+        .btn-apple-primary:hover {
+            background: #e5e5ea;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-apple-primary svg {
+            width: 16px;
+            height: 16px;
+            color: #000000;
+        }
+
+        .btn-apple-secondary {
+            background: rgba(255, 255, 255, 0.07);
+            color: #ffffff;
+            border: 1px solid var(--border-glass-strong);
+            padding: 9px 18px;
+            border-radius: 20px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-apple-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #ffffff;
+        }
+
+        .btn-apple-secondary svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* --- TABLES (APPLE MINIMALIST) --- */
         .table-responsive {
             overflow-x: auto;
         }
 
-        table.glass-table {
+        table.apple-table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 0.85rem;
+            border-collapse: collapse;
             text-align: left;
+            font-size: 0.85rem;
         }
 
-        table.glass-table th {
+        table.apple-table th {
             padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-secondary);
-            font-weight: 600;
+            font-size: 0.74rem;
             text-transform: uppercase;
-            font-size: 0.72rem;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 500;
             border-bottom: 1px solid var(--border-glass);
-        }
-
-        table.glass-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: var(--text-primary);
-        }
-
-        table.glass-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        table.glass-table tr:hover td {
             background: rgba(255, 255, 255, 0.02);
         }
 
-        /* --- FORM CONTROLS (APPLE LIQUID GLASS) --- */
-        .control-group {
+        table.apple-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-glass-subtle);
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        table.apple-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            color: #ffffff;
+        }
+
+        /* --- FORM CONTROLS & SLIDERS (APPLE LIQUID STYLE) --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-bottom: 16px;
         }
 
-        .control-label {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-secondary);
+        .form-label-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .glass-input, .glass-select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
+        .form-label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-val-badge {
+            font-size: 0.84rem;
+            font-weight: 600;
             color: #ffffff;
-            font-size: 0.88rem;
-            outline: none;
-            transition: all 0.2s ease;
+            font-variant-numeric: tabular-nums;
         }
 
-        .glass-input:focus, .glass-select:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 12px var(--glow-cyan);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .glass-range {
+        .apple-slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 6px;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.15);
             outline: none;
+            transition: background 0.2s;
         }
 
-        .glass-range::-webkit-slider-thumb {
+        .apple-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 18px;
@@ -398,925 +579,1617 @@
             border-radius: 50%;
             background: #ffffff;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            transition: transform 0.1s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            border: 2px solid #000000;
         }
 
-        .glass-range::-webkit-slider-thumb:hover {
-            transform: scale(1.18);
-        }
-
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0070f3, #00c6ff);
+        .apple-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-glass);
             color: #ffffff;
-            box-shadow: 0 4px 20px rgba(0, 112, 243, 0.35);
+            padding: 9px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .btn-primary:hover {
-            box-shadow: 0 6px 26px rgba(0, 198, 255, 0.5);
-            transform: translateY(-1px);
+        .apple-input:focus {
+            border-color: #ffffff;
         }
 
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--border-glass);
-            color: var(--text-primary);
+        /* --- NETWORK ROUTES DIAGRAM --- */
+        .routing-diagram-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 16px;
+            overflow-x: auto;
         }
 
-        .btn-glass:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--border-glass-strong);
-        }
-
-        /* --- COPILOT CHAT BOX --- */
-        .chat-container {
+        .route-col {
             display: flex;
             flex-direction: column;
+            gap: 16px;
+            flex: 1;
+            min-width: 210px;
+        }
+
+        .route-node {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .route-node.active-flow {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 18px rgba(255, 255, 255, 0.08);
+        }
+
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .node-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .node-sub {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+        }
+
+        .node-val {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .arrow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            padding: 0 8px;
+        }
+
+        .arrow-connector svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- CHAT / COPILOT --- */
+        .copilot-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             height: 520px;
         }
 
-        .chat-messages {
+        .copilot-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 18px;
             display: flex;
             flex-direction: column;
             gap: 14px;
+            padding-right: 8px;
         }
 
-        .message-bubble {
+        .msg-bubble {
             max-width: 85%;
             padding: 14px 18px;
-            border-radius: 16px;
-            font-size: 0.86rem;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
             line-height: 1.5;
-            position: relative;
         }
 
-        .bubble-bot {
-            align-self: flex-start;
+        .msg-assistant {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--border-glass);
-            border-bottom-left-radius: 4px;
-        }
-
-        .bubble-user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, rgba(0, 112, 243, 0.6), rgba(0, 198, 255, 0.5));
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-bottom-right-radius: 4px;
             color: #ffffff;
-        }
-
-        .bubble-autocorrect {
             align-self: flex-start;
-            background: rgba(255, 69, 58, 0.08);
-            border: 1px solid rgba(255, 69, 58, 0.3);
-            border-bottom-left-radius: 4px;
         }
 
-        .chat-input-row {
-            padding: 14px;
-            border-top: 1px solid var(--border-glass);
+        .msg-user {
+            background: #ffffff;
+            color: #000000;
+            align-self: flex-end;
+            font-weight: 500;
+        }
+
+        .autocorrect-box {
+            margin-top: 10px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+        }
+
+        .autocorrect-box ul {
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+
+        .copilot-input-row {
             display: flex;
             gap: 10px;
         }
 
-        /* --- FOOTER --- */
-        footer {
-            padding: 20px 32px;
-            border-top: 1px solid var(--border-glass);
-            background: rgba(7, 9, 14, 0.6);
+        /* --- TEAM CARDS --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .team-card {
+            padding: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 16px;
+        }
+
+        .team-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #ffffff;
+        }
+
+        .team-info h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 2px;
+        }
+
+        .team-info p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- SPINNER --- */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top-color: #000000;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            border-top: 1px solid var(--border-glass-subtle);
+            padding: 20px 28px;
+            text-align: center;
             font-size: 0.78rem;
             color: var(--text-muted);
-        }
-
-        /* SVG ICONS HELPER */
-        .icon-svg {
-            width: 18px;
-            height: 18px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            vertical-align: middle;
-        }
-
-        @media (max-width: 1024px) {
-            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-            .two-col-grid { grid-template-columns: 1fr; }
-            .three-col-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER DE NAVEGACIÓN -->
+    <!-- ==================== HEADER ==================== -->
     <header>
-        <div class="brand-block">
-            <div class="brand-icon">
-                <svg class="icon-svg" style="color: var(--accent-cyan); width: 24px; height: 24px;" viewBox="0 0 24 24">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                </svg>
+        <div class="header-content">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <div class="brand-titles">
+                    <h1>OPTIGRID ENTERPRISE</h1>
+                    <p>Optimización Energética Industrial, Rutas de Suministro y Machine Learning en Tiempo Real</p>
+                </div>
             </div>
-            <div class="brand-text">
-                <h1>OPTIGRID-AI <span class="badge-live"><span class="pulse-dot"></span> Motor CBC Activo</span></h1>
-                <p>Universidad de La Guajira | Prescriptive Energy Dispatch & Decarbonization</p>
+
+            <!-- SELECTOR MULTI-EMPRESA -->
+            <div class="company-selector-box">
+                <label for="companySelect">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M3 7v14M21 7v14M9 3h6v4H9zM9 11h2v2H9zm4 0h2v2h-2zm-4 4h2v2H9zm4 0h2v2h-2z"/>
+                    </svg>
+                    Empresa Activa:
+                </label>
+                <select id="companySelect" class="company-select" onchange="cambiarEmpresa(this.value)">
+                    <option value="ejercicio1" selected>Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)</option>
+                    <option value="cementera">Cementera del Caribe S.A. (Procesamiento Continuo)</option>
+                    <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Hornos de Arco)</option>
+                    <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
+                    <option value="custom">Configurar Empresa Personalizada...</option>
+                </select>
+            </div>
+
+            <div class="header-badges">
+                <span class="badge-glass">
+                    <span class="badge-dot"></span>
+                    Solver: PuLP / CBC Activo
+                </span>
+                <span class="badge-glass">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span id="headerSolverTime">&lt; 15 ms</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== TABS NAVIGATION ==================== -->
+    <div class="nav-tabs-wrapper">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('tablero', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="9"></rect>
+                    <rect x="14" y="3" width="7" height="5"></rect>
+                    <rect x="14" y="12" width="7" height="9"></rect>
+                    <rect x="3" y="16" width="7" height="5"></rect>
+                </svg>
+                Tablero Ejecutivo
+            </button>
+            <button class="tab-btn" onclick="switchTab('rutas', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="6" cy="19" r="3"></circle>
+                    <path d="M9 19h8.5a4.5 4.5 0 0 0 0-9H5a3 3 0 0 1 0-6h13"></path>
+                    <circle cx="18" cy="5" r="3"></circle>
+                </svg>
+                Rutas y Red de Abastecimiento
+            </button>
+            <button class="tab-btn" onclick="switchTab('optimizador', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+                Optimizador Prescriptivo
+            </button>
+            <button class="tab-btn" onclick="switchTab('ml', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+                Machine Learning en Tiempo Real
+            </button>
+            <button class="tab-btn" onclick="switchTab('tradeoff', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                Curva Trade-Off CO2
+            </button>
+            <button class="tab-btn" onclick="switchTab('copilot', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                AI Copilot & Autocorrección
+            </button>
+            <button class="tab-btn" onclick="switchTab('equipo', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Equipo Uniguajira
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- HERO INFO DE LA EMPRESA ACTIVA -->
+        <div class="glass-panel company-hero">
+            <div class="company-hero-info">
+                <h2 id="heroNombreEmpresa">Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)</h2>
+                <p id="heroDescripcionEmpresa">Instalación de manufactura electro-intensiva bajo esquema tarifario multi-bloque con metas de descarbonización regulatorias.</p>
+            </div>
+            <div class="company-hero-badges">
+                <span class="pill-badge" id="heroSector">Sector: Manufactura Pesada</span>
+                <span class="pill-badge" id="heroDemandaTotal">Demanda: 5,000 MWh/mes</span>
+                <span class="pill-badge" id="heroLimiteCO2">Límite CO2: 1,200 t</span>
             </div>
         </div>
 
-        <nav class="tab-bar">
-            <button class="tab-btn active" onclick="switchTab('dashboard')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                Tablero Ejecutivo
-            </button>
-            <button class="tab-btn" onclick="switchTab('optimizador')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                Optimizador PuLP
-            </button>
-            <button class="tab-btn" onclick="switchTab('machinelearning')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
-                Machine Learning
-            </button>
-            <button class="tab-btn" onclick="switchTab('copilot')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                AI Copilot
-            </button>
-            <button class="tab-btn" onclick="switchTab('tradeoff')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                Trade-off CO2
-            </button>
-            <button class="tab-btn" onclick="switchTab('equipo')">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                Equipo
-            </button>
-        </nav>
-    </header>
-
-    <main>
-        <!-- FILA DE MÉTRICAS MAESTRAS (KPIS) -->
-        <section class="kpi-grid">
-            <div class="glass-panel kpi-card">
-                <div class="kpi-header">
-                    <span class="kpi-title">Costo Total Mensual</span>
-                    <div class="kpi-icon-wrap" style="color: var(--accent-cyan);">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <!-- ==================== TAB 1: TABLERO EJECUTIVO ==================== -->
+        <section id="tablero" class="tab-content active">
+            <!-- 4 METRICAS TOP -->
+            <div class="stats-grid">
+                <div class="glass-panel stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">Costo Total Óptimo</span>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="kpiCostoOptimo">$267,000</div>
+                    <div class="stat-meta">
+                        <span>Ahorro mensual:</span>
+                        <strong id="kpiAhorroMensual" style="color: #ffffff;">$130,500 (32.8%)</strong>
                     </div>
                 </div>
-                <div class="kpi-value" id="kpi-costo">$267,000.00</div>
-                <div class="kpi-footer">
-                    <span class="pill-benefit pill-green">Ahorro: -$155,500 (-36.80%)</span>
-                    <span style="color: var(--text-muted);">vs. $422,500 base</span>
+
+                <div class="glass-panel stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">Emisiones Totales CO2</span>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="kpiEmisiones">850.0 t</div>
+                    <div class="stat-meta">
+                        <span>Límite regulatorio:</span>
+                        <strong id="kpiLimiteCO2" style="color: #ffffff;">1,200 t (Holgura: 350 t)</strong>
+                    </div>
+                </div>
+
+                <div class="glass-panel stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">Participación Renovable</span>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="kpiRenovablePct">62.0%</div>
+                    <div class="stat-meta">
+                        <span>Generación limpia:</span>
+                        <strong id="kpiRenovableMWh" style="color: #ffffff;">3,100 MWh (Solar + Eólica)</strong>
+                    </div>
+                </div>
+
+                <div class="glass-panel stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">Ahorro Anual Proyectado</span>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="kpiAhorroAnual">$1,566,000</div>
+                    <div class="stat-meta">
+                        <span>Frente a operación tradicional sin optimizar</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass-panel kpi-card">
-                <div class="kpi-header">
-                    <span class="kpi-title">Emisiones de Carbono</span>
-                    <div class="kpi-icon-wrap" style="color: var(--accent-green);">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <!-- GRAFICAS CHARTS -->
+            <div class="dashboard-grid-2">
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                            Despacho Energético por Bloque Tarifario (MWh)
+                        </h3>
+                        <span class="pill-badge" id="badgeDemandaStatus">Demanda 100% Satisfecha</span>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chartDespachoBloques" height="140"></canvas>
                     </div>
                 </div>
-                <div class="kpi-value" id="kpi-emisiones">850.00 <span style="font-size: 1rem; font-weight: 500;">Ton CO₂</span></div>
-                <div class="kpi-footer">
-                    <span class="pill-benefit pill-green">-61.14% Mitigación</span>
-                    <span style="color: var(--text-muted);">Margen: 350 ton libres</span>
-                </div>
-            </div>
 
-            <div class="glass-panel kpi-card">
-                <div class="kpi-header">
-                    <span class="kpi-title">Participación Renovable</span>
-                    <div class="kpi-icon-wrap" style="color: var(--accent-amber);">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 2a10 10 0 0 1 10 10H12V2z"></path>
+                            </svg>
+                            Matriz de Fuentes (%)
+                        </h3>
+                        <span class="pill-badge">Mix Generación</span>
                     </div>
-                </div>
-                <div class="kpi-value" id="kpi-renovable">62.0% <span style="font-size: 1rem; font-weight: 500;">(3,100 MWh)</span></div>
-                <div class="kpi-footer">
-                    <span class="pill-benefit pill-blue">+32.0% sobre meta legal (30%)</span>
-                </div>
-            </div>
-
-            <div class="glass-panel kpi-card">
-                <div class="kpi-header">
-                    <span class="kpi-title">Estado Regulatorio</span>
-                    <div class="kpi-icon-wrap" style="color: var(--accent-green);">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <div class="panel-body" style="display:flex; justify-content:center; align-items:center;">
+                        <canvas id="chartMixFuentes" height="200"></canvas>
                     </div>
-                </div>
-                <div class="kpi-value" style="color: var(--accent-green);">100% Conforme</div>
-                <div class="kpi-footer">
-                    <span class="pill-benefit pill-green">Cero Multas Ambientales</span>
-                    <span style="color: var(--text-muted);">Certificación Scope 2</span>
                 </div>
             </div>
         </section>
 
-        <!-- PESTAÑA 1: TABLERO EJECUTIVO -->
-        <section id="pane-dashboard" class="tab-pane active">
-            <div class="two-col-grid">
-                <!-- Matriz de Despacho en Vivo -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <div>
-                            <h2 style="font-size: 1.15rem; font-weight: 700;">Matriz Óptima de Despacho Energético</h2>
-                            <p style="font-size: 0.78rem; color: var(--text-secondary);">Asignación horaria x_e,t resuelta con el motor CBC (Valores en MWh)</p>
-                        </div>
-                        <button class="btn-action btn-glass" onclick="ejecutarOptimizacion()">
-                            <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                            Recalcular
+        <!-- ==================== TAB 2: RUTAS Y RED DE ABASTECIMIENTO ==================== -->
+        <section id="rutas" class="tab-content">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="6" cy="19" r="3"></circle>
+                            <path d="M9 19h8.5a4.5 4.5 0 0 0 0-9H5a3 3 0 0 1 0-6h13"></path>
+                            <circle cx="18" cy="5" r="3"></circle>
+                        </svg>
+                        Topología de Rutas de Suministro y Nodos de Transmisión
+                    </h3>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-apple-secondary" onclick="simularContingencia('red_stn')">
+                            Simular Falla Red STN
                         </button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="glass-table" id="tabla-despacho">
-                            <thead>
-                                <tr>
-                                    <th>Fuente Energética (e)</th>
-                                    <th>Pico (t₁)</th>
-                                    <th>Medio (t₂)</th>
-                                    <th>Valle (t₃)</th>
-                                    <th>Total MWh</th>
-                                    <th>Cuota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Llenado dinámico vía JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Gráfica de Reparto Energético -->
-                <div class="glass-panel" style="padding: 24px; display: flex; flex-direction: column;">
-                    <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Composición de la Mezcla</h2>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 18px;">Distribución porcentual por tecnología contratada</p>
-                    <div style="flex: 1; min-height: 260px; position: relative;">
-                        <canvas id="chart-pie-mix"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PESTAÑA 2: OPTIMIZADOR PRESCRIPTIVO (LABORATORIO SIMPLEX) -->
-        <section id="pane-optimizador" class="tab-pane">
-            <div class="two-col-grid">
-                <!-- Controles Paramétricos -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Parámetros de Simulación en Vivo</h2>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 22px;">Modifique los requerimientos de la planta y re-optimice el modelo matemático</p>
-
-                    <div class="three-col-grid" style="margin-bottom: 16px;">
-                        <div class="control-group">
-                            <label class="control-label">Demanda Pico t₁ [MWh] <span id="val-dem-t1">1,200</span></label>
-                            <input type="range" class="glass-range" id="input-dem-t1" min="800" max="2000" step="50" value="1200" oninput="actualizarValoresForm()">
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Demanda Medio t₂ [MWh] <span id="val-dem-t2">1,800</span></label>
-                            <input type="range" class="glass-range" id="input-dem-t2" min="1000" max="2500" step="50" value="1800" oninput="actualizarValoresForm()">
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Demanda Valle t₃ [MWh] <span id="val-dem-t3">2,000</span></label>
-                            <input type="range" class="glass-range" id="input-dem-t3" min="1000" max="3000" step="50" value="2000" oninput="actualizarValoresForm()">
-                        </div>
-                    </div>
-
-                    <div class="two-col-grid" style="margin-bottom: 20px;">
-                        <div class="control-group">
-                            <label class="control-label">Límite Máximo CO₂ [Ton] <span id="val-lim-co2">1,200</span></label>
-                            <input type="range" class="glass-range" id="input-lim-co2" min="650" max="2000" step="25" value="1200" oninput="actualizarValoresForm()">
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Cuota Renovable Mínima [%] <span id="val-cuota-ren">30%</span></label>
-                            <input type="range" class="glass-range" id="input-cuota-ren" min="10" max="70" step="5" value="30" oninput="actualizarValoresForm()">
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 12px;">
-                        <button class="btn-action btn-primary" style="flex: 1;" onclick="ejecutarOptimizacion()">
-                            <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            Ejecutar Optimización Bounded Simplex
+                        <button class="btn-apple-secondary" onclick="simularContingencia('eolica')">
+                            Simular Parada Eólica
                         </button>
-                        <button class="btn-action btn-glass" onclick="restablecerDefecto()">Restablecer</button>
-                    </div>
-                </div>
-
-                <!-- Análisis Dual: Precios Sombra y Costos Reducidos -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Análisis de Sensibilidad Dual (CBC)</h2>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 18px;">Precios sombra (π) y holguras extraídas en el óptimo</p>
-
-                    <div class="table-responsive">
-                        <table class="glass-table" id="tabla-duales">
-                            <thead>
-                                <tr>
-                                    <th>Restricción Activa</th>
-                                    <th>Precio Sombra (π)</th>
-                                    <th>Holgura</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Llenado dinámico -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PESTAÑA 3: MACHINE LEARNING PREDICTIVO -->
-        <section id="pane-machinelearning" class="tab-pane">
-            <div class="two-col-grid">
-                <!-- Controles Meteorológicos -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <div>
-                            <h2 style="font-size: 1.15rem; font-weight: 700;">Simulador Meteorológico en Tiempo Real</h2>
-                            <p style="font-size: 0.78rem; color: var(--text-secondary);">Ensamble Random Forest Regressor (R² = 0.9971, RMSE = 0.0159 MWh)</p>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Hora del Día (0 a 23h) <span id="lbl-hora">12:00</span></label>
-                        <input type="range" class="glass-range" id="ml-hora" min="0" max="23" value="12" oninput="consultarML()">
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Radiación Solar Superficie [W/m²] <span id="lbl-rad">750</span></label>
-                        <input type="range" class="glass-range" id="ml-rad" min="0" max="1000" step="20" value="750" oninput="consultarML()">
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Cobertura de Nubosidad [%] <span id="lbl-nub">25%</span></label>
-                        <input type="range" class="glass-range" id="ml-nub" min="0" max="100" step="5" value="25" oninput="consultarML()">
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">Temperatura Ambiente [°C] <span id="lbl-temp">31°C</span></label>
-                        <input type="range" class="glass-range" id="ml-temp" min="15" max="45" step="1" value="31" oninput="consultarML()">
-                    </div>
-
-                    <div style="margin-top: 24px; padding: 18px; background: rgba(0, 229, 255, 0.06); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 600;">Generación Solar Predicha</span>
-                            <div style="font-size: 2rem; font-weight: 700; color: var(--accent-cyan);" id="ml-pred-val">0.8240 MWh</div>
-                        </div>
-                        <button class="btn-action btn-primary" onclick="transferirCapacidadAPuLP()">Transferir Cotas a PuLP</button>
-                    </div>
-                </div>
-
-                <!-- Gráfico de Curva 24 Horas -->
-                <div class="glass-panel" style="padding: 24px; display: flex; flex-direction: column;">
-                    <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Curva Solar Diurna Predicha</h2>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 18px;">Comportamiento dinámico de la planta fotovoltaica a 24 horas</p>
-                    <div style="flex: 1; min-height: 280px; position: relative;">
-                        <canvas id="chart-solar-24h"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PESTAÑA 4: OPTIGRID AI COPILOT CON AUTOCORRECCIÓN -->
-        <section id="pane-copilot" class="tab-pane">
-            <div class="two-col-grid">
-                <!-- Ventana de Chat Inteligente -->
-                <div class="glass-panel chat-container">
-                    <div style="padding: 18px 22px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div style="width: 10px; height: 10px; border-radius: 50%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></div>
-                            <span style="font-weight: 600; font-size: 0.95rem;">OptiGrid AI Copilot (Asistente de Planta)</span>
-                        </div>
-                        <span style="font-size: 0.72rem; color: var(--text-muted);">Modelo de Lenguaje Asistido</span>
-                    </div>
-
-                    <div class="chat-messages" id="chat-box">
-                        <div class="message-bubble bubble-bot">
-                            Hola, soy <strong>OptiGrid AI Copilot</strong>. Estoy conectado al motor prescriptivo y a los sensores meteorológicos. Puedo explicarle decisiones de despacho, analizar precios sombra o demostrar el motor de autocorrección preventiva para blindar el solver contra errores de digitación.
-                        </div>
-                    </div>
-
-                    <div class="chat-input-row">
-                        <input type="text" class="glass-input" id="chat-input" placeholder="Pregunte sobre el despacho, precios sombra o presione un botón rápido..." style="flex: 1;" onkeypress="if(event.key==='Enter') enviarMensajeChat()">
-                        <button class="btn-action btn-primary" onclick="enviarMensajeChat()">
-                            <svg class="icon-svg" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        <button class="btn-apple-primary" onclick="restaurarRutas()">
+                            Restaurar Rutas Base
                         </button>
                     </div>
                 </div>
-
-                <!-- Panel de Demostración de Autocorrección y Sugerencias -->
-                <div class="glass-panel" style="padding: 24px; display: flex; flex-direction: column; gap: 18px;">
-                    <div>
-                        <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Demostración de Autocorrección Preventiva</h2>
-                        <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
-                            El profesor solicitó expresamente que el software demuestre cómo la IA previene fallos humanos corrigiendo parámetros erróneos antes de enviarlos al optimizador.
-                        </p>
-                    </div>
-
-                    <div style="padding: 16px; background: rgba(255, 69, 58, 0.08); border: 1px solid rgba(255, 69, 58, 0.25); border-radius: var(--radius-md);">
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-red); text-transform: uppercase;">Simulación de Inyección de Errores</span>
-                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin: 6px 0 12px 0;">
-                            Inyecta: Demanda negativa (-500 MWh), Generación solar diurna a medianoche (400 MWh) y Techo CO₂ = 0 ton.
-                        </p>
-                        <button class="btn-action btn-primary" style="width: 100%; background: linear-gradient(135deg, #ff453a, #ff9f0a);" onclick="probarAutocorreccion()">
-                            Ejecutar Prueba de Autocorrección de IA
-                        </button>
-                    </div>
-
-                    <div>
-                        <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">Preguntas Frecuentes para Sustentación</span>
-                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                            <button class="btn-action btn-glass" style="justify-content: flex-start; text-align: left; font-size: 0.78rem;" onclick="preguntarCopilot('¿Por qué se apagó la red tradicional en horas pico?')">
-                                ¿Por qué se apagó la red en horas pico?
-                            </button>
-                            <button class="btn-action btn-glass" style="justify-content: flex-start; text-align: left; font-size: 0.78rem;" onclick="preguntarCopilot('Interpretar precios sombra duales')">
-                                Interpretar precios sombra y costos reducidos
-                            </button>
-                            <button class="btn-action btn-glass" style="justify-content: flex-start; text-align: left; font-size: 0.78rem;" onclick="preguntarCopilot('¿Qué pasa si la eólica cae un 20%?')">
-                                Simular contingencia eólica (-20%)
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PESTAÑA 5: TRADE-OFF Y SENSIBILIDAD -->
-        <section id="pane-tradeoff" class="tab-pane">
-            <div class="two-col-grid">
-                <!-- Gráfica de la Curva de Trade-off -->
-                <div class="glass-panel" style="padding: 24px; display: flex; flex-direction: column;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <h2 style="font-size: 1.15rem; font-weight: 700;">Curva de Compensación (Trade-off): Costo vs. CO₂</h2>
-                        <span class="pill-benefit pill-blue">Análisis de Estrés</span>
-                    </div>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 18px;">
-                        Muestra la meseta plana ($267,000 USD), la subida de costos y la barrera física de infactibilidad (< 675 ton).
+                <div class="panel-body">
+                    <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 20px;">
+                        El sistema modela el enrutamiento físico y económico desde cada punto de generación hacia la subestación receptora de la planta industrial, contabilizando pérdidas técnicas de transmisión y peajes de transporte por bloque horario.
                     </p>
-                    <div style="flex: 1; min-height: 320px; position: relative;">
-                        <canvas id="chart-tradeoff"></canvas>
+
+                    <!-- DIAGRAMA VISUAL DE RUTAS LIQUID GLASS -->
+                    <div class="routing-diagram-container">
+                        <!-- COL 1: FUENTES DE ORIGEN -->
+                        <div class="route-col">
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Nodos de Origen (Fuentes)</div>
+                            <div class="route-node active-flow" id="node-e1">
+                                <div class="node-header">
+                                    <span class="node-title">Red STN / STR</span>
+                                    <span class="pill-badge">e1</span>
+                                </div>
+                                <div class="node-sub">Peaje: $4.50/MWh | Pérdidas: 2.8%</div>
+                                <div class="node-val" id="node-e1-val">1,400 MWh</div>
+                            </div>
+                            <div class="route-node active-flow" id="node-e2">
+                                <div class="node-header">
+                                    <span class="node-title">Parque Solar On-site</span>
+                                    <span class="pill-badge">e2</span>
+                                </div>
+                                <div class="node-sub">Peaje: $0.00/MWh | Pérdidas: 1.2%</div>
+                                <div class="node-val" id="node-e2-val">1,600 MWh</div>
+                            </div>
+                            <div class="route-node active-flow" id="node-e3">
+                                <div class="node-header">
+                                    <span class="node-title">Parque Eólico Regional</span>
+                                    <span class="pill-badge">e3</span>
+                                </div>
+                                <div class="node-sub">Peaje: $3.20/MWh | Pérdidas: 2.1%</div>
+                                <div class="node-val" id="node-e3-val">1,500 MWh</div>
+                            </div>
+                            <div class="route-node active-flow" id="node-e4">
+                                <div class="node-header">
+                                    <span class="node-title">Cogeneración Gas</span>
+                                    <span class="pill-badge">e4</span>
+                                </div>
+                                <div class="node-sub">Peaje: $1.00/MWh | Pérdidas: 0.5%</div>
+                                <div class="node-val" id="node-e4-val">500 MWh</div>
+                            </div>
+                        </div>
+
+                        <!-- CONECTOR -->
+                        <div class="arrow-connector">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+
+                        <!-- COL 2: BLOQUES TARIFARIOS / HORARIOS -->
+                        <div class="route-col">
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Bloques de Despacho</div>
+                            <div class="route-node active-flow" id="node-t1">
+                                <div class="node-header">
+                                    <span class="node-title">Bloque 1 (Pico)</span>
+                                    <span class="pill-badge">t1</span>
+                                </div>
+                                <div class="node-sub">18:00 - 22:00 hrs | Tarifa Alta</div>
+                                <div class="node-val" id="node-t1-val">1,200 MWh</div>
+                            </div>
+                            <div class="route-node active-flow" id="node-t2">
+                                <div class="node-header">
+                                    <span class="node-title">Bloque 2 (Medio)</span>
+                                    <span class="pill-badge">t2</span>
+                                </div>
+                                <div class="node-sub">08:00 - 18:00 hrs | Tarifa Media</div>
+                                <div class="node-val" id="node-t2-val">1,800 MWh</div>
+                            </div>
+                            <div class="route-node active-flow" id="node-t3">
+                                <div class="node-header">
+                                    <span class="node-title">Bloque 3 (Valle)</span>
+                                    <span class="pill-badge">t3</span>
+                                </div>
+                                <div class="node-sub">22:00 - 08:00 hrs | Tarifa Baja</div>
+                                <div class="node-val" id="node-t3-val">2,000 MWh</div>
+                            </div>
+                        </div>
+
+                        <!-- CONECTOR -->
+                        <div class="arrow-connector">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+
+                        <!-- COL 3: NODO INDUSTRIAL DESTINO -->
+                        <div class="route-col">
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Centro de Carga / Planta</div>
+                            <div class="route-node active-flow" style="height: 100%; display:flex; flex-direction:column; justify-content:center;">
+                                <div class="node-header">
+                                    <span class="node-title" id="nodePlantaDestino">Planta Industrial</span>
+                                    <span class="pill-badge">115 kV / 13.8 kV</span>
+                                </div>
+                                <div class="node-sub">Subestación Receptora Principal</div>
+                                <div class="node-val" id="nodePlantaDemandaTotal">5,000 MWh</div>
+                                <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:8px;">
+                                    Balance de Potencia: 100% Cumplido
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Explicación de las Zonas -->
-                <div class="glass-panel" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-                    <h2 style="font-size: 1.15rem; font-weight: 700;">Diagnóstico de las 3 Zonas Clave</h2>
-
-                    <div style="padding: 14px; background: rgba(48, 209, 88, 0.08); border: 1px solid rgba(48, 209, 88, 0.25); border-radius: var(--radius-md);">
-                        <strong style="color: var(--accent-green); font-size: 0.85rem;">Zona 1: Meseta Plana de Mínimo Costo (≥ 850 Ton)</strong>
-                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">
-                            El óptimo natural emite exactamente 850 toneladas. Con el límite actual de 1,200 ton la fábrica ahorra $155,500 USD al mes con costo congelado en $267,000 USD. Precio sombra dual = $0.00.
-                        </p>
-                    </div>
-
-                    <div style="padding: 14px; background: rgba(255, 214, 10, 0.08); border: 1px solid rgba(255, 214, 10, 0.25); border-radius: var(--radius-md);">
-                        <strong style="color: var(--accent-amber); font-size: 0.85rem;">Zona 2: Subida de Costos por Endurecimiento (675 a 850 Ton)</strong>
-                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">
-                            Si el gobierno reduce el límite por debajo de 850 ton, el sistema debe apagar red nocturna barata y encender gas más caro. A 700 ton el costo sube a $276,000 USD.
-                        </p>
-                    </div>
-
-                    <div style="padding: 14px; background: rgba(255, 69, 58, 0.08); border: 1px solid rgba(255, 69, 58, 0.25); border-radius: var(--radius-md);">
-                        <strong style="color: var(--accent-red); font-size: 0.85rem;">Zona 3: Barrera Física de Infactibilidad (< 675 Ton)</strong>
-                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">
-                            Con las fuentes actuales, es físicamente imposible abastecer 5,000 MWh emitiendo menos de 675 ton. La planta requeriría almacenamiento en baterías BESS.
-                        </p>
-                    </div>
+            <!-- TABLA DE DESGLOSE DE RUTAS Y COSTOS -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Desglose Económico de Rutas de Abastecimiento Activas
+                    </h3>
+                    <span class="pill-badge" id="badgeTotalRutas">8 Rutas Asignadas</span>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="apple-table" id="tablaRutasSuministro">
+                        <thead>
+                            <tr>
+                                <th>Ruta</th>
+                                <th>Fuente de Origen</th>
+                                <th>Bloque Destino</th>
+                                <th>Despacho (MWh)</th>
+                                <th>Costo Energía ($/MWh)</th>
+                                <th>Peaje ($/MWh)</th>
+                                <th>Pérdidas (MWh)</th>
+                                <th>Costo Total ($ USD)</th>
+                                <th>CO2 (t)</th>
+                                <th>Estado Operativo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyRutas">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- PESTAÑA 6: EQUIPO Y FICHA TÉCNICA -->
-        <section id="pane-equipo" class="tab-pane">
-            <div class="two-col-grid">
-                <div class="glass-panel" style="padding: 26px;">
-                    <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px;">Ficha Técnica Institucional</h2>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 20px;">Proyecto Académico y Comercial de Investigación de Operaciones + IA</p>
-
-                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem;">
-                        <div><strong style="color: var(--text-secondary);">Institución:</strong> Universidad de La Guajira (Facultad de Ingeniería)</div>
-                        <div><strong style="color: var(--text-secondary);">Programa:</strong> Ingeniería de Sistemas</div>
-                        <div><strong style="color: var(--text-secondary);">Asignatura:</strong> Investigación de Operaciones + Desarrollo Tecnológico + IA</div>
-                        <div><strong style="color: var(--text-secondary);">Docente Evaluador:</strong> Prof. Nicolás de Jesús Sánchez</div>
-                        <div><strong style="color: var(--text-secondary);">Motor Simplex:</strong> COIN-OR CBC vía PuLP 2.8+</div>
-                        <div><strong style="color: var(--text-secondary);">Motor Predictivo:</strong> Random Forest Scikit-Learn 1.3+</div>
+        <!-- ==================== TAB 3: OPTIMIZADOR PRESCRIPTIVO ==================== -->
+        <section id="optimizador" class="tab-content">
+            <div class="dashboard-grid-2">
+                <!-- FORMULARIO DE CONTROL DE PARÁMETROS -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            Parámetros del Modelo Simplex Continuo
+                        </h3>
+                        <button class="btn-apple-primary" onclick="ejecutarOptimizacionEnVivo()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Ejecutar Simplex / CBC en Tiempo Real
+                        </button>
                     </div>
+                    <div class="panel-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Demanda en Pico - t1 (MWh)</label>
+                                    <span class="form-val-badge" id="valDemandaT1">1,200</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderDemandaT1" min="600" max="3000" step="50" value="1200" oninput="actualizarValLabel('valDemandaT1', this.value)">
+                            </div>
 
-                    <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-glass);">
-                        <a href="https://github.com/dvzinx22/optimizacion-mezcla-energetica" target="_blank" class="btn-action btn-glass" style="text-decoration: none; width: 100%;">
-                            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                            Ver Repositorio Oficial en GitHub
-                        </a>
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Demanda en Medio - t2 (MWh)</label>
+                                    <span class="form-val-badge" id="valDemandaT2">1,800</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderDemandaT2" min="800" max="4000" step="50" value="1800" oninput="actualizarValLabel('valDemandaT2', this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Demanda en Valle - t3 (MWh)</label>
+                                    <span class="form-val-badge" id="valDemandaT3">2,000</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderDemandaT3" min="500" max="4000" step="50" value="2000" oninput="actualizarValLabel('valDemandaT3', this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Límite Máximo de Emisiones (t CO2)</label>
+                                    <span class="form-val-badge" id="valLimiteCO2">1,200</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderLimiteCO2" min="650" max="2500" step="25" value="1200" oninput="actualizarValLabel('valLimiteCO2', this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Cuota Mínima Renovable (%)</label>
+                                    <span class="form-val-badge" id="valCuotaRenovable">30%</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderCuotaRenovable" min="10" max="70" step="1" value="30" oninput="actualizarValLabel('valCuotaRenovable', this.value + '%')">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label-row">
+                                    <label class="form-label">Capacidad Solar en Medio - t2 (MWh)</label>
+                                    <span class="form-val-badge" id="valCapSolarT2">1,000</span>
+                                </div>
+                                <input type="range" class="apple-slider" id="sliderCapSolarT2" min="200" max="2500" step="50" value="1000" oninput="actualizarValLabel('valCapSolarT2', this.value)">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="glass-panel" style="padding: 26px;">
-                    <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px;">Autores e Integrantes del Proyecto</h2>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 20px;">Equipo de Investigación de Operaciones e Ingeniería de Software</p>
-
-                    <div class="table-responsive">
-                        <table class="glass-table">
+                <!-- PRECIOS SOMBRA Y VARIABLES DUALES -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                            Análisis Dual y Precios Sombra
+                        </h3>
+                        <span class="pill-badge">Marginal Cost</span>
+                    </div>
+                    <div class="panel-body">
+                        <table class="apple-table" id="tablaPreciosSombra">
                             <thead>
                                 <tr>
-                                    <th>Nombre del Estudiante</th>
-                                    <th>Rol Técnico Asignado</th>
+                                    <th>Restricción</th>
+                                    <th>Precio Sombra (&pi;)</th>
+                                    <th>Holgura (s)</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr><td>Sneyder Joaquín Madrid Arcia</td><td><span class="pill-benefit pill-blue">Modelador PuLP / Scrum Master</span></td></tr>
-                                <tr><td>Moisés Bolívar</td><td><span class="pill-benefit pill-green">Científico de Datos / ML</span></td></tr>
-                                <tr><td>Andrés Aguilar</td><td><span class="pill-benefit pill-blue">Arquitecto Backend REST API</span></td></tr>
-                                <tr><td>Dylan David Cáceres Montiel</td><td><span class="pill-benefit pill-green">Ingeniero UI Liquid Glass</span></td></tr>
-                                <tr><td>Milder Oñate</td><td><span class="pill-benefit pill-blue">Especialista en Dualidad y Sensibilidad</span></td></tr>
-                                <tr><td>Jorge Escudero</td><td><span class="pill-benefit pill-green">Desarrollador Copilot Autocorrección</span></td></tr>
-                                <tr><td>William Redondo</td><td><span class="pill-benefit pill-blue">Documentación Técnica LaTeX</span></td></tr>
+                            <tbody id="tbodyPreciosSombra">
+                                <!-- Inyectado dinámicamente -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <!-- MATRIZ DE ASIGNACIÓN DETALLADA -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="3" y1="15" x2="21" y2="15"></line>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="15" y1="3" x2="15" y2="21"></line>
+                        </svg>
+                        Matriz de Despacho Óptimo por Fuente y Bloque (MWh)
+                    </h3>
+                    <span class="pill-badge" id="badgeSolverStatus">Estado: Factible y Óptimo</span>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="apple-table" id="tablaMatrizDespacho">
+                        <thead>
+                            <tr>
+                                <th>Fuente de Generación</th>
+                                <th>Bloque 1 - Pico (MWh)</th>
+                                <th>Bloque 2 - Medio (MWh)</th>
+                                <th>Bloque 3 - Valle (MWh)</th>
+                                <th>Total Mensual (MWh)</th>
+                                <th>Participación (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyMatrizDespacho">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
+
+        <!-- ==================== TAB 4: MACHINE LEARNING EN TIEMPO REAL ==================== -->
+        <section id="ml" class="tab-content">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                        </svg>
+                        Inferencia y Predicción Meteorológica en Tiempo Real
+                    </h3>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-apple-primary" id="btnEjecutarML" onclick="ejecutarPrediccionMLEnTiempoReal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Ejecutar Predicción en Tiempo Real
+                        </button>
+                        <button class="btn-apple-secondary" onclick="aplicarPrediccionAOptimizador()">
+                            Inyectar al Optimizador
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 22px;">
+                        Al hacer clic en el botón superior, el motor ejecuta en el backend un modelo predictivo <strong>Random Forest Regressor</strong> de Scikit-Learn calibrado con 4,320 observaciones horarias. Proyecta la potencia solar y eólica en milisegundos para actualizar la frontera técnica de suministro de la empresa.
+                    </p>
+
+                    <!-- CONTROLES METEOROLOGICOS -->
+                    <div class="form-grid" style="margin-bottom: 24px;">
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Hora del Día (0 - 23 hrs)</label>
+                                <span class="form-val-badge" id="valHoraML">12:00</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderHoraML" min="0" max="23" step="1" value="12" oninput="actualizarValLabel('valHoraML', this.value.padStart(2, '0') + ':00')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Radiación Solar Directa (W/m²)</label>
+                                <span class="form-val-badge" id="valRadML">850 W/m²</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderRadML" min="0" max="1100" step="25" value="850" oninput="actualizarValLabel('valRadML', this.value + ' W/m²')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Velocidad del Viento (m/s)</label>
+                                <span class="form-val-badge" id="valVientoML">8.5 m/s</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderVientoML" min="1.0" max="18.0" step="0.5" value="8.5" oninput="actualizarValLabel('valVientoML', this.value + ' m/s')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Cobertura de Nubosidad (%)</label>
+                                <span class="form-val-badge" id="valNubesML">20%</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderNubesML" min="0" max="100" step="5" value="20" oninput="actualizarValLabel('valNubesML', this.value + '%')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Temperatura Ambiente (°C)</label>
+                                <span class="form-val-badge" id="valTempML">32°C</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderTempML" min="15" max="45" step="1" value="32" oninput="actualizarValLabel('valTempML', this.value + '°C')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Capacidad Solar Instalada (MWh)</label>
+                                <span class="form-val-badge" id="valCapSolarInstalada">1,000</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderCapSolarInstalada" min="200" max="3000" step="50" value="1000" oninput="actualizarValLabel('valCapSolarInstalada', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- METRICAS DE LA PREDICCION -->
+                    <div class="stats-grid" style="margin-bottom: 24px;">
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Tiempo de Inferencia ML</div>
+                            <div class="stat-value" id="kpiMLTiempoInferencia">12.4 ms</div>
+                            <div class="stat-meta">Inferencia en tiempo real</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Potencia Solar Estimada</div>
+                            <div class="stat-value" id="kpiMLSolar">807.5 MWh</div>
+                            <div class="stat-meta">Rendimiento fotovoltaico instantáneo</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Potencia Eólica Estimada</div>
+                            <div class="stat-value" id="kpiMLEolica">342.1 MWh</div>
+                            <div class="stat-meta">Régimen anemométrico regional</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Precisión Estadística (R²)</div>
+                            <div class="stat-value" id="kpiMLPrecision">0.9964</div>
+                            <div class="stat-meta">RMSE: 0.0182 | MAE: 0.0121</div>
+                        </div>
+                    </div>
+
+                    <!-- GRAFICA 24 HORAS -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                Proyección Horaria en Vivo (24 Horas)
+                            </h3>
+                            <span class="pill-badge">Random Forest Ensemble</span>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="chartCurva24hML" height="120"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: CURVA TRADE-OFF ==================== -->
+        <section id="tradeoff" class="tab-content">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        Frontera de Pareto: Costo Total ($ USD) vs. Límite de Emisiones (t CO2)
+                    </h3>
+                    <span class="pill-badge">Análisis de Sensibilidad Paramétrica</span>
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 20px;">
+                        Muestra la relación económica entre la descarbonización industrial y el costo de suministro. A medida que el límite de CO2 se vuelve más estricto, el solver recurre a fuentes con mayor costo de oportunidad, incrementando el costo total y exhibiendo rendimientos decrecientes.
+                    </p>
+                    <canvas id="chartTradeoff" height="120"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 6: COPILOT & AUTOCORRECCIÓN ==================== -->
+        <section id="copilot" class="tab-content">
+            <div class="dashboard-grid-2">
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            OptiGrid Copilot: Asistente Analítico Integrado
+                        </h3>
+                        <span class="pill-badge">AI Assistant</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="copilot-container">
+                            <div class="copilot-messages" id="copilotMsgList">
+                                <div class="msg-bubble msg-assistant">
+                                    Bienvenido a <strong>OptiGrid Copilot</strong>. Estoy sincronizado con el modelo matemático de la empresa activa. Puede consultarme sobre el porqué de una decisión de despacho, los costos reducidos de la red o ejecutar la auditoría de <strong>Autocorrección Preventiva</strong>.
+                                </div>
+                            </div>
+                            <div class="copilot-input-row">
+                                <input type="text" class="apple-input" id="copilotInput" placeholder="Ej: ¿Por qué no compramos red tradicional en el bloque pico?" style="flex:1;" onkeypress="if(event.key==='Enter') enviarConsultaCopilot()">
+                                <button class="btn-apple-primary" onclick="enviarConsultaCopilot()">
+                                    Enviar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                            Motor de Autocorrección Preventiva
+                        </h3>
+                        <span class="pill-badge">Demostración en Vivo</span>
+                    </div>
+                    <div class="panel-body">
+                        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 16px;">
+                            Requerimiento solicitado para la sustentación: Simula un escenario donde el operador ingresa parámetros contradictorios o físicamente imposibles. La IA detecta las fallas, las aísla y autocorrige el sistema antes de transferir las cotas al solver.
+                        </p>
+                        <button class="btn-apple-primary" style="width: 100%; justify-content: center; margin-bottom: 18px;" onclick="ejecutarDemoAutocorreccion()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Ejecutar Prueba de Autocorrección ante el Jurado
+                        </button>
+
+                        <div id="boxResultadoAutocorreccion" style="display:none;" class="autocorrect-box">
+                            <strong style="color:#ffffff;">Resultado de la Auditoría Preventiva:</strong>
+                            <div id="txtDiagnosticoAutocorreccion" style="color:var(--text-secondary); margin-top:4px;"></div>
+                            <ul id="listaInconsistencias" style="color:#ffffff; margin: 8px 0 8px 18px;"></ul>
+                            <strong style="color:#ffffff;">Acciones Aplicadas Automáticamente:</strong>
+                            <ul id="listaAccionesAutocorreccion" style="color:var(--text-secondary); margin: 6px 0 0 18px;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 7: EQUIPO UNIGUAJIRA ==================== -->
+        <section id="equipo" class="tab-content">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Universidad de La Guajira - Equipo de Desarrollo de Software
+                    </h3>
+                    <span class="pill-badge">Facultad de Ingeniería | Ingeniería de Sistemas</span>
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom: 22px;">
+                        Proyecto desarrollado para la asignatura de <strong>Investigación de Operaciones + Desarrollo Tecnológico + Inteligencia Artificial</strong>, bajo la dirección del docente <strong>Prof. Nicolás de Jesús Sánchez</strong>.
+                    </p>
+
+                    <div class="team-grid">
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">SM</div>
+                            <div class="team-info">
+                                <h4>Sneyder Joaquín Madrid Arcia</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">MB</div>
+                            <div class="team-info">
+                                <h4>Moisés Bolívar</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">AA</div>
+                            <div class="team-info">
+                                <h4>Andrés Aguilar</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">DC</div>
+                            <div class="team-info">
+                                <h4>Dylan David Cáceres Montiel</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">MO</div>
+                            <div class="team-info">
+                                <h4>Milder Oñate</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">JE</div>
+                            <div class="team-info">
+                                <h4>Jorge Escudero</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card">
+                            <div class="team-avatar">WR</div>
+                            <div class="team-info">
+                                <h4>William Redondo</h4>
+                                <p>Ingeniería de Sistemas - Uniguajira</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel team-card" style="border-color: rgba(255, 255, 255, 0.35);">
+                            <div class="team-avatar" style="background:#ffffff; color:#000000;">NS</div>
+                            <div class="team-info">
+                                <h4>Prof. Nicolás de Jesús Sánchez</h4>
+                                <p>Docente Titular y Director Académico</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- FOOTER -->
+    <!-- ==================== FOOTER ==================== -->
     <footer>
-        <div>OPTIGRID-AI Enterprise &bull; Plataforma Prescriptiva de Eficiencia Energética</div>
-        <div>Universidad de La Guajira &bull; Riohacha, La Guajira, Colombia &bull; Noviembre 2026</div>
+        <p>OPTIGRID ENTERPRISE &copy; 2026 Universidad de La Guajira. Sistema Multi-Empresa de Optimización Energética e Inteligencia Artificial.</p>
     </footer>
 
-    <!-- LOGICA FRONTEND JAVASCRIPT CON APPLE LIQUID GLASS CHART.JS -->
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
-        let mixChart = null;
-        let solarChart = null;
-        let tradeChart = null;
-        let estadoActual = null;
+        // --- ESTADO GLOBAL DE LA APLICACIÓN ---
+        let estadoActual = {
+            empresa_activa: "ejercicio1",
+            empresas_info: {},
+            optimizacion: null,
+            tradeoff: null,
+            prediccion_ml: null
+        };
 
-        // Inicialización al cargar la página
-        window.addEventListener('DOMContentLoaded', async () => {
-            await cargarEstadoInicial();
-            await consultarML();
+        let chartDespachoInstance = null;
+        let chartMixInstance = null;
+        let chartMLInstance = null;
+        let chartTradeoffInstance = null;
+
+        // Configuración Monocromática Apple para Chart.js
+        Chart.defaults.color = '#a1a1a6';
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif';
+        Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+        Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.2)';
+        Chart.defaults.plugins.tooltip.borderWidth = 1;
+        Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
+        Chart.defaults.plugins.tooltip.bodyColor = '#d1d1d6';
+
+        // --- INICIALIZACIÓN ---
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarEstadoInicial();
         });
 
-        // Alternar pestañas
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-
-            event.currentTarget.classList.add('active');
-            const targetPane = document.getElementById(`pane-${tabId}`);
-            if (targetPane) targetPane.classList.add('active');
-
-            if (tabId === 'dashboard' && mixChart) mixChart.resize();
-            if (tabId === 'machinelearning' && solarChart) solarChart.resize();
-            if (tabId === 'tradeoff' && tradeChart) tradeChart.resize();
-        }
-
-        // Cargar estado inicial desde el servidor backend
         async function cargarEstadoInicial() {
             try {
                 const res = await fetch('/api/initial_state');
                 const data = await res.json();
-                estadoActual = data.optimizacion;
+                estadoActual.optimizacion = data.optimizacion;
+                estadoActual.tradeoff = data.tradeoff;
+                
+                // Actualizar interfaz completa
                 renderizarDashboard(data.optimizacion);
-                renderizarTradeOff(data.tradeoff);
+                renderizarRutas(data.optimizacion.rutas_suministro);
+                renderizarMatriz(data.optimizacion.matriz_despacho);
+                renderizarPreciosSombra(data.optimizacion.precios_sombra);
+                renderizarTradeoffChart(data.tradeoff);
+
+                // Ejecutar predicción inicial de ML
+                ejecutarPrediccionMLEnTiempoReal();
             } catch (err) {
                 console.error("Error al conectar con backend:", err);
             }
         }
 
-        // Renderizar Métricas y Tablas del Dashboard
-        function renderizarDashboard(opt) {
-            document.getElementById('kpi-costo').innerText = `$${opt.costo_optimo.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-            document.getElementById('kpi-emisiones').innerHTML = `${opt.emisiones_totales.toFixed(2)} <span style="font-size: 1rem; font-weight: 500;">Ton CO₂</span>`;
-            document.getElementById('kpi-renovable').innerHTML = `${opt.renovable_pct.toFixed(1)}% <span style="font-size: 1rem; font-weight: 500;">(${opt.renovable_total.toLocaleString()} MWh)</span>`;
-
-            // Tabla de Despacho
-            const tbodyDespacho = document.querySelector('#tabla-despacho tbody');
-            tbodyDespacho.innerHTML = '';
-            for (let k in opt.matriz_despacho) {
-                const f = opt.matriz_despacho[k];
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${f.nombre}</strong></td>
-                    <td>${f.t1.toFixed(1)} MWh</td>
-                    <td>${f.t2.toFixed(1)} MWh</td>
-                    <td>${f.t3.toFixed(1)} MWh</td>
-                    <td><strong>${f.total.toFixed(1)} MWh</strong></td>
-                    <td><span class="pill-benefit ${f.participacion > 0 ? 'pill-blue' : ''}">${f.participacion.toFixed(1)}%</span></td>
-                `;
-                tbodyDespacho.appendChild(tr);
-            }
-
-            // Fila de demanda cubierta
-            const trTotal = document.createElement('tr');
-            trTotal.style.background = 'rgba(255, 255, 255, 0.05)';
-            trTotal.style.fontWeight = '700';
-            trTotal.innerHTML = `
-                <td>Demanda Satisfecha</td>
-                <td>${(opt.matriz_despacho.e1.t1 + opt.matriz_despacho.e2.t1 + opt.matriz_despacho.e3.t1 + opt.matriz_despacho.e4.t1).toFixed(1)} MWh</td>
-                <td>${(opt.matriz_despacho.e1.t2 + opt.matriz_despacho.e2.t2 + opt.matriz_despacho.e3.t2 + opt.matriz_despacho.e4.t2).toFixed(1)} MWh</td>
-                <td>${(opt.matriz_despacho.e1.t3 + opt.matriz_despacho.e2.t3 + opt.matriz_despacho.e3.t3 + opt.matriz_despacho.e4.t3).toFixed(1)} MWh</td>
-                <td>${opt.demanda_total.toFixed(1)} MWh</td>
-                <td><span class="pill-benefit pill-green">100.0%</span></td>
-            `;
-            tbodyDespacho.appendChild(trTotal);
-
-            // Tabla de Duales
-            const tbodyDuales = document.querySelector('#tabla-duales tbody');
-            tbodyDuales.innerHTML = '';
-            for (let name in opt.precios_sombra) {
-                const d = opt.precios_sombra[name];
-                let label = name.replace('R_Demanda_t1', 'Demanda Bloque Pico (t₁)')
-                                .replace('R_Demanda_t2', 'Demanda Bloque Medio (t₂)')
-                                .replace('R_Demanda_t3', 'Demanda Bloque Valle (t₃)')
-                                .replace('R_Limite_CO2', 'Tope Regulatorio de CO₂')
-                                .replace('R_Cuota_Renovable', 'Cuota Mínima Renovable');
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${label}</td>
-                    <td><strong style="color: ${d.pi > 0 ? 'var(--accent-amber)' : 'var(--text-primary)'};">+${d.pi.toFixed(2)} USD</strong></td>
-                    <td>${d.slack.toFixed(1)}</td>
-                `;
-                tbodyDuales.appendChild(tr);
-            }
-
-            renderizarGraficoMix(opt);
+        // --- CAMBIO DE TABS ---
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
         }
 
-        // Gráfica de Reparto en Pastel con Chart.js
-        function renderizarGraficoMix(opt) {
-            const ctx = document.getElementById('chart-pie-mix');
-            if (!ctx) return;
-
-            const labels = [];
-            const dataVals = [];
-            for (let k in opt.matriz_despacho) {
-                labels.push(opt.matriz_despacho[k].nombre);
-                dataVals.push(opt.matriz_despacho[k].total);
+        // --- CAMBIO DE EMPRESA (MULTI-TENANT) ---
+        async function cambiarEmpresa(empresaId) {
+            if (empresaId === 'custom') {
+                switchTab('optimizador', document.querySelectorAll('.tab-btn')[2]);
+                alert("Modo Empresa Personalizada activado: Ajuste libremente las demandas, límites de CO2 y capacidades en los deslizadores.");
+                return;
             }
 
-            if (mixChart) mixChart.destroy();
-            mixChart = new Chart(ctx, {
+            estadoActual.empresa_activa = empresaId;
+            const titulos = {
+                "ejercicio1": {
+                    nombre: "Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)",
+                    sector: "Sector: Manufactura Pesada",
+                    desc: "Instalación de manufactura electro-intensiva bajo esquema tarifario multi-bloque con metas de descarbonización regulatorias."
+                },
+                "cementera": {
+                    nombre: "Cementera del Caribe S.A. (Procesamiento Continuo)",
+                    sector: "Sector: Materiales de Construcción",
+                    desc: "Operación continua de hornos rotatorios y molinos de cemento con alta sensibilidad a tarifas en bloque punta."
+                },
+                "siderurgica": {
+                    nombre: "Metalúrgica & Siderúrgica del Norte (Hornos de Arco)",
+                    sector: "Sector: Siderurgia & Metalurgia",
+                    desc: "Concentración masiva de coladas de acero en bloques nocturnos para aprovechar la energía de menor costo y excedentes eólicos."
+                },
+                "frigorificos": {
+                    nombre: "Agroindustria & Frigoríficos del Valle (Cadena de Frío)",
+                    sector: "Sector: Cadena de Frío & Agroindustria",
+                    desc: "Demanda impulsada por compresores frigoríficos en horas diurnas de mayor calor con amplio aprovechamiento solar en sitio."
+                }
+            };
+
+            const info = titulos[empresaId];
+            if (info) {
+                document.getElementById('heroNombreEmpresa').innerText = info.nombre;
+                document.getElementById('heroSector').innerText = info.sector;
+                document.getElementById('heroDescripcionEmpresa').innerText = info.desc;
+                document.getElementById('nodePlantaDestino').innerText = info.nombre.split(' (')[0];
+            }
+
+            // Consultar optimización para la empresa seleccionada
+            try {
+                const res = await fetch('/api/optimize', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({empresa_id: empresaId})
+                });
+                const data = await res.json();
+                estadoActual.optimizacion = data;
+                if (data.tradeoff) {
+                    estadoActual.tradeoff = data.tradeoff;
+                    renderizarTradeoffChart(data.tradeoff);
+                }
+
+                // Sincronizar sliders con los valores de la empresa
+                sincronizarSlidersConOptimizacion(data);
+
+                renderizarDashboard(data);
+                renderizarRutas(data.rutas_suministro);
+                renderizarMatriz(data.matriz_despacho);
+                renderizarPreciosSombra(data.precios_sombra);
+            } catch (err) {
+                console.error("Error al optimizar empresa:", err);
+            }
+        }
+
+        function sincronizarSlidersConOptimizacion(data) {
+            if (!data) return;
+            document.getElementById('heroDemandaTotal').innerText = `Demanda: ${data.demanda_total.toLocaleString()} MWh/mes`;
+            document.getElementById('nodePlantaDemandaTotal').innerText = `${data.demanda_total.toLocaleString()} MWh`;
+        }
+
+        // --- RENDERIZADO DEL DASHBOARD EJECUTIVO ---
+        function renderizarDashboard(opt) {
+            if (!opt || opt.status !== 'Optimal') return;
+
+            document.getElementById('kpiCostoOptimo').innerText = `$${Math.round(opt.costo_optimo).toLocaleString()}`;
+            document.getElementById('kpiAhorroMensual').innerText = `$${Math.round(opt.ahorro_usd).toLocaleString()} (${opt.ahorro_pct.toFixed(1)}%)`;
+            document.getElementById('kpiEmisiones').innerText = `${opt.emisiones_totales.toFixed(1)} t`;
+            document.getElementById('kpiLimiteCO2').innerText = `Límite: ${(opt.emisiones_totales + opt.holgura_co2_ton).toFixed(0)} t (Holgura: ${opt.holgura_co2_ton.toFixed(1)} t)`;
+            document.getElementById('kpiRenovablePct').innerText = `${opt.renovable_pct.toFixed(1)}%`;
+            document.getElementById('kpiRenovableMWh').innerText = `${Math.round(opt.renovable_total).toLocaleString()} MWh (Solar + Eólica)`;
+            document.getElementById('kpiAhorroAnual').innerText = `$${Math.round(opt.ahorro_anual_usd).toLocaleString()}`;
+            document.getElementById('headerSolverTime').innerText = `${opt.tiempo_ms} ms`;
+
+            // Actualizar nodos del diagrama
+            if (opt.matriz_despacho) {
+                document.getElementById('node-e1-val').innerText = `${Math.round(opt.matriz_despacho.e1.total).toLocaleString()} MWh`;
+                document.getElementById('node-e2-val').innerText = `${Math.round(opt.matriz_despacho.e2.total).toLocaleString()} MWh`;
+                document.getElementById('node-e3-val').innerText = `${Math.round(opt.matriz_despacho.e3.total).toLocaleString()} MWh`;
+                document.getElementById('node-e4-val').innerText = `${Math.round(opt.matriz_despacho.e4.total).toLocaleString()} MWh`;
+            }
+
+            renderizarChartsDashboard(opt);
+        }
+
+        // --- CHARTS MONOCROMATICOS APPLE ---
+        function renderizarChartsDashboard(opt) {
+            const m = opt.matriz_despacho;
+            const ctx1 = document.getElementById('chartDespachoBloques').getContext('2d');
+            
+            if (chartDespachoInstance) chartDespachoInstance.destroy();
+
+            chartDespachoInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Bloque 1 (Pico)', 'Bloque 2 (Medio)', 'Bloque 3 (Valle)'],
+                    datasets: [
+                        { label: 'Red STN (e1)', data: [m.e1.t1, m.e1.t2, m.e1.t3], backgroundColor: '#3a3a3c' },
+                        { label: 'Solar On-site (e2)', data: [m.e2.t1, m.e2.t2, m.e2.t3], backgroundColor: '#ffffff' },
+                        { label: 'Parque Eólico (e3)', data: [m.e3.t1, m.e3.t2, m.e3.t3], backgroundColor: '#d1d1d6' },
+                        { label: 'Cogeneración Gas (e4)', data: [m.e4.t1, m.e4.t2, m.e4.t3], backgroundColor: '#8e8e93' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                        y: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'MWh' } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: '#d1d1d6', boxWidth: 12 } }
+                    }
+                }
+            });
+
+            // CHART MIX DOUGHNUT
+            const ctx2 = document.getElementById('chartMixFuentes').getContext('2d');
+            if (chartMixInstance) chartMixInstance.destroy();
+
+            chartMixInstance = new Chart(ctx2, {
                 type: 'doughnut',
                 data: {
-                    labels: labels,
+                    labels: ['Red STN', 'Solar On-site', 'Parque Eólico', 'Cogeneración Gas'],
                     datasets: [{
-                        data: dataVals,
-                        backgroundColor: [
-                            'rgba(148, 163, 184, 0.7)',
-                            'rgba(255, 214, 10, 0.8)',
-                            'rgba(48, 209, 88, 0.8)',
-                            'rgba(255, 107, 107, 0.8)'
-                        ],
-                        borderColor: 'rgba(255, 255, 255, 0.15)',
+                        data: [m.e1.total, m.e2.total, m.e3.total, m.e4.total],
+                        backgroundColor: ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93'],
+                        borderColor: '#000000',
                         borderWidth: 2
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { color: '#94a3b8', font: { size: 11, weight: '600' } }
-                        }
+                        legend: { position: 'bottom', labels: { color: '#d1d1d6', boxWidth: 10 } }
                     },
-                    cutout: '68%'
+                    cutout: '65%'
                 }
             });
         }
 
-        // Gráfica de Trade-off
-        function renderizarTradeOff(puntos) {
-            const ctx = document.getElementById('chart-tradeoff');
-            if (!ctx) return;
+        // --- RENDERIZAR TABLA DE RUTAS ---
+        function renderizarRutas(rutas) {
+            const tbody = document.getElementById('tbodyRutas');
+            tbody.innerHTML = '';
 
-            const factibles = puntos.filter(p => p.costo !== null);
-            const labels = factibles.map(p => `${p.limite_co2} ton`);
-            const dataVals = factibles.map(p => p.costo);
+            if (!rutas || rutas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:var(--text-secondary);">No hay rutas activas para esta configuración.</td></tr>';
+                return;
+            }
 
-            if (tradeChart) tradeChart.destroy();
-            tradeChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Costo Óptimo de Suministro ($USD)',
-                        data: dataVals,
-                        borderColor: '#00e5ff',
-                        backgroundColor: 'rgba(0, 229, 255, 0.12)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#0070f3',
-                        pointRadius: 5,
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }
-                    },
-                    plugins: {
-                        legend: { labels: { color: '#ffffff' } }
-                    }
-                }
+            document.getElementById('badgeTotalRutas').innerText = `${rutas.length} Rutas Activas`;
+
+            rutas.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${r.id}</strong></td>
+                    <td>${r.fuente_nombre}</td>
+                    <td>${r.bloque_nombre}</td>
+                    <td><strong>${r.mwh_despachados.toLocaleString()}</strong></td>
+                    <td>$${r.costo_energia_unitario.toFixed(2)}</td>
+                    <td>$${r.peaje_unitario.toFixed(2)}</td>
+                    <td>${r.perdidas_tecnicas_mwh.toFixed(1)} (${r.perdidas_pct}%)</td>
+                    <td><strong>$${Math.round(r.costo_total_usd).toLocaleString()}</strong></td>
+                    <td>${r.emisiones_ton_co2.toFixed(1)} t</td>
+                    <td><span class="pill-badge">${r.estado_ruta}</span></td>
+                `;
+                tbody.appendChild(tr);
             });
         }
 
-        // Actualizar etiquetas numéricas del formulario en tiempo real
-        function actualizarValoresForm() {
-            document.getElementById('val-dem-t1').innerText = Number(document.getElementById('input-dem-t1').value).toLocaleString();
-            document.getElementById('val-dem-t2').innerText = Number(document.getElementById('input-dem-t2').value).toLocaleString();
-            document.getElementById('val-dem-t3').innerText = Number(document.getElementById('input-dem-t3').value).toLocaleString();
-            document.getElementById('val-lim-co2').innerText = Number(document.getElementById('input-lim-co2').value).toLocaleString();
-            document.getElementById('val-cuota-ren').innerText = `${document.getElementById('input-cuota-ren').value}%`;
+        // --- RENDERIZAR MATRIZ DE DESPACHO ---
+        function renderizarMatriz(matriz) {
+            const tbody = document.getElementById('tbodyMatrizDespacho');
+            tbody.innerHTML = '';
+            if (!matriz) return;
+
+            Object.keys(matriz).forEach(key => {
+                const item = matriz[key];
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.nombre} (${key})</strong></td>
+                    <td>${Math.round(item.t1).toLocaleString()} MWh</td>
+                    <td>${Math.round(item.t2).toLocaleString()} MWh</td>
+                    <td>${Math.round(item.t3).toLocaleString()} MWh</td>
+                    <td><strong>${Math.round(item.total).toLocaleString()} MWh</strong></td>
+                    <td>${item.participacion.toFixed(1)}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        // Ejecutar optimización llamando al backend en Python
-        async function ejecutarOptimizacion() {
+        // --- RENDERIZAR PRECIOS SOMBRA ---
+        function renderizarPreciosSombra(sombras) {
+            const tbody = document.getElementById('tbodyPreciosSombra');
+            tbody.innerHTML = '';
+            if (!sombras) return;
+
+            const nombres = {
+                "R_Demanda_t1": "Balance Demanda Bloque 1 (Pico)",
+                "R_Demanda_t2": "Balance Demanda Bloque 2 (Medio)",
+                "R_Demanda_t3": "Balance Demanda Bloque 3 (Valle)",
+                "R_CO2": "Límite Máximo de Emisiones de CO2",
+                "R_Renovable": "Cuota Mínima Obligatoria Renovable"
+            };
+
+            Object.keys(sombras).forEach(k => {
+                const tr = document.createElement('tr');
+                const piVal = sombras[k].pi;
+                tr.innerHTML = `
+                    <td>${nombres[k] || k}</td>
+                    <td><strong>${piVal >= 0 ? '+' : ''}$${piVal.toFixed(2)} USD/MWh</strong></td>
+                    <td>${sombras[k].slack.toFixed(1)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- EJECUTAR OPTIMIZACION EN VIVO ---
+        async function ejecutarOptimizacionEnVivo() {
             const payload = {
+                empresa_id: estadoActual.empresa_activa,
                 demanda: {
-                    t1: parseFloat(document.getElementById('input-dem-t1').value),
-                    t2: parseFloat(document.getElementById('input-dem-t2').value),
-                    t3: parseFloat(document.getElementById('input-dem-t3').value)
+                    t1: parseFloat(document.getElementById('sliderDemandaT1').value),
+                    t2: parseFloat(document.getElementById('sliderDemandaT2').value),
+                    t3: parseFloat(document.getElementById('sliderDemandaT3').value)
                 },
-                limite_co2: parseFloat(document.getElementById('input-lim-co2').value),
-                cuota_renovable: parseFloat(document.getElementById('input-cuota-ren').value)
+                limite_co2: parseFloat(document.getElementById('sliderLimiteCO2').value),
+                cuota_renovable: parseFloat(document.getElementById('sliderCuotaRenovable').value),
+                cap_solar: {
+                    t1: 600.0,
+                    t2: parseFloat(document.getElementById('sliderCapSolarT2').value),
+                    t3: 0.0
+                }
             };
 
             try {
                 const res = await fetch('/api/optimize', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: jsonStringify(payload)
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
                 });
                 const data = await res.json();
+
                 if (data.status === 'Optimal') {
+                    estadoActual.optimizacion = data;
                     renderizarDashboard(data);
+                    renderizarRutas(data.rutas_suministro);
+                    renderizarMatriz(data.matriz_despacho);
+                    renderizarPreciosSombra(data.precios_sombra);
+                    if (data.tradeoff) renderizarTradeoffChart(data.tradeoff);
                 } else {
-                    alert(data.mensaje || 'Solución Infactible.');
+                    alert("Aviso de Infactibilidad: " + (data.mensaje || "Restricciones incompatibles."));
                 }
             } catch (err) {
-                console.error(err);
+                console.error("Error al ejecutar optimizador:", err);
             }
         }
 
-        function jsonStringify(obj) {
-            return JSON.stringify(obj);
-        }
+        // --- EJECUTAR MACHINE LEARNING EN TIEMPO REAL ---
+        async function ejecutarPrediccionMLEnTiempoReal() {
+            const btn = document.getElementById('btnEjecutarML');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Inferencia en proceso...';
+            btn.disabled = true;
 
-        function restablecerDefecto() {
-            document.getElementById('input-dem-t1').value = 1200;
-            document.getElementById('input-dem-t2').value = 1800;
-            document.getElementById('input-dem-t3').value = 2000;
-            document.getElementById('input-lim-co2').value = 1200;
-            document.getElementById('input-cuota-ren').value = 30;
-            actualizarValoresForm();
-            ejecutarOptimizacion();
-        }
-
-        // Machine Learning Predictivo
-        async function consultarML() {
-            const hora = parseFloat(document.getElementById('ml-hora').value);
-            const rad = parseFloat(document.getElementById('ml-rad').value);
-            const nub = parseFloat(document.getElementById('ml-nub').value);
-            const temp = parseFloat(document.getElementById('ml-temp').value);
-
-            document.getElementById('lbl-hora').innerText = `${hora.toString().padStart(2, '0')}:00`;
-            document.getElementById('lbl-rad').innerText = `${rad} W/m²`;
-            document.getElementById('lbl-nub').innerText = `${nub}%`;
-            document.getElementById('lbl-temp').innerText = `${temp}°C`;
+            const payload = {
+                hora: parseFloat(document.getElementById('sliderHoraML').value),
+                radiacion: parseFloat(document.getElementById('sliderRadML').value),
+                viento: parseFloat(document.getElementById('sliderVientoML').value),
+                nubosidad: parseFloat(document.getElementById('sliderNubesML').value),
+                temperatura: parseFloat(document.getElementById('sliderTempML').value),
+                capacidad_solar_instalada: parseFloat(document.getElementById('sliderCapSolarInstalada').value),
+                capacidad_eolica_instalada: 500.0
+            };
 
             try {
                 const res = await fetch('/api/predict', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: jsonStringify({ hora, radiacion: rad, nubosidad: nub, temperatura: temp })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
                 });
                 const data = await res.json();
-                document.getElementById('ml-pred-val').innerText = `${data.prediccion_actual_mwh.toFixed(4)} MWh`;
-                renderizarGraficoSolar24h(data.curva_24h);
+                estadoActual.prediccion_ml = data;
+
+                document.getElementById('kpiMLTiempoInferencia').innerText = `${data.tiempo_inferencia_ms} ms`;
+                document.getElementById('kpiMLSolar').innerText = `${data.prediccion_actual.solar_mwh} MWh`;
+                document.getElementById('kpiMLEolica').innerText = `${data.prediccion_actual.eolica_mwh} MWh`;
+                document.getElementById('kpiMLPrecision').innerText = `${data.metricas_modelo.r2_score}`;
+
+                renderizarChartML24h(data);
             } catch (err) {
-                console.error(err);
+                console.error("Error al predecir ML:", err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         }
 
-        function renderizarGraficoSolar24h(curva) {
-            const ctx = document.getElementById('chart-solar-24h');
-            if (!ctx) return;
+        function renderizarChartML24h(data) {
+            const ctx = document.getElementById('chartCurva24hML').getContext('2d');
+            if (chartMLInstance) chartMLInstance.destroy();
 
-            const labels = Array.from({length: 24}, (_, i) => `${i.toString().padStart(2, '0')}:00`);
-            if (solarChart) solarChart.destroy();
-            solarChart = new Chart(ctx, {
+            chartMLInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Generación Fotovoltaica Predicha (MWh)',
-                        data: curva,
-                        borderColor: '#ffd60a',
-                        backgroundColor: 'rgba(255, 214, 10, 0.15)',
-                        borderWidth: 2.5,
-                        fill: true,
-                        tension: 0.35,
-                        pointRadius: 2
-                    }]
+                    labels: data.horas_eje,
+                    datasets: [
+                        {
+                            label: 'Solar Fotovoltaica (MWh)',
+                            data: data.curva_solar,
+                            borderColor: '#ffffff',
+                            backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Parque Eólico (MWh)',
+                            data: data.curva_eolica,
+                            borderColor: '#8e8e93',
+                            borderDash: [5, 5],
+                            tension: 0.35,
+                            borderWidth: 1.5
+                        },
+                        {
+                            label: 'Generación Renovable Total (MWh)',
+                            data: data.curva_total,
+                            borderColor: '#d1d1d6',
+                            borderWidth: 2.2,
+                            tension: 0.35
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' }, min: 0 }
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'MWh Disponibles' } }
                     },
                     plugins: {
-                        legend: { labels: { color: '#ffffff' } }
+                        legend: { position: 'top', labels: { color: '#d1d1d6', boxWidth: 12 } }
                     }
                 }
             });
         }
 
-        function transferirCapacidadAPuLP() {
-            alert("Capacidades fotovoltaicas predichas por la IA transferidas con éxito al optimizador PuLP: Bloque Pico = 600 MWh, Medio = 1,000 MWh, Valle = 0 MWh.");
-            switchTab('optimizador');
+        function aplicarPrediccionAOptimizador() {
+            if (!estadoActual.prediccion_ml) return;
+            const caps = estadoActual.prediccion_ml.capacidades_bloque_sugeridas;
+            document.getElementById('sliderCapSolarT2').value = caps.cap_solar.t2;
+            actualizarValLabel('valCapSolarT2', caps.cap_solar.t2);
+            switchTab('optimizador', document.querySelectorAll('.tab-btn')[2]);
+            ejecutarOptimizacionEnVivo();
+            alert(`Capacidades meteorológicas transferidas: Solar en Bloque Medio ajustada a ${caps.cap_solar.t2} MWh. Optimizador recalculado.`);
         }
 
-        // OptiGrid AI Copilot Chat
-        async function enviarMensajeChat() {
-            const input = document.getElementById('chat-input');
-            const texto = input.value.trim();
-            if (!texto) return;
+        // --- RENDERIZAR TRADEOFF CHART ---
+        function renderizarTradeoffChart(puntos) {
+            if (!puntos) return;
+            const validos = puntos.filter(p => p.status === 'Factible');
+            const ctx = document.getElementById('chartTradeoff').getContext('2d');
+            if (chartTradeoffInstance) chartTradeoffInstance.destroy();
 
-            agregarBurbuja(texto, 'user');
-            input.value = '';
+            chartTradeoffInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: validos.map(p => `${p.limite_co2} t`),
+                    datasets: [{
+                        label: 'Costo Óptimo Total ($ USD)',
+                        data: validos.map(p => p.costo),
+                        borderColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                        fill: true,
+                        tension: 0.25,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#000000',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Límite Máximo de Emisiones (t CO2)' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Costo de Suministro ($ USD)' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#d1d1d6' } }
+                    }
+                }
+            });
+        }
+
+        // --- CONTINGENCIAS EN RUTAS ---
+        function simularContingencia(tipo) {
+            if (tipo === 'red_stn') {
+                document.getElementById('node-e1').classList.remove('active-flow');
+                document.getElementById('node-e1-val').innerText = '0 MWh (Desconectado)';
+                alert("Alerta de Red: Enlace con STN 115 kV desconectado por falla de transformador. Re-enrutando despacho a cogeneración y renovables.");
+            } else if (tipo === 'eolica') {
+                document.getElementById('node-e3').classList.remove('active-flow');
+                document.getElementById('node-e3-val').innerText = '0 MWh (Mantenimiento)';
+                alert("Alerta Anemométrica: Parque Eólico en parada de mantenimiento preventivo. Activando respaldo térmico y red STN.");
+            }
+        }
+
+        function restaurarRutas() {
+            document.querySelectorAll('.route-node').forEach(n => n.classList.add('active-flow'));
+            cambiarEmpresa(estadoActual.empresa_activa);
+        }
+
+        // --- COPILOT Y AUTOCORRECCION ---
+        async function enviarConsultaCopilot() {
+            const inp = document.getElementById('copilotInput');
+            const q = inp.value.trim();
+            if (!q) return;
+
+            const box = document.getElementById('copilotMsgList');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'msg-bubble msg-user';
+            userMsg.innerText = q;
+            box.appendChild(userMsg);
+            inp.value = '';
 
             try {
                 const res = await fetch('/api/copilot', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: jsonStringify({ query: texto })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({query: q, empresa_id: estadoActual.empresa_activa})
                 });
                 const data = await res.json();
-                agregarBurbuja(data.mensaje, 'bot');
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'msg-bubble msg-assistant';
+                aiMsg.innerHTML = `<strong>${data.titulo || 'OptiGrid Copilot'}:</strong><br>${data.mensaje}`;
+                box.appendChild(aiMsg);
+                box.scrollTop = box.scrollHeight;
             } catch (err) {
-                agregarBurbuja("Error de comunicación con el motor de IA.", 'bot');
+                console.error("Error al consultar copilot:", err);
             }
         }
 
-        function preguntarCopilot(pregunta) {
-            document.getElementById('chat-input').value = pregunta;
-            enviarMensajeChat();
-        }
-
-        async function probarAutocorreccion() {
-            agregarBurbuja("Simulando ingreso de datos erróneos de operario: Demanda Valle = -500 MWh, Sol noche = 400 MWh, Límite CO2 = 0 ton.", 'user');
+        async function ejecutarDemoAutocorreccion() {
             try {
                 const res = await fetch('/api/copilot', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: jsonStringify({ mode: 'autocorrect_demo' })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({mode: 'autocorrect_demo', empresa_id: estadoActual.empresa_activa})
                 });
                 const data = await res.json();
 
-                let htmlContent = `<strong>${data.diagnostico}</strong><ul style="margin: 6px 0 10px 16px;">`;
-                data.inconsistencias.forEach(inc => htmlContent += `<li>${inc}</li>`);
-                htmlContent += `</ul><strong>Acciones de Autocorrección Aplicadas:</strong><ul style="margin: 6px 0 10px 16px;">`;
-                data.acciones_aplicadas.forEach(acc => htmlContent += `<li style="color: var(--accent-green);">${acc}</li>`);
-                htmlContent += `</ul>${data.mensaje}`;
+                const box = document.getElementById('boxResultadoAutocorreccion');
+                box.style.display = 'block';
+                document.getElementById('txtDiagnosticoAutocorreccion').innerText = data.diagnostico;
 
-                agregarBurbuja(htmlContent, 'autocorrect');
+                const ulInc = document.getElementById('listaInconsistencias');
+                ulInc.innerHTML = '';
+                data.inconsistencias.forEach(inc => {
+                    const li = document.createElement('li');
+                    li.innerText = inc;
+                    ulInc.appendChild(li);
+                });
+
+                const ulAcc = document.getElementById('listaAccionesAutocorreccion');
+                ulAcc.innerHTML = '';
+                data.acciones_aplicadas.forEach(acc => {
+                    const li = document.createElement('li');
+                    li.innerText = acc;
+                    ulAcc.appendChild(li);
+                });
             } catch (err) {
-                console.error(err);
+                console.error("Error en demo autocorreccion:", err);
             }
         }
 
-        function agregarBurbuja(contenido, tipo) {
-            const box = document.getElementById('chat-box');
-            const div = document.createElement('div');
-            div.className = `message-bubble ${tipo === 'user' ? 'bubble-user' : (tipo === 'autocorrect' ? 'bubble-autocorrect' : 'bubble-bot')}`;
-            div.innerHTML = contenido;
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
+        function actualizarValLabel(elemId, val) {
+            document.getElementById(elemId).innerText = val;
         }
     </script>
 </body>
