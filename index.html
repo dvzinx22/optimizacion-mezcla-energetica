@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OptiGrid Enterprise | Sistema de Optimización Energética Industrial</title>
+    <title>OptiGrid Enterprise | Sistema de Optimización y Gestión Energética Industrial</title>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -24,12 +24,6 @@
             --text-muted: #6e6e73;
             --text-dim: #48484a;
 
-            --apple-white: #ffffff;
-            --apple-silver: #d1d1d6;
-            --apple-slate: #8e8e93;
-            --apple-graphite: #3a3a3c;
-            --apple-dark: #1c1c1e;
-
             --radius-xl: 24px;
             --radius-lg: 16px;
             --radius-md: 12px;
@@ -37,7 +31,6 @@
 
             --blur-glass: blur(40px) saturate(180%);
             --shadow-glass: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            --shadow-subtle: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -78,16 +71,16 @@
             background: var(--bg-card-hover);
         }
 
-        /* --- LOGIN MODAL & OVERLAY --- */
-        .modal-overlay {
+        /* --- AUTHENTICATION MODAL (APPLE LIQUID GLASS) --- */
+        .auth-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.82);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(0, 0, 0, 0.86);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -96,32 +89,35 @@
             animation: fadeIn 0.25s ease;
         }
 
-        .login-card {
+        .auth-card {
             width: 100%;
-            max-width: 520px;
-            padding: 36px 32px;
+            max-width: 620px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 36px 34px;
             text-align: center;
+            position: relative;
         }
 
-        .login-logo {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             background: #ffffff;
-            margin: 0 auto 18px auto;
+            margin: 0 auto 16px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 18px rgba(255, 255, 255, 0.25);
         }
 
-        .login-logo svg {
-            width: 28px;
-            height: 28px;
+        .auth-logo svg {
+            width: 26px;
+            height: 26px;
             color: #000000;
         }
 
-        .login-card h2 {
+        .auth-card h2 {
             font-size: 1.45rem;
             font-weight: 600;
             color: #ffffff;
@@ -129,48 +125,40 @@
             margin-bottom: 6px;
         }
 
-        .login-card p {
+        .auth-card p {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-bottom: 24px;
+            margin-bottom: 22px;
             line-height: 1.45;
         }
 
-        .login-section-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius-md);
-            padding: 18px;
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
-        .login-section-box label {
-            display: block;
-            font-size: 0.76rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .login-divider {
+        .auth-tabs {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-dim);
-            font-size: 0.74rem;
-            margin: 16px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            gap: 8px;
+            margin-bottom: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 20px;
         }
 
-        .login-divider::before, .login-divider::after {
-            content: '';
+        .auth-tab-btn {
             flex: 1;
-            height: 1px;
-            background: var(--border-glass);
+            padding: 9px 14px;
+            border-radius: 16px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth-tab-btn.active {
+            background: #ffffff;
+            color: #000000;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
         }
 
         /* --- HEADER & TOP NAVIGATION --- */
@@ -178,11 +166,11 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.78);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-glass);
-            padding: 14px 28px;
+            padding: 12px 28px;
         }
 
         .header-content {
@@ -198,28 +186,28 @@
         .brand-section {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .brand-logo {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 12px rgba(255, 255, 255, 0.2);
         }
 
         .brand-logo svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             color: #000000;
         }
 
         .brand-titles h1 {
-            font-size: 1.15rem;
+            font-size: 1.12rem;
             font-weight: 600;
             letter-spacing: -0.02em;
             color: #ffffff;
@@ -229,13 +217,13 @@
         }
 
         .brand-titles p {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             color: var(--text-secondary);
             font-weight: 400;
         }
 
-        /* --- COMPANY SELECTOR (MULTI-EMPRESA) --- */
-        .company-selector-box {
+        /* --- ACTIVE ENTERPRISE BADGE --- */
+        .active-facility-badge {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -245,44 +233,33 @@
             border: 1px solid var(--border-glass);
         }
 
-        .company-selector-box label {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .active-facility-badge svg {
+            width: 16px;
+            height: 16px;
             color: var(--text-secondary);
+        }
+
+        .facility-info {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            text-align: left;
         }
 
-        .company-select {
-            background: rgba(0, 0, 0, 0.6);
+        .facility-name {
+            font-size: 0.84rem;
+            font-weight: 600;
             color: #ffffff;
-            border: 1px solid var(--border-glass-strong);
-            padding: 7px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            font-weight: 500;
-            outline: none;
-            cursor: pointer;
-            min-width: 260px;
-            transition: all 0.2s ease;
         }
 
-        .company-select:focus {
-            border-color: #ffffff;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-        }
-
-        .company-select option {
-            background: #111114;
-            color: #ffffff;
+        .facility-sector {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .badge-glass {
@@ -307,7 +284,7 @@
 
         /* --- TAB NAVIGATION (APPLE PILL STYLE) --- */
         .nav-tabs-wrapper {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             border-bottom: 1px solid var(--border-glass-subtle);
             padding: 8px 28px;
         }
@@ -342,8 +319,8 @@
         }
 
         .tab-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
         }
 
         .tab-btn:hover {
@@ -367,7 +344,7 @@
         main {
             max-width: 1480px;
             width: 100%;
-            margin: 24px auto;
+            margin: 22px auto;
             padding: 0 28px 48px 28px;
             flex: 1;
         }
@@ -386,9 +363,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- COMPANY HERO BANNER --- */
-        .company-hero {
-            padding: 22px 28px;
+        /* --- ENTERPRISE FACILITY HERO BANNER --- */
+        .facility-hero {
+            padding: 20px 26px;
             margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
@@ -398,24 +375,24 @@
             border-left: 3px solid #ffffff;
         }
 
-        .company-hero-info h2 {
-            font-size: 1.35rem;
+        .facility-hero-info h2 {
+            font-size: 1.30rem;
             font-weight: 600;
             color: #ffffff;
             letter-spacing: -0.02em;
             margin-bottom: 4px;
         }
 
-        .company-hero-info p {
-            font-size: 0.85rem;
+        .facility-hero-info p {
+            font-size: 0.84rem;
             color: var(--text-secondary);
-            max-width: 780px;
+            max-width: 800px;
             line-height: 1.45;
         }
 
-        .company-hero-badges {
+        .facility-hero-badges {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -424,7 +401,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 18px;
-            margin-bottom: 28px;
+            margin-bottom: 26px;
         }
 
         .stat-card {
@@ -440,7 +417,7 @@
         }
 
         .stat-title {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-secondary);
@@ -459,8 +436,8 @@
         }
 
         .stat-icon svg {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
         }
 
         .stat-value {
@@ -494,7 +471,7 @@
         }
 
         .panel-header {
-            padding: 20px 24px;
+            padding: 18px 24px;
             border-bottom: 1px solid var(--border-glass-subtle);
             display: flex;
             justify-content: space-between;
@@ -504,7 +481,7 @@
         }
 
         .panel-header h3 {
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             font-weight: 600;
             color: #ffffff;
             display: flex;
@@ -514,8 +491,8 @@
         }
 
         .panel-header h3 svg {
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
             color: var(--text-secondary);
         }
 
@@ -547,8 +524,8 @@
         }
 
         .btn-apple-primary svg {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             color: #000000;
         }
 
@@ -573,8 +550,8 @@
         }
 
         .btn-apple-secondary svg {
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
         }
 
         /* --- TABLES (APPLE MINIMALIST) --- */
@@ -586,7 +563,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
         }
 
         table.apple-table th {
@@ -624,11 +601,11 @@
             color: #ffffff;
         }
 
-        /* --- FORM CONTROLS & SLIDERS (APPLE LIQUID STYLE) --- */
+        /* --- FORM CONTROLS & SLIDERS --- */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 18px;
         }
 
         .form-group {
@@ -663,7 +640,6 @@
             border-radius: 3px;
             background: rgba(255, 255, 255, 0.15);
             outline: none;
-            transition: background 0.2s;
         }
 
         .apple-slider::-webkit-slider-thumb {
@@ -701,14 +677,14 @@
             justify-content: space-between;
             align-items: center;
             gap: 16px;
-            padding: 28px 16px;
+            padding: 24px 16px;
             overflow-x: auto;
         }
 
         .route-col {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             flex: 1;
             min-width: 210px;
         }
@@ -762,8 +738,8 @@
         }
 
         .arrow-connector svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
 
         /* --- AI REPORT CARD --- */
@@ -776,7 +752,7 @@
         }
 
         .ai-report-box h4 {
-            font-size: 1.1rem;
+            font-size: 1.08rem;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 12px;
@@ -789,7 +765,7 @@
             font-size: 0.88rem;
             color: #d1d1d6;
             line-height: 1.6;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .ai-rec-list {
@@ -849,20 +825,6 @@
             font-weight: 500;
         }
 
-        .autocorrect-box {
-            margin-top: 10px;
-            padding: 12px 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-sm);
-            font-size: 0.82rem;
-        }
-
-        .autocorrect-box ul {
-            padding-left: 18px;
-            margin-top: 6px;
-        }
-
         .copilot-input-row {
             display: flex;
             gap: 10px;
@@ -910,8 +872,8 @@
 
         /* --- SPINNER --- */
         .spinner {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             border: 2px solid rgba(0, 0, 0, 0.2);
             border-top-color: #000000;
             border-radius: 50%;
@@ -934,45 +896,136 @@
 </head>
 <body>
 
-    <!-- ==================== LOGIN MODAL (APPLE LIQUID GLASS) ==================== -->
-    <div id="modalLogin" class="modal-overlay" style="display:flex;">
-        <div class="glass-panel login-card">
-            <div class="login-logo">
+    <!-- ==================== CORPORATE AUTHENTICATION PORTAL ==================== -->
+    <div id="modalAuth" class="auth-overlay" style="display:flex;">
+        <div class="glass-panel auth-card">
+            <div class="auth-logo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
             </div>
             <h2>OptiGrid Enterprise</h2>
-            <p>Acceso Corporativo & Plataforma de Optimización Energética e Inteligencia Artificial</p>
+            <p>Plataforma de Optimización Prescriptiva y Despacho Energético Industrial</p>
 
-            <!-- ACCESO DIRECTO A EMPRESAS REGISTRADAS -->
-            <div class="login-section-box">
-                <label for="selectLoginEmpresa">Seleccionar Empresa o Caso de Prueba:</label>
-                <select id="selectLoginEmpresa" class="company-select" style="width:100%; margin-bottom:12px;">
-                    <option value="ejercicio1" selected>Planta Electro-intensiva (Caso Benchmark - Ejercicio 1)</option>
-                    <option value="cementera">Cementera del Caribe S.A. (Procesamiento Continuo)</option>
-                    <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Hornos de Arco)</option>
-                    <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
-                </select>
-                <button class="btn-apple-primary" style="width:100%; justify-content:center;" onclick="iniciarSesionEmpresaExistente()">
-                    Ingresar al Tablero de Control
+            <!-- TABS DEL PORTAL DE ACCESO -->
+            <div class="auth-tabs">
+                <button id="btnTabLogin" class="auth-tab-btn active" onclick="cambiarAuthTab('login')">
+                    Acceso Corporativo
+                </button>
+                <button id="btnTabRegistro" class="auth-tab-btn" onclick="cambiarAuthTab('registro')">
+                    Registrar Nueva Empresa
                 </button>
             </div>
 
-            <div class="login-divider">O también</div>
+            <!-- VISTA 1: INICIAR SESIÓN CON CUENTA EXISTENTE -->
+            <div id="vistaAuthLogin" style="text-align:left;">
+                <div class="glass-panel" style="padding:18px; margin-bottom:18px;">
+                    <label style="display:block; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary); margin-bottom:8px; font-weight:500;">
+                        Seleccionar Cuenta o Planta Industrial:
+                    </label>
+                    <select id="selectAuthEmpresa" class="apple-input" style="margin-bottom:14px; font-weight:500;">
+                        <option value="ejercicio1" selected>Planta Electro-intensiva (Caso Benchmark - Ejercicio 1 Uniguajira)</option>
+                        <option value="cementera">Cementera del Caribe S.A. (Materiales de Construcción)</option>
+                        <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Siderurgia)</option>
+                        <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
+                    </select>
+                    <button class="btn-apple-primary" style="width:100%; justify-content:center; padding:11px;" onclick="iniciarSesionEmpresa()">
+                        Ingresar a Mi Planta Industrial
+                    </button>
+                </div>
+                <div style="font-size:0.78rem; color:var(--text-secondary); text-align:center;">
+                    Universidad de La Guajira | Facultad de Ingeniería | Asignatura de Investigación de Operaciones + IA
+                </div>
+            </div>
 
-            <!-- REGISTRAR NUEVA EMPRESA -->
-            <button class="btn-apple-secondary" style="width:100%; justify-content:center; padding: 12px 20px;" onclick="abrirRegistroNuevaEmpresa()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                Registrar y Configurar Nueva Empresa
-            </button>
+            <!-- VISTA 2: REGISTRO DE NUEVA EMPRESA INDUSTRIAL -->
+            <div id="vistaAuthRegistro" style="display:none; text-align:left;">
+                <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:16px;">
+                    Complete el perfil técnico y operativo de su instalación industrial para ejecutar la optimización de suministro en tiempo real.
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:20px;">
+                    <div class="glass-panel" style="padding:16px;">
+                        <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; font-weight:600; display:block; margin-bottom:10px;">
+                            1. Datos Generales de la Empresa
+                        </span>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Razón Social</label>
+                                <input type="text" class="apple-input" id="regNombre" value="Industrias del Sinú S.A.S." placeholder="Nombre de la empresa">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sector Industrial</label>
+                                <input type="text" class="apple-input" id="regSector" value="Agroindustria & Alimentos" placeholder="Sector productivo">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ciudad / Región</label>
+                                <input type="text" class="apple-input" id="regCiudad" value="Montería, Córdoba" placeholder="Ubicación">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel" style="padding:16px;">
+                        <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; font-weight:600; display:block; margin-bottom:10px;">
+                            2. Demanda por Bloque (MWh/mes)
+                        </span>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Pico - t1 (18:00 - 22:00)</label>
+                                <input type="number" class="apple-input" id="regDemandaT1" value="1400" min="100">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Medio - t2 (08:00 - 18:00)</label>
+                                <input type="number" class="apple-input" id="regDemandaT2" value="2000" min="100">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Valle - t3 (22:00 - 08:00)</label>
+                                <input type="number" class="apple-input" id="regDemandaT3" value="1600" min="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel" style="padding:16px;">
+                        <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; font-weight:600; display:block; margin-bottom:10px;">
+                            3. Metas Ambientales y Capacidades
+                        </span>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Límite CO2 (t/mes)</label>
+                                <input type="number" class="apple-input" id="regLimiteCO2" value="1150" min="200">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cuota Renovable (%)</label>
+                                <input type="number" class="apple-input" id="regCuotaRen" value="35" min="5" max="80">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Solar en Sitio (MWh)</label>
+                                <input type="number" class="apple-input" id="regCapSolar" value="1200" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Eólica Contratada (MWh)</label>
+                                <input type="number" class="apple-input" id="regCapEolica" value="500" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cogeneración Gas (MWh)</label>
+                                <input type="number" class="apple-input" id="regCapGas" value="900" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tarifa Red Pico ($/MWh)</label>
+                                <input type="number" class="apple-input" id="regTarifaRedT1" value="114">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btnRegistrarSubmit" class="btn-apple-primary" style="width:100%; justify-content:center; padding:12px;" onclick="registrarYOptimizarNuevaEmpresa()">
+                    Registrar Cuenta y Optimizar Portafolio
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- ==================== HEADER PRINCIPAL ==================== -->
     <header>
         <div class="header-content">
             <div class="brand-section">
@@ -983,38 +1036,34 @@
                 </div>
                 <div class="brand-titles">
                     <h1>OPTIGRID ENTERPRISE</h1>
-                    <p>Optimización Prescriptiva, Machine Learning y Asistente Virtual para Industrias</p>
+                    <p>Optimización Prescriptiva y Despacho Energético Industrial</p>
                 </div>
             </div>
 
-            <!-- SELECTOR MULTI-EMPRESA -->
-            <div class="company-selector-box">
-                <label for="companySelect">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 21h18M3 7v14M21 7v14M9 3h6v4H9zM9 11h2v2H9zm4 0h2v2h-2zm-4 4h2v2H9zm4 0h2v2h-2z"/>
-                    </svg>
-                    Empresa Activa:
-                </label>
-                <select id="companySelect" class="company-select" onchange="cambiarEmpresa(this.value)">
-                    <option value="ejercicio1" selected>Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)</option>
-                    <option value="cementera">Cementera del Caribe S.A. (Procesamiento Continuo)</option>
-                    <option value="siderurgica">Metalúrgica & Siderúrgica del Norte (Hornos de Arco)</option>
-                    <option value="frigorificos">Agroindustria & Frigoríficos del Valle (Cadena de Frío)</option>
-                </select>
+            <!-- PERFIL DE EMPRESA ACTIVA EN SESIÓN -->
+            <div class="active-facility-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M3 7v14M21 7v14M9 3h6v4H9zM9 11h2v2H9zm4 0h2v2h-2zm-4 4h2v2H9zm4 0h2v2h-2z"/>
+                </svg>
+                <div class="facility-info">
+                    <span class="facility-name" id="headerNombreEmpresa">Planta Industrial Electro-intensiva (Caso Benchmark)</span>
+                    <span class="facility-sector" id="headerSectorEmpresa">Sector: Manufactura Pesada</span>
+                </div>
             </div>
 
             <div class="header-actions">
-                <button class="btn-apple-secondary" style="font-size:0.78rem; padding: 6px 14px;" onclick="document.getElementById('modalLogin').style.display='flex'">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    Cambiar Empresa / Login
-                </button>
                 <span class="badge-glass">
                     <span class="badge-dot"></span>
                     CBC Solver: <strong id="headerSolverTime" style="margin-left:4px; color:#ffffff;">&lt; 15 ms</strong>
                 </span>
+                <button class="btn-apple-secondary" style="font-size:0.78rem; padding: 6px 14px;" onclick="abrirPortalAuth()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Cerrar Sesión / Salir
+                </button>
             </div>
         </div>
     </header>
@@ -1031,12 +1080,6 @@
                 </svg>
                 Tablero Ejecutivo
             </button>
-            <button class="tab-btn" onclick="switchTab('nueva_empresa', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 5v14M5 12h14"></path>
-                </svg>
-                Registrar & Optimizar Nueva Empresa
-            </button>
             <button class="tab-btn" onclick="switchTab('rutas', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="6" cy="19" r="3"></circle>
@@ -1044,6 +1087,12 @@
                     <circle cx="18" cy="5" r="3"></circle>
                 </svg>
                 Rutas y Red de Abastecimiento
+            </button>
+            <button class="tab-btn" onclick="switchTab('ml', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+                Machine Learning en Tiempo Real
             </button>
             <button class="tab-btn" onclick="switchTab('optimizador', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1059,12 +1108,6 @@
                 </svg>
                 Optimizador Prescriptivo
             </button>
-            <button class="tab-btn" onclick="switchTab('ml', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-                </svg>
-                Machine Learning en Tiempo Real
-            </button>
             <button class="tab-btn" onclick="switchTab('tradeoff', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -1077,7 +1120,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
-                AI Copilot & Autocorrección
+                OptiGrid Copilot
             </button>
             <button class="tab-btn" onclick="switchTab('equipo', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1094,31 +1137,31 @@
     <!-- ==================== MAIN CONTENT ==================== -->
     <main>
 
-        <!-- HERO INFO DE LA EMPRESA ACTIVA -->
-        <div class="glass-panel company-hero">
-            <div class="company-hero-info">
+        <!-- BANNER DE LA EMPRESA ACTIVA -->
+        <div class="glass-panel facility-hero">
+            <div class="facility-hero-info">
                 <h2 id="heroNombreEmpresa">Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)</h2>
-                <p id="heroDescripcionEmpresa">Instalación de manufactura electro-intensiva bajo esquema tarifario multi-bloque con metas de descarbonización regulatorias.</p>
+                <p id="heroDescripcionEmpresa">Instalación industrial bajo esquema tarifario multi-bloque con metas de descarbonización y optimización prescriptiva continua.</p>
             </div>
-            <div class="company-hero-badges">
+            <div class="facility-hero-badges">
                 <span class="pill-badge" id="heroSector">Sector: Manufactura Pesada</span>
                 <span class="pill-badge" id="heroDemandaTotal">Demanda: 5,000 MWh/mes</span>
                 <span class="pill-badge" id="heroLimiteCO2">Límite CO2: 1,200 t</span>
             </div>
         </div>
 
-        <!-- INFORME GENERADO POR EL ASISTENTE VIRTUAL PARA LA EMPRESA ACTIVA -->
+        <!-- INFORME DE INTELIGENCIA DE LA EMPRESA (SI ESTÁ DISPONIBLE) -->
         <div id="boxInformeIA" class="glass-panel ai-report-box" style="display:none;">
             <h4>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
-                Informe Ejecutivo del Asistente Virtual (OptiGrid Copilot)
+                Informe Ejecutivo de Despacho & Sostenibilidad
             </h4>
             <p id="txtInformeResumen"></p>
             <p id="txtInformeAmbiental"></p>
             <p id="txtInformeMarginal"></p>
-            <strong style="color:#ffffff; font-size:0.86rem;">Recomendaciones Prescriptivas para la Dirección de Operaciones:</strong>
+            <strong style="color:#ffffff; font-size:0.86rem;">Recomendaciones Prescriptivas para la Dirección de Planta:</strong>
             <ul class="ai-rec-list" id="listaInformeRecs"></ul>
         </div>
 
@@ -1128,7 +1171,7 @@
             <div class="stats-grid">
                 <div class="glass-panel stat-card">
                     <div class="stat-card-header">
-                        <span class="stat-title">Costo Total Óptimo</span>
+                        <span class="stat-title">Costo Total de Suministro</span>
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -1145,7 +1188,7 @@
 
                 <div class="glass-panel stat-card">
                     <div class="stat-card-header">
-                        <span class="stat-title">Emisiones Totales CO2</span>
+                        <span class="stat-title">Emisiones Totales de CO2</span>
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
@@ -1172,7 +1215,7 @@
                     </div>
                     <div class="stat-value" id="kpiRenovablePct">62.0%</div>
                     <div class="stat-meta">
-                        <span>Generación limpia:</span>
+                        <span>Volumen limpio:</span>
                         <strong id="kpiRenovableMWh" style="color: #ffffff;">3,100 MWh (Solar + Eólica)</strong>
                     </div>
                 </div>
@@ -1206,7 +1249,7 @@
                             </svg>
                             Despacho Energético por Bloque Tarifario (MWh)
                         </h3>
-                        <span class="pill-badge" id="badgeDemandaStatus">Demanda 100% Satisfecha</span>
+                        <span class="pill-badge" id="badgeDemandaStatus">Balance de Carga 100% Cumplido</span>
                     </div>
                     <div class="panel-body">
                         <canvas id="chartDespachoBloques" height="140"></canvas>
@@ -1231,152 +1274,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 2: REGISTRAR Y OPTIMIZAR NUEVA EMPRESA ==================== -->
-        <section id="nueva_empresa" class="tab-content">
-            <div class="glass-panel" style="margin-bottom: 24px;">
-                <div class="panel-header">
-                    <h3>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <line x1="20" y1="8" x2="20" y2="14"></line>
-                            <line x1="23" y1="11" x2="17" y2="11"></line>
-                        </svg>
-                        Portal de Registro y Optimización para Nueva Empresa
-                    </h3>
-                    <span class="pill-badge">Integración ML + Solver CBC + Asistente Virtual</span>
-                </div>
-                <div class="panel-body">
-                    <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom: 24px; line-height:1.5;">
-                        Ingrese los parámetros operativos de su empresa. Al hacer clic en <strong>"Optimizar con Machine Learning & Asistente Virtual"</strong>, el sistema proyectará las curvas renovables en tiempo real, calculará la asignación óptima de mínimo costo en PuLP y generará un informe gerencial personalizado con gráficos completos.
-                    </p>
-
-                    <!-- GRUPOS DE CAMPOS -->
-                    <div style="display:flex; flex-direction:column; gap:24px;">
-                        
-                        <!-- SECCIÓN 1: DATOS CORPORATIVOS -->
-                        <div class="glass-panel" style="padding:20px;">
-                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">1. Información General de la Empresa</h4>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Nombre Comercial de la Empresa</label>
-                                    <input type="text" class="apple-input" id="newNombre" value="BioAgro Andina S.A.S." placeholder="Ej: Acerías del Caribe S.A.">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Sector Industrial</label>
-                                    <input type="text" class="apple-input" id="newSector" value="Agroindustria & Procesamiento de Alimentos" placeholder="Ej: Minería, Siderurgia, Cemento...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Ubicación / Ciudad</label>
-                                    <input type="text" class="apple-input" id="newCiudad" value="Cali, Valle del Cauca" placeholder="Ej: Barranquilla, Riohacha, Medellín...">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECCIÓN 2: DEMANDA ELÉCTRICA -->
-                        <div class="glass-panel" style="padding:20px;">
-                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">2. Demanda Eléctrica por Bloque Tarifario (MWh/mes)</h4>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Demanda en Bloque 1 - Pico (18:00 - 22:00 hrs)</label>
-                                    <input type="number" class="apple-input" id="newDemandaT1" value="1500" min="100" max="10000" step="50">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Demanda en Bloque 2 - Medio (08:00 - 18:00 hrs)</label>
-                                    <input type="number" class="apple-input" id="newDemandaT2" value="2100" min="100" max="10000" step="50">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Demanda en Bloque 3 - Valle (22:00 - 08:00 hrs)</label>
-                                    <input type="number" class="apple-input" id="newDemandaT3" value="1400" min="100" max="10000" step="50">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECCIÓN 3: METAS AMBIENTALES -->
-                        <div class="glass-panel" style="padding:20px;">
-                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">3. Metas Ambientales y de Sostenibilidad</h4>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Límite Máximo de Emisiones de CO2 (Toneladas/mes)</label>
-                                    <input type="number" class="apple-input" id="newLimiteCO2" value="1150" min="200" max="8000" step="25">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Cuota Mínima Obligatoria Renovable (%)</label>
-                                    <input type="number" class="apple-input" id="newCuotaRenovable" value="35" min="5" max="80" step="1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECCIÓN 4: FUENTES Y CAPACIDADES INSTALADAS -->
-                        <div class="glass-panel" style="padding:20px;">
-                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">4. Capacidades Instaladas y Contratos de Suministro</h4>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Capacidad Solar en Sitio Instalada (MWh pico)</label>
-                                    <input type="number" class="apple-input" id="newCapSolar" value="1300" min="0" max="5000" step="50">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Capacidad Eólica Contratada (MWh)</label>
-                                    <input type="number" class="apple-input" id="newCapEolica" value="550" min="0" max="5000" step="50">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Capacidad Cogeneración a Gas (MWh)</label>
-                                    <input type="number" class="apple-input" id="newCapGas" value="900" min="0" max="5000" step="50">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Tarifa Red en Pico ($/MWh)</label>
-                                    <input type="number" class="apple-input" id="newTarifaRedT1" value="114" step="1">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Tarifa Red en Medio ($/MWh)</label>
-                                    <input type="number" class="apple-input" id="newTarifaRedT2" value="86" step="1">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Tarifa Red en Valle ($/MWh)</label>
-                                    <input type="number" class="apple-input" id="newTarifaRedT3" value="60" step="1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECCIÓN 5: METEOROLOGÍA LOCAL -->
-                        <div class="glass-panel" style="padding:20px;">
-                            <h4 style="font-size:0.95rem; font-weight:600; color:#ffffff; margin-bottom:16px;">5. Condiciones Meteorológicas Locales (Para Machine Learning)</h4>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Radiación Solar Promedio Diurna (W/m²)</label>
-                                    <input type="number" class="apple-input" id="newRad" value="860" min="200" max="1100" step="10">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Velocidad Típica del Viento (m/s)</label>
-                                    <input type="number" class="apple-input" id="newViento" value="7.8" min="1" max="20" step="0.5">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Temperatura Ambiente Promedio (°C)</label>
-                                    <input type="number" class="apple-input" id="newTemp" value="31" min="15" max="45" step="1">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Nubosidad Típica (%)</label>
-                                    <input type="number" class="apple-input" id="newNubes" value="18" min="0" max="100" step="5">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- BOTÓN DE ACCIÓN CENTRAL -->
-                        <div style="text-align:center; padding: 12px 0;">
-                            <button id="btnRegistrarYOptimizar" class="btn-apple-primary" style="padding: 14px 34px; font-size: 0.95rem;" onclick="ejecutarRegistroYOptimizacionCompleta()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                                </svg>
-                                Optimizar con Machine Learning & Asistente Virtual
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 3: RUTAS Y RED DE ABASTECIMIENTO ==================== -->
+        <!-- ==================== TAB 2: RUTAS Y RED DE ABASTECIMIENTO ==================== -->
         <section id="rutas" class="tab-content">
             <div class="glass-panel" style="margin-bottom: 24px;">
                 <div class="panel-header">
@@ -1388,28 +1286,18 @@
                         </svg>
                         Topología de Rutas de Suministro y Nodos de Transmisión
                     </h3>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn-apple-secondary" onclick="simularContingencia('red_stn')">
-                            Simular Falla Red STN
-                        </button>
-                        <button class="btn-apple-secondary" onclick="simularContingencia('eolica')">
-                            Simular Parada Eólica
-                        </button>
-                        <button class="btn-apple-primary" onclick="restaurarRutas()">
-                            Restaurar Rutas Base
-                        </button>
-                    </div>
+                    <span class="pill-badge">Flujo Físico y Contractual</span>
                 </div>
                 <div class="panel-body">
                     <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 20px;">
-                        El sistema modela el enrutamiento físico y económico desde cada punto de generación hacia la subestación receptora de la planta industrial, contabilizando pérdidas técnicas de transmisión y peajes de transporte por bloque horario.
+                        Modelado de la logística de transmisión desde los centros de generación hacia la subestación receptora de la planta, contabilizando peajes por uso de red (STN/STR) y pérdidas técnicas de transporte por bloque horario.
                     </p>
 
                     <!-- DIAGRAMA VISUAL DE RUTAS LIQUID GLASS -->
                     <div class="routing-diagram-container">
                         <!-- COL 1: FUENTES DE ORIGEN -->
                         <div class="route-col">
-                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Nodos de Origen (Fuentes)</div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Nodos de Generación</div>
                             <div class="route-node active-flow" id="node-e1">
                                 <div class="node-header">
                                     <span class="node-title">Red STN / STR</span>
@@ -1453,7 +1341,7 @@
 
                         <!-- COL 2: BLOQUES TARIFARIOS / HORARIOS -->
                         <div class="route-col">
-                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Bloques de Despacho</div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Bloques Horarios</div>
                             <div class="route-node active-flow" id="node-t1">
                                 <div class="node-header">
                                     <span class="node-title">Bloque 1 (Pico)</span>
@@ -1489,7 +1377,7 @@
 
                         <!-- COL 3: NODO INDUSTRIAL DESTINO -->
                         <div class="route-col">
-                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Centro de Carga / Planta</div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em; margin-bottom:4px;">Centro de Carga</div>
                             <div class="route-node active-flow" style="height: 100%; display:flex; flex-direction:column; justify-content:center;">
                                 <div class="node-header">
                                     <span class="node-title" id="nodePlantaDestino">Planta Industrial</span>
@@ -1520,7 +1408,7 @@
                         </svg>
                         Desglose Económico de Rutas de Abastecimiento Activas
                     </h3>
-                    <span class="pill-badge" id="badgeTotalRutas">8 Rutas Asignadas</span>
+                    <span class="pill-badge" id="badgeTotalRutas">Rutas Asignadas</span>
                 </div>
                 <div class="panel-body table-responsive">
                     <table class="apple-table" id="tablaRutasSuministro">
@@ -1546,6 +1434,130 @@
             </div>
         </section>
 
+        <!-- ==================== TAB 3: MACHINE LEARNING EN TIEMPO REAL ==================== -->
+        <section id="ml" class="tab-content">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                        </svg>
+                        Inferencia y Predicción Meteorológica en Tiempo Real
+                    </h3>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-apple-primary" id="btnEjecutarML" onclick="ejecutarPrediccionMLEnTiempoReal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Ejecutar Inferencia en Tiempo Real
+                        </button>
+                        <button class="btn-apple-secondary" onclick="aplicarPrediccionAOptimizador()">
+                            Calibrar Cotas de Planta
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 22px;">
+                        El motor predictivo ejecuta en vivo un ensemble <strong>Random Forest Regressor</strong> de Scikit-Learn calibrado con 4,320 registros meteorológicos horarios. Proyecta la generación solar y eólica para alimentar directamente las cotas del optimizador prescriptivo.
+                    </p>
+
+                    <!-- CONTROLES METEOROLOGICOS -->
+                    <div class="form-grid" style="margin-bottom: 24px;">
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Hora del Día (0 - 23 hrs)</label>
+                                <span class="form-val-badge" id="valHoraML">12:00</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderHoraML" min="0" max="23" step="1" value="12" oninput="actualizarValLabel('valHoraML', this.value.padStart(2, '0') + ':00')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Radiación Solar Directa (W/m²)</label>
+                                <span class="form-val-badge" id="valRadML">850 W/m²</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderRadML" min="0" max="1100" step="25" value="850" oninput="actualizarValLabel('valRadML', this.value + ' W/m²')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Velocidad del Viento (m/s)</label>
+                                <span class="form-val-badge" id="valVientoML">8.5 m/s</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderVientoML" min="1.0" max="18.0" step="0.5" value="8.5" oninput="actualizarValLabel('valVientoML', this.value + ' m/s')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Cobertura de Nubosidad (%)</label>
+                                <span class="form-val-badge" id="valNubesML">20%</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderNubesML" min="0" max="100" step="5" value="20" oninput="actualizarValLabel('valNubesML', this.value + '%')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Temperatura Ambiente (°C)</label>
+                                <span class="form-val-badge" id="valTempML">32°C</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderTempML" min="15" max="45" step="1" value="32" oninput="actualizarValLabel('valTempML', this.value + '°C')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">
+                                <label class="form-label">Capacidad Solar Instalada (MWh)</label>
+                                <span class="form-val-badge" id="valCapSolarInstalada">1,000</span>
+                            </div>
+                            <input type="range" class="apple-slider" id="sliderCapSolarInstalada" min="200" max="3000" step="50" value="1000" oninput="actualizarValLabel('valCapSolarInstalada', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- METRICAS DE LA PREDICCION -->
+                    <div class="stats-grid" style="margin-bottom: 24px;">
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Tiempo de Inferencia ML</div>
+                            <div class="stat-value" id="kpiMLTiempoInferencia">12.4 ms</div>
+                            <div class="stat-meta">Inferencia en tiempo real</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Potencia Solar Estimada</div>
+                            <div class="stat-value" id="kpiMLSolar">807.5 MWh</div>
+                            <div class="stat-meta">Rendimiento fotovoltaico instantáneo</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Potencia Eólica Estimada</div>
+                            <div class="stat-value" id="kpiMLEolica">342.1 MWh</div>
+                            <div class="stat-meta">Régimen anemométrico regional</div>
+                        </div>
+
+                        <div class="glass-panel stat-card">
+                            <div class="stat-title">Precisión Estadística (R²)</div>
+                            <div class="stat-value" id="kpiMLPrecision">0.9964</div>
+                            <div class="stat-meta">RMSE: 0.0182 | MAE: 0.0121</div>
+                        </div>
+                    </div>
+
+                    <!-- GRAFICA 24 HORAS -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                Proyección Horaria en Vivo (24 Horas)
+                            </h3>
+                            <span class="pill-badge">Random Forest Ensemble</span>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="chartCurva24hML" height="120"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ==================== TAB 4: OPTIMIZADOR PRESCRIPTIVO ==================== -->
         <section id="optimizador" class="tab-content">
             <div class="dashboard-grid-2">
@@ -1563,7 +1575,7 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
                             </svg>
-                            Ejecutar Simplex / CBC en Tiempo Real
+                            Resolver Modelo CBC
                         </button>
                     </div>
                     <div class="panel-body">
@@ -1682,131 +1694,7 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 5: MACHINE LEARNING EN TIEMPO REAL ==================== -->
-        <section id="ml" class="tab-content">
-            <div class="glass-panel" style="margin-bottom: 24px;">
-                <div class="panel-header">
-                    <h3>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-                        </svg>
-                        Inferencia y Predicción Meteorológica en Tiempo Real
-                    </h3>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn-apple-primary" id="btnEjecutarML" onclick="ejecutarPrediccionMLEnTiempoReal()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            Ejecutar Predicción en Tiempo Real
-                        </button>
-                        <button class="btn-apple-secondary" onclick="aplicarPrediccionAOptimizador()">
-                            Inyectar al Optimizador
-                        </button>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 22px;">
-                        Al hacer clic en el botón superior, el motor ejecuta en el backend un modelo predictivo <strong>Random Forest Regressor</strong> de Scikit-Learn calibrado con 4,320 observaciones horarias. Proyecta la potencia solar y eólica en milisegundos para actualizar la frontera técnica de suministro de la empresa.
-                    </p>
-
-                    <!-- CONTROLES METEOROLOGICOS -->
-                    <div class="form-grid" style="margin-bottom: 24px;">
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Hora del Día (0 - 23 hrs)</label>
-                                <span class="form-val-badge" id="valHoraML">12:00</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderHoraML" min="0" max="23" step="1" value="12" oninput="actualizarValLabel('valHoraML', this.value.padStart(2, '0') + ':00')">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Radiación Solar Directa (W/m²)</label>
-                                <span class="form-val-badge" id="valRadML">850 W/m²</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderRadML" min="0" max="1100" step="25" value="850" oninput="actualizarValLabel('valRadML', this.value + ' W/m²')">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Velocidad del Viento (m/s)</label>
-                                <span class="form-val-badge" id="valVientoML">8.5 m/s</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderVientoML" min="1.0" max="18.0" step="0.5" value="8.5" oninput="actualizarValLabel('valVientoML', this.value + ' m/s')">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Cobertura de Nubosidad (%)</label>
-                                <span class="form-val-badge" id="valNubesML">20%</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderNubesML" min="0" max="100" step="5" value="20" oninput="actualizarValLabel('valNubesML', this.value + '%')">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Temperatura Ambiente (°C)</label>
-                                <span class="form-val-badge" id="valTempML">32°C</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderTempML" min="15" max="45" step="1" value="32" oninput="actualizarValLabel('valTempML', this.value + '°C')">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-label-row">
-                                <label class="form-label">Capacidad Solar Instalada (MWh)</label>
-                                <span class="form-val-badge" id="valCapSolarInstalada">1,000</span>
-                            </div>
-                            <input type="range" class="apple-slider" id="sliderCapSolarInstalada" min="200" max="3000" step="50" value="1000" oninput="actualizarValLabel('valCapSolarInstalada', this.value)">
-                        </div>
-                    </div>
-
-                    <!-- METRICAS DE LA PREDICCION -->
-                    <div class="stats-grid" style="margin-bottom: 24px;">
-                        <div class="glass-panel stat-card">
-                            <div class="stat-title">Tiempo de Inferencia ML</div>
-                            <div class="stat-value" id="kpiMLTiempoInferencia">12.4 ms</div>
-                            <div class="stat-meta">Inferencia en tiempo real</div>
-                        </div>
-
-                        <div class="glass-panel stat-card">
-                            <div class="stat-title">Potencia Solar Estimada</div>
-                            <div class="stat-value" id="kpiMLSolar">807.5 MWh</div>
-                            <div class="stat-meta">Rendimiento fotovoltaico instantáneo</div>
-                        </div>
-
-                        <div class="glass-panel stat-card">
-                            <div class="stat-title">Potencia Eólica Estimada</div>
-                            <div class="stat-value" id="kpiMLEolica">342.1 MWh</div>
-                            <div class="stat-meta">Régimen anemométrico regional</div>
-                        </div>
-
-                        <div class="glass-panel stat-card">
-                            <div class="stat-title">Precisión Estadística (R²)</div>
-                            <div class="stat-value" id="kpiMLPrecision">0.9964</div>
-                            <div class="stat-meta">RMSE: 0.0182 | MAE: 0.0121</div>
-                        </div>
-                    </div>
-
-                    <!-- GRAFICA 24 HORAS -->
-                    <div class="glass-panel">
-                        <div class="panel-header">
-                            <h3>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                                </svg>
-                                Proyección Horaria en Vivo (24 Horas)
-                            </h3>
-                            <span class="pill-badge">Random Forest Ensemble</span>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="chartCurva24hML" height="120"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 6: CURVA TRADE-OFF ==================== -->
+        <!-- ==================== TAB 5: CURVA TRADE-OFF ==================== -->
         <section id="tradeoff" class="tab-content">
             <div class="glass-panel">
                 <div class="panel-header">
@@ -1818,7 +1706,7 @@
                         </svg>
                         Frontera de Pareto: Costo Total ($ USD) vs. Límite de Emisiones (t CO2)
                     </h3>
-                    <span class="pill-badge">Análisis de Sensibilidad Paramétrica</span>
+                    <span class="pill-badge">Análisis Paramétrico Multiobjetivo</span>
                 </div>
                 <div class="panel-body">
                     <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 20px;">
@@ -1829,70 +1717,37 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 7: COPILOT & AUTOCORRECCIÓN ==================== -->
+        <!-- ==================== TAB 6: COPILOT & CONSULTOR VIRTUAL ==================== -->
         <section id="copilot" class="tab-content">
-            <div class="dashboard-grid-2">
-                <div class="glass-panel">
-                    <div class="panel-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            OptiGrid Copilot: Asistente Analítico Integrado
-                        </h3>
-                        <span class="pill-badge">AI Assistant</span>
-                    </div>
-                    <div class="panel-body">
-                        <div class="copilot-container">
-                            <div class="copilot-messages" id="copilotMsgList">
-                                <div class="msg-bubble msg-assistant">
-                                    Bienvenido a <strong>OptiGrid Copilot</strong>. Estoy sincronizado con el modelo matemático de la empresa activa. Puede consultarme sobre el porqué de una decisión de despacho, los costos reducidos de la red o ejecutar la auditoría de <strong>Autocorrección Preventiva</strong>.
-                                </div>
-                            </div>
-                            <div class="copilot-input-row">
-                                <input type="text" class="apple-input" id="copilotInput" placeholder="Ej: ¿Por qué no compramos red tradicional en el bloque pico?" style="flex:1;" onkeypress="if(event.key==='Enter') enviarConsultaCopilot()">
-                                <button class="btn-apple-primary" onclick="enviarConsultaCopilot()">
-                                    Enviar
-                                </button>
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        OptiGrid Copilot: Consultor Energético de Planta
+                    </h3>
+                    <span class="pill-badge">Asistente Analítico Activo</span>
+                </div>
+                <div class="panel-body">
+                    <div class="copilot-container">
+                        <div class="copilot-messages" id="copilotMsgList">
+                            <div class="msg-bubble msg-assistant">
+                                Bienvenido al entorno de <strong>OptiGrid Copilot</strong>. Estoy sincronizado con los balances energéticos de la planta en sesión. Puede consultarme sobre el porqué de una decisión de despacho, los costos reducidos de la red o la estrategia óptima de desplazamiento de cargas hacia el bloque valle.
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel">
-                    <div class="panel-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                            Motor de Autocorrección Preventiva
-                        </h3>
-                        <span class="pill-badge">Demostración en Vivo</span>
-                    </div>
-                    <div class="panel-body">
-                        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom: 16px;">
-                            Requerimiento solicitado para la sustentación: Simula un escenario donde el operador ingresa parámetros contradictorios o físicamente imposibles. La IA detecta las fallas, las aísla y autocorrige el sistema antes de transferir las cotas al solver.
-                        </p>
-                        <button class="btn-apple-primary" style="width: 100%; justify-content: center; margin-bottom: 18px;" onclick="ejecutarDemoAutocorreccion()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                            Ejecutar Prueba de Autocorrección ante el Jurado
-                        </button>
-
-                        <div id="boxResultadoAutocorreccion" style="display:none;" class="autocorrect-box">
-                            <strong style="color:#ffffff;">Resultado de la Auditoría Preventiva:</strong>
-                            <div id="txtDiagnosticoAutocorreccion" style="color:var(--text-secondary); margin-top:4px;"></div>
-                            <ul id="listaInconsistencias" style="color:#ffffff; margin: 8px 0 8px 18px;"></ul>
-                            <strong style="color:#ffffff;">Acciones Aplicadas Automáticamente:</strong>
-                            <ul id="listaAccionesAutocorreccion" style="color:var(--text-secondary); margin: 6px 0 0 18px;"></ul>
+                        <div class="copilot-input-row">
+                            <input type="text" class="apple-input" id="copilotInput" placeholder="Ej: ¿Por qué la red tradicional permanece apagada durante el bloque pico?" style="flex:1;" onkeypress="if(event.key==='Enter') enviarConsultaCopilot()">
+                            <button class="btn-apple-primary" onclick="enviarConsultaCopilot()">
+                                Consultar
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== TAB 8: EQUIPO UNIGUAJIRA ==================== -->
+        <!-- ==================== TAB 7: EQUIPO UNIGUAJIRA ==================== -->
         <section id="equipo" class="tab-content">
             <div class="glass-panel" style="margin-bottom: 24px;">
                 <div class="panel-header">
@@ -1985,7 +1840,7 @@
 
     <!-- ==================== FOOTER ==================== -->
     <footer>
-        <p>OPTIGRID ENTERPRISE &copy; 2026 Universidad de La Guajira. Sistema Multi-Empresa de Optimización Energética e Inteligencia Artificial.</p>
+        <p>OPTIGRID ENTERPRISE &copy; 2026 Universidad de La Guajira. Sistema Profesional de Optimización Energética e Inteligencia Artificial.</p>
     </footer>
 
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
@@ -1993,7 +1848,6 @@
         // --- ESTADO GLOBAL DE LA APLICACIÓN ---
         let estadoActual = {
             empresa_activa: "ejercicio1",
-            empresas_info: {},
             optimizacion: null,
             tradeoff: null,
             prediccion_ml: null,
@@ -2016,158 +1870,107 @@
 
         // --- INICIALIZACIÓN ---
         window.addEventListener('DOMContentLoaded', () => {
-            cargarEstadoInicial();
+            cargarEmpresasDisponibles();
         });
 
-        async function cargarEstadoInicial() {
-            try {
-                const res = await fetch('/api/initial_state');
-                const data = await res.json();
-                estadoActual.optimizacion = data.optimizacion;
-                estadoActual.tradeoff = data.tradeoff;
+        // --- CONTROL DEL PORTAL DE ACCESO / LOGIN ---
+        function cambiarAuthTab(tab) {
+            const btnLogin = document.getElementById('btnTabLogin');
+            const btnReg = document.getElementById('btnTabRegistro');
+            const vistaLogin = document.getElementById('vistaAuthLogin');
+            const vistaReg = document.getElementById('vistaAuthRegistro');
 
-                if (data.empresas) {
-                    actualizarListaEmpresas(data.empresas);
-                }
-                
-                // Actualizar interfaz completa
-                renderizarDashboard(data.optimizacion);
-                renderizarRutas(data.optimizacion.rutas_suministro);
-                renderizarMatriz(data.optimizacion.matriz_despacho);
-                renderizarPreciosSombra(data.optimizacion.precios_sombra);
-                renderizarTradeoffChart(data.tradeoff);
-
-                // Ejecutar predicción inicial de ML
-                ejecutarPrediccionMLEnTiempoReal();
-            } catch (err) {
-                console.error("Error al conectar con backend:", err);
+            if (tab === 'login') {
+                btnLogin.classList.add('active');
+                btnReg.classList.remove('active');
+                vistaLogin.style.display = 'block';
+                vistaReg.style.display = 'none';
+            } else {
+                btnReg.classList.add('active');
+                btnLogin.classList.remove('active');
+                vistaReg.style.display = 'block';
+                vistaLogin.style.display = 'none';
             }
         }
 
-        // --- LOGIN FLOWS ---
-        function iniciarSesionEmpresaExistente() {
-            const empId = document.getElementById('selectLoginEmpresa').value;
-            document.getElementById('modalLogin').style.display = 'none';
-            document.getElementById('companySelect').value = empId;
-            cambiarEmpresa(empId);
+        function abrirPortalAuth() {
+            document.getElementById('modalAuth').style.display = 'flex';
         }
 
-        function abrirRegistroNuevaEmpresa() {
-            document.getElementById('modalLogin').style.display = 'none';
-            // Ir a la pestaña de registro
-            const tabBtnNueva = document.querySelectorAll('.tab-btn')[1];
-            switchTab('nueva_empresa', tabBtnNueva);
+        async function cargarEmpresasDisponibles() {
+            try {
+                const res = await fetch('/api/companies');
+                const empresas = await res.json();
+                const sel = document.getElementById('selectAuthEmpresa');
+                sel.innerHTML = '';
+                empresas.forEach(e => {
+                    const opt = document.createElement('option');
+                    opt.value = e.id;
+                    opt.innerText = `${e.nombre} (${e.sector})`;
+                    sel.appendChild(opt);
+                });
+            } catch (err) {
+                console.error("Error al cargar empresas:", err);
+            }
         }
 
-        function actualizarListaEmpresas(lista) {
-            const selectHeader = document.getElementById('companySelect');
-            const selectModal = document.getElementById('selectLoginEmpresa');
-            
-            const currentVal = selectHeader.value;
-            selectHeader.innerHTML = '';
-            selectModal.innerHTML = '';
-
-            lista.forEach(e => {
-                const opt1 = document.createElement('option');
-                opt1.value = e.id;
-                opt1.innerText = `${e.nombre} (${e.sector})`;
-                selectHeader.appendChild(opt1);
-
-                const opt2 = document.createElement('option');
-                opt2.value = e.id;
-                opt2.innerText = `${e.nombre} (${e.sector})`;
-                selectModal.appendChild(opt2);
-            });
-
-            selectHeader.value = currentVal || lista[0].id;
-        }
-
-        // --- CAMBIO DE TABS ---
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            const target = document.getElementById(tabId);
-            if (target) target.classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // --- CAMBIO DE EMPRESA (MULTI-TENANT) ---
-        async function cambiarEmpresa(empresaId) {
-            estadoActual.empresa_activa = empresaId;
-            document.getElementById('companySelect').value = empresaId;
+        // --- INICIAR SESIÓN CON CUENTA EXISTENTE ---
+        async function iniciarSesionEmpresa() {
+            const empId = document.getElementById('selectAuthEmpresa').value;
+            estadoActual.empresa_activa = empId;
 
             try {
                 const res = await fetch('/api/optimize', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({empresa_id: empresaId})
+                    body: JSON.stringify({empresa_id: empId})
                 });
                 const data = await res.json();
-                estadoActual.optimizacion = data;
+                
+                // Cerrar modal de acceso
+                document.getElementById('modalAuth').style.display = 'none';
 
-                if (data.empresa_config) {
-                    document.getElementById('heroNombreEmpresa').innerText = data.empresa_config.nombre;
-                    document.getElementById('heroSector').innerText = `Sector: ${data.empresa_config.sector}`;
-                    document.getElementById('heroDescripcionEmpresa').innerText = `Instalación industrial bajo optimización prescriptiva y machine learning.`;
-                    document.getElementById('nodePlantaDestino').innerText = data.empresa_config.nombre.split(' (')[0];
-                }
+                // Aplicar estado
+                aplicarEstadoEmpresa(data);
+                
+                // Ejecutar predicción inicial de ML
+                ejecutarPrediccionMLEnTiempoReal();
 
-                if (data.tradeoff) {
-                    estadoActual.tradeoff = data.tradeoff;
-                    renderizarTradeoffChart(data.tradeoff);
-                }
-
-                sincronizarSlidersConOptimizacion(data);
-                renderizarDashboard(data);
-                renderizarRutas(data.rutas_suministro);
-                renderizarMatriz(data.matriz_despacho);
-                renderizarPreciosSombra(data.precios_sombra);
-
-                // Ocultar informe IA si es una empresa predefinida sin informe reciente
-                if (!data.ai_informe) {
-                    document.getElementById('boxInformeIA').style.display = 'none';
-                }
             } catch (err) {
-                console.error("Error al optimizar empresa:", err);
+                console.error("Error al iniciar sesión:", err);
+                alert("Error al conectar con la base de datos de la empresa.");
             }
         }
 
-        function sincronizarSlidersConOptimizacion(data) {
-            if (!data) return;
-            document.getElementById('heroDemandaTotal').innerText = `Demanda: ${data.demanda_total.toLocaleString()} MWh/mes`;
-            document.getElementById('nodePlantaDemandaTotal').innerText = `${data.demanda_total.toLocaleString()} MWh`;
-        }
-
-        // --- PIPELINE COMPLETO: REGISTRAR Y OPTIMIZAR NUEVA EMPRESA ---
-        async function ejecutarRegistroYOptimizacionCompleta() {
-            const btn = document.getElementById('btnRegistrarYOptimizar');
-            const txtOriginal = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner"></span> Ejecutando Machine Learning, Solver PuLP y Copilot...';
+        // --- REGISTRO Y OPTIMIZACIÓN DE NUEVA EMPRESA ---
+        async function registrarYOptimizarNuevaEmpresa() {
+            const btn = document.getElementById('btnRegistrarSubmit');
+            const txtOrig = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Optimizando Portafolio con Machine Learning y CBC...';
             btn.disabled = true;
 
             const payload = {
-                nombre: document.getElementById('newNombre').value.trim(),
-                sector: document.getElementById('newSector').value.trim(),
-                ciudad: document.getElementById('newCiudad').value.trim(),
-                demanda_t1: parseFloat(document.getElementById('newDemandaT1').value),
-                demanda_t2: parseFloat(document.getElementById('newDemandaT2').value),
-                demanda_t3: parseFloat(document.getElementById('newDemandaT3').value),
-                limite_co2: parseFloat(document.getElementById('newLimiteCO2').value),
-                cuota_renovable: parseFloat(document.getElementById('newCuotaRenovable').value),
-                cap_solar_instalada: parseFloat(document.getElementById('newCapSolar').value),
-                cap_eolica_instalada: parseFloat(document.getElementById('newCapEolica').value),
-                cap_gas_instalada: parseFloat(document.getElementById('newCapGas').value),
-                tarifa_red_t1: parseFloat(document.getElementById('newTarifaRedT1').value),
-                tarifa_red_t2: parseFloat(document.getElementById('newTarifaRedT2').value),
-                tarifa_red_t3: parseFloat(document.getElementById('newTarifaRedT3').value),
+                nombre: document.getElementById('regNombre').value.trim(),
+                sector: document.getElementById('regSector').value.trim(),
+                ciudad: document.getElementById('regCiudad').value.trim(),
+                demanda_t1: parseFloat(document.getElementById('regDemandaT1').value),
+                demanda_t2: parseFloat(document.getElementById('regDemandaT2').value),
+                demanda_t3: parseFloat(document.getElementById('regDemandaT3').value),
+                limite_co2: parseFloat(document.getElementById('regLimiteCO2').value),
+                cuota_renovable: parseFloat(document.getElementById('regCuotaRen').value),
+                cap_solar_instalada: parseFloat(document.getElementById('regCapSolar').value),
+                cap_eolica_instalada: parseFloat(document.getElementById('regCapEolica').value),
+                cap_gas_instalada: parseFloat(document.getElementById('regCapGas').value),
+                tarifa_red_t1: parseFloat(document.getElementById('regTarifaRedT1').value),
+                tarifa_red_t2: 86.0,
+                tarifa_red_t3: 60.0,
                 costo_solar_ppa: 42.0,
                 costo_eolica_ppa: 46.0,
                 costo_gas: 76.0,
-                radiacion: parseFloat(document.getElementById('newRad').value),
-                viento: parseFloat(document.getElementById('newViento').value),
-                temperatura: parseFloat(document.getElementById('newTemp').value),
-                nubosidad: parseFloat(document.getElementById('newNubes').value)
+                radiacion: 860.0,
+                viento: 7.8,
+                temperatura: 31.0,
+                nubosidad: 18.0
             };
 
             try {
@@ -2179,59 +1982,77 @@
 
                 if (!res.ok) {
                     const errData = await res.json().catch(() => ({}));
-                    alert("Aviso del servidor (" + res.status + "): " + (errData.mensaje || "Error interno. Reinicie iniciar_software.bat para cargar el backend actualizado."));
+                    alert("Aviso del servidor (" + res.status + "): " + (errData.mensaje || "Error al procesar la optimización."));
                     return;
                 }
 
                 const data = await res.json();
-
                 if (data.status !== 'Optimal') {
-                    alert("Aviso de Infactibilidad: " + (data.mensaje || "Revise las cotas de demanda y límites ambientales."));
+                    alert("Aviso de Infactibilidad: " + (data.mensaje || "Verifique los límites ingresados."));
                     return;
                 }
 
-                // Actualizar estado
-                estadoActual.empresa_activa = data.empresa_id;
-                estadoActual.optimizacion = data.optimizacion;
-                estadoActual.tradeoff = data.tradeoff;
-                estadoActual.prediccion_ml = data.ml_prediccion;
-                estadoActual.ai_informe = data.ai_informe;
+                // Cerrar modal de acceso
+                document.getElementById('modalAuth').style.display = 'none';
 
-                // Actualizar listas de empresas registradas
-                if (data.empresas_actualizadas) {
-                    actualizarListaEmpresas(data.empresas_actualizadas);
-                    document.getElementById('companySelect').value = data.empresa_id;
+                // Registrar en lista de opciones de login para futuras visitas
+                await cargarEmpresasDisponibles();
+
+                // Aplicar estado
+                estadoActual.empresa_activa = data.empresa_id;
+                estadoActual.ai_informe = data.ai_informe;
+                aplicarEstadoEmpresa(data);
+
+                // Mostrar informe IA
+                if (data.ai_informe) {
+                    renderizarInformeIA(data.ai_informe);
                 }
 
-                // Actualizar Hero
-                document.getElementById('heroNombreEmpresa').innerText = data.empresa_info.nombre;
-                document.getElementById('heroSector').innerText = `Sector: ${data.empresa_info.sector} (${data.empresa_info.ciudad})`;
-                document.getElementById('heroDescripcionEmpresa').innerText = data.empresa_info.descripcion;
-                document.getElementById('nodePlantaDestino').innerText = data.empresa_info.nombre;
-                sincronizarSlidersConOptimizacion(data.optimizacion);
-
-                // Renderizar Informe del Asistente Virtual
-                renderizarInformeIA(data.ai_informe);
-
-                // Renderizar todos los gráficos y tablas
-                renderizarDashboard(data.optimizacion);
-                renderizarRutas(data.optimizacion.rutas_suministro);
-                renderizarMatriz(data.optimizacion.matriz_despacho);
-                renderizarPreciosSombra(data.optimizacion.precios_sombra);
-                renderizarTradeoffChart(data.tradeoff);
-                renderizarChartML24h(data.ml_prediccion);
-
-                // Cambiar al Tablero Ejecutivo
-                const tabBtnTablero = document.querySelectorAll('.tab-btn')[0];
-                switchTab('tablero', tabBtnTablero);
-
             } catch (err) {
-                console.error("Error en registro y optimización:", err);
-                alert("Ocurrió un error al procesar la optimización en el servidor.");
+                console.error("Error en registro:", err);
+                alert("Ocurrió un error al registrar la empresa.");
             } finally {
-                btn.innerHTML = txtOriginal;
+                btn.innerHTML = txtOrig;
                 btn.disabled = false;
             }
+        }
+
+        // --- APLICAR ESTADO GENERAL DE LA EMPRESA ---
+        function aplicarEstadoEmpresa(data) {
+            const opt = data.optimizacion || data;
+            estadoActual.optimizacion = opt;
+
+            const empInfo = data.empresa_info || data.empresa_config || {
+                nombre: "Planta Industrial Electro-intensiva (Caso Benchmark - Ejercicio 1)",
+                sector: "Manufactura Pesada / Benchmark Uniguajira",
+                descripcion: "Instalación industrial bajo esquema tarifario multi-bloque con metas de descarbonización."
+            };
+
+            // Encabezados
+            document.getElementById('headerNombreEmpresa').innerText = empInfo.nombre;
+            document.getElementById('headerSectorEmpresa').innerText = `Sector: ${empInfo.sector}`;
+            document.getElementById('heroNombreEmpresa').innerText = empInfo.nombre;
+            document.getElementById('heroSector').innerText = `Sector: ${empInfo.sector}`;
+            document.getElementById('heroDescripcionEmpresa').innerText = empInfo.descripcion || "Instalación industrial en operación continua.";
+            document.getElementById('nodePlantaDestino').innerText = empInfo.nombre.split(' (')[0];
+            document.getElementById('heroDemandaTotal').innerText = `Demanda: ${opt.demanda_total.toLocaleString()} MWh/mes`;
+            document.getElementById('nodePlantaDemandaTotal').innerText = `${opt.demanda_total.toLocaleString()} MWh`;
+
+            // Renderizar dashboard
+            renderizarDashboard(opt);
+            renderizarRutas(opt.rutas_suministro);
+            renderizarMatriz(opt.matriz_despacho);
+            renderizarPreciosSombra(opt.precios_sombra);
+
+            // Trade-off
+            if (data.tradeoff) {
+                estadoActual.tradeoff = data.tradeoff;
+                renderizarTradeoffChart(data.tradeoff);
+            }
+
+            // Cambiar a Tablero Ejecutivo
+            const tabBtnTablero = document.querySelectorAll('.tab-btn')[0];
+            switchTab('tablero', tabBtnTablero);
         }
 
         // --- RENDERIZAR INFORME IA ---
@@ -2254,7 +2075,17 @@
             });
         }
 
-        // --- RENDERIZADO DEL DASHBOARD EJECUTIVO ---
+        // --- CAMBIO DE TABS ---
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // --- DASHBOARD CHARTS & KPIS ---
         function renderizarDashboard(opt) {
             if (!opt || opt.status !== 'Optimal') return;
 
@@ -2267,7 +2098,6 @@
             document.getElementById('kpiAhorroAnual').innerText = `$${Math.round(opt.ahorro_anual_usd).toLocaleString()}`;
             document.getElementById('headerSolverTime').innerText = opt.tiempo_ms ? `${opt.tiempo_ms} ms` : `< 15 ms`;
 
-            // Actualizar nodos del diagrama
             if (opt.matriz_despacho) {
                 document.getElementById('node-e1-val').innerText = `${Math.round(opt.matriz_despacho.e1.total).toLocaleString()} MWh`;
                 document.getElementById('node-e2-val').innerText = `${Math.round(opt.matriz_despacho.e2.total).toLocaleString()} MWh`;
@@ -2278,7 +2108,6 @@
             renderizarChartsDashboard(opt);
         }
 
-        // --- CHARTS MONOCROMATICOS APPLE ---
         function renderizarChartsDashboard(opt) {
             const m = opt.matriz_despacho;
             const ctx1 = document.getElementById('chartDespachoBloques').getContext('2d');
@@ -2309,7 +2138,6 @@
                 }
             });
 
-            // CHART MIX DOUGHNUT
             const ctx2 = document.getElementById('chartMixFuentes').getContext('2d');
             if (chartMixInstance) chartMixInstance.destroy();
 
@@ -2334,7 +2162,7 @@
             });
         }
 
-        // --- RENDERIZAR TABLA DE RUTAS ---
+        // --- TABLA DE RUTAS ---
         function renderizarRutas(rutas) {
             const tbody = document.getElementById('tbodyRutas');
             tbody.innerHTML = '';
@@ -2364,7 +2192,6 @@
             });
         }
 
-        // --- RENDERIZAR MATRIZ DE DESPACHO ---
         function renderizarMatriz(matriz) {
             const tbody = document.getElementById('tbodyMatrizDespacho');
             tbody.innerHTML = '';
@@ -2385,7 +2212,6 @@
             });
         }
 
-        // --- RENDERIZAR PRECIOS SOMBRA ---
         function renderizarPreciosSombra(sombras) {
             const tbody = document.getElementById('tbodyPreciosSombra');
             tbody.innerHTML = '';
@@ -2411,7 +2237,7 @@
             });
         }
 
-        // --- EJECUTAR OPTIMIZACION EN VIVO (SLIDERS) ---
+        // --- OPTIMIZACIÓN CONTINUA CBC ---
         async function ejecutarOptimizacionEnVivo() {
             const payload = {
                 empresa_id: estadoActual.empresa_activa,
@@ -2452,7 +2278,7 @@
             }
         }
 
-        // --- EJECUTAR MACHINE LEARNING EN TIEMPO REAL ---
+        // --- MACHINE LEARNING EN TIEMPO REAL ---
         async function ejecutarPrediccionMLEnTiempoReal() {
             const btn = document.getElementById('btnEjecutarML');
             const originalText = btn.innerHTML;
@@ -2547,10 +2373,10 @@
             actualizarValLabel('valCapSolarT2', caps.cap_solar.t2);
             switchTab('optimizador', document.querySelectorAll('.tab-btn')[3]);
             ejecutarOptimizacionEnVivo();
-            alert(`Capacidades meteorológicas transferidas: Solar en Bloque Medio ajustada a ${caps.cap_solar.t2} MWh. Optimizador recalculado.`);
+            alert(`Cotas de planta calibradas: Capacidad Solar en Bloque Medio ajustada a ${caps.cap_solar.t2} MWh.`);
         }
 
-        // --- RENDERIZAR TRADEOFF CHART ---
+        // --- TRADEOFF PARETO CHART ---
         function renderizarTradeoffChart(puntos) {
             if (!puntos) return;
             const validos = puntos.filter(p => p.status === 'Factible');
@@ -2586,25 +2412,7 @@
             });
         }
 
-        // --- CONTINGENCIAS EN RUTAS ---
-        function simularContingencia(tipo) {
-            if (tipo === 'red_stn') {
-                document.getElementById('node-e1').classList.remove('active-flow');
-                document.getElementById('node-e1-val').innerText = '0 MWh (Desconectado)';
-                alert("Alerta de Red: Enlace con STN 115 kV desconectado por falla de transformador. Re-enrutando despacho a cogeneración y renovables.");
-            } else if (tipo === 'eolica') {
-                document.getElementById('node-e3').classList.remove('active-flow');
-                document.getElementById('node-e3-val').innerText = '0 MWh (Mantenimiento)';
-                alert("Alerta Anemométrica: Parque Eólico en parada de mantenimiento preventivo. Activando respaldo térmico y red STN.");
-            }
-        }
-
-        function restaurarRutas() {
-            document.querySelectorAll('.route-node').forEach(n => n.classList.add('active-flow'));
-            cambiarEmpresa(estadoActual.empresa_activa);
-        }
-
-        // --- COPILOT Y AUTOCORRECCION ---
+        // --- COPILOT Y ASISTENTE ANALITICO ---
         async function enviarConsultaCopilot() {
             const inp = document.getElementById('copilotInput');
             const q = inp.value.trim();
@@ -2631,39 +2439,6 @@
                 box.scrollTop = box.scrollHeight;
             } catch (err) {
                 console.error("Error al consultar copilot:", err);
-            }
-        }
-
-        async function ejecutarDemoAutocorreccion() {
-            try {
-                const res = await fetch('/api/copilot', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({mode: 'autocorrect_demo', empresa_id: estadoActual.empresa_activa})
-                });
-                const data = await res.json();
-
-                const box = document.getElementById('boxResultadoAutocorreccion');
-                box.style.display = 'block';
-                document.getElementById('txtDiagnosticoAutocorreccion').innerText = data.diagnostico;
-
-                const ulInc = document.getElementById('listaInconsistencias');
-                ulInc.innerHTML = '';
-                data.inconsistencias.forEach(inc => {
-                    const li = document.createElement('li');
-                    li.innerText = inc;
-                    ulInc.appendChild(li);
-                });
-
-                const ulAcc = document.getElementById('listaAccionesAutocorreccion');
-                ulAcc.innerHTML = '';
-                data.acciones_aplicadas.forEach(acc => {
-                    const li = document.createElement('li');
-                    li.innerText = acc;
-                    ulAcc.appendChild(li);
-                });
-            } catch (err) {
-                console.error("Error en demo autocorreccion:", err);
             }
         }
 
