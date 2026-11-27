@@ -892,13 +892,340 @@
             font-size: 0.78rem;
             color: var(--text-muted);
         }
+
+        /* --- MODO CLARO APPLE LIQUID GLASS --- */
+        body.light-theme {
+            --bg-base: #f5f5f7;
+            --bg-card: rgba(255, 255, 255, 0.82);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
+            --bg-elevated: rgba(255, 255, 255, 0.90);
+            
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --border-glass-strong: rgba(0, 0, 0, 0.16);
+            --border-glass-subtle: rgba(0, 0, 0, 0.04);
+
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-muted: #86868b;
+            --text-dim: #aeaeb2;
+
+            --shadow-glass: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(0, 0, 0, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 40%);
+            color: var(--text-primary);
+        }
+
+        body.light-theme .auth-logo {
+            background: #000000;
+        }
+
+        body.light-theme .auth-logo svg {
+            color: #ffffff;
+        }
+
+        body.light-theme .btn-apple-primary {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        body.light-theme .btn-apple-primary:hover {
+            background: #2c2c2e;
+        }
+
+        body.light-theme .btn-apple-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .btn-apple-secondary:hover {
+            background: rgba(0, 0, 0, 0.09);
+            color: #000000;
+        }
+
+        body.light-theme .apple-input {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .apple-input:focus {
+            background: #ffffff;
+            border-color: #000000;
+        }
+
+        body.light-theme .apple-input option {
+            background: #ffffff;
+            color: #1d1d1f;
+        }
+
+        body.light-theme .tab-btn {
+            color: #86868b;
+        }
+
+        body.light-theme .tab-btn:hover {
+            color: #1d1d1f;
+        }
+
+        body.light-theme .tab-btn.active {
+            color: #000000;
+            border-bottom-color: #000000;
+        }
+
+        body.light-theme .badge-glass {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .badge-dot {
+            background: #000000;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-theme .metric-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body.light-theme .metric-value {
+            color: #000000;
+        }
+
+        body.light-theme .apple-table th {
+            background: rgba(0, 0, 0, 0.04);
+            color: #6e6e73;
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .apple-table td {
+            border-bottom-color: rgba(0, 0, 0, 0.06);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .apple-table tr:hover td {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        body.light-theme .msg-assistant {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.09);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .msg-user {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        body.light-theme .auth-overlay {
+            background: rgba(245, 245, 247, 0.90);
+        }
+
+        body.light-theme .auth-tab-btn.active {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        body.light-theme .active-facility-badge {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .facility-name, body.light-theme .brand-titles h1 {
+            color: #000000;
+        }
+
+        /* --- SLIDER APPLE LIQUID GLASS --- */
+        .apple-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        body.light-theme .apple-slider {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .apple-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .apple-slider::-webkit-slider-thumb {
+            background: #000000;
+        }
+
+        /* --- COPILOT CHIPS & UI --- */
+        .copilot-chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .copilot-chip {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            border-radius: 9999px;
+            padding: 5px 12px;
+            font-size: 0.76rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .copilot-chip:hover {
+            background: rgba(255, 255, 255, 0.14);
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        body.light-theme .copilot-chip {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #48484a;
+        }
+
+        body.light-theme .copilot-chip:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: #000000;
+        }
+
+        .badge-source {
+            display: inline-block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #d1d1d6;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        body.light-theme .badge-source {
+            background: rgba(0, 0, 0, 0.08);
+            color: #1d1d1f;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        body.light-theme .modal-close-btn {
+            background: rgba(0, 0, 0, 0.06);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #000000;
+        }
+
+        .modal-close-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 6px 10px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .apple-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(20, 20, 20, 0.88);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            font-size: 0.85rem;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastSlideUp 0.3s ease;
+        }
+
+        body.light-theme .apple-toast {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        @keyframes toastSlideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
     <!-- ==================== CORPORATE AUTHENTICATION PORTAL ==================== -->
-    <div id="modalAuth" class="auth-overlay" style="display:flex;">
+    <div id="modalAuth" class="auth-overlay" style="display:none;">
         <div class="glass-panel auth-card">
+            <button class="modal-close-btn" onclick="cerrarPortalAuth()" title="Cerrar ventana">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <div class="auth-logo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
@@ -1025,6 +1352,63 @@
         </div>
     </div>
 
+    <!-- ==================== MODAL CONFIGURACIÓN API DE IA (GEMINI / GROQ / OPENAI) ==================== -->
+    <div id="modalAiConfig" class="auth-overlay" style="display:none;">
+        <div class="glass-panel auth-card" style="max-width: 520px;">
+            <button class="modal-close-btn" onclick="cerrarModalAiConfig()" title="Cerrar ventana">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="auth-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                </svg>
+            </div>
+            <h2>Configurar API de Inteligencia Artificial</h2>
+            <p style="margin-bottom:18px;">Conecte una API real (Google Gemini, Groq o OpenAI) para que OptiGrid Copilot razone y responda en tiempo real.</p>
+
+            <div style="text-align:left;">
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label class="form-label">Proveedor de IA:</label>
+                    <select id="cfgAiProveedor" class="apple-input" onchange="actualizarModeloSegunProveedor(this.value)">
+                        <option value="gemini" selected>Google Gemini API (Recomendado - Gratuito)</option>
+                        <option value="groq">Groq Cloud (Llama 3.3 70B - Ultra Rápido)</option>
+                        <option value="openai">OpenAI (GPT-4o-mini)</option>
+                        <option value="openrouter">OpenRouter (Multi-Modelo)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label class="form-label">API Key / Clave Secreta:</label>
+                    <input type="password" id="cfgAiKey" class="apple-input" placeholder="Pegue su clave API (ej: AIzaSy...)">
+                    <span style="font-size:0.72rem; color:var(--text-secondary); margin-top:4px; display:block;">
+                        Puede obtener una clave gratuita en: 
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--text-primary); text-decoration:underline;">
+                            Google AI Studio (Gratis)
+                        </a>
+                    </span>
+                </div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label class="form-label">Modelo:</label>
+                    <input type="text" id="cfgAiModelo" class="apple-input" value="gemini-2.0-flash">
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-apple-primary" style="flex:1; justify-content:center; padding:11px;" onclick="guardarConfiguracionAi()">
+                        Guardar y Conectar
+                    </button>
+                    <button class="btn-apple-secondary" style="padding:11px 16px;" onclick="cerrarModalAiConfig()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== HEADER PRINCIPAL ==================== -->
     <header>
         <div class="header-content">
@@ -1052,17 +1436,38 @@
             </div>
 
             <div class="header-actions">
+                <!-- SELECTOR RÁPIDO MULTI-TENANT -->
+                <select id="quickHeaderCompanySelect" class="apple-input" style="padding: 4px 10px; font-size: 0.78rem; width: auto; max-width: 260px; height: 32px;" onchange="cambiarEmpresaRapida(this.value)">
+                    <!-- cargado desde JS -->
+                </select>
+
                 <span class="badge-glass">
                     <span class="badge-dot"></span>
-                    CBC Solver: <strong id="headerSolverTime" style="margin-left:4px; color:#ffffff;">&lt; 15 ms</strong>
+                    CBC: <strong id="headerSolverTime" style="margin-left:4px; color:var(--text-primary);">&lt; 15 ms</strong>
                 </span>
-                <button class="btn-apple-secondary" style="font-size:0.78rem; padding: 6px 14px;" onclick="abrirPortalAuth()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
+
+                <!-- BOTON TEMA CLARO / OSCURO APPLE -->
+                <button class="btn-apple-secondary" id="btnToggleTheme" style="font-size:0.78rem; padding: 6px 12px;" onclick="toggleTemaLuzOscuro()" title="Alternar Modo Claro / Oscuro">
+                    <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
-                    Cerrar Sesión / Salir
+                    <span id="themeBtnText">Modo Claro</span>
+                </button>
+
+                <button class="btn-apple-secondary" style="font-size:0.78rem; padding: 6px 14px;" onclick="abrirPortalAuth()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Multi-Tenant
                 </button>
             </div>
         </div>
@@ -1167,6 +1572,95 @@
 
         <!-- ==================== TAB 1: TABLERO EJECUTIVO ==================== -->
         <section id="tablero" class="tab-content active">
+
+            <!-- RELOJ OPERATIVO EN TIEMPO REAL & MONITOR INSTANTÁNEO DE GENERACIÓN -->
+            <div class="glass-panel" style="padding: 22px 26px; margin-bottom: 24px; position: relative;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:18px;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                            <span class="badge-dot" style="background:#30d158; box-shadow:0 0 10px rgba(48,209,88,0.7);"></span>
+                            <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--text-secondary);">
+                                DESPACHO ACTIVO EN TIEMPO REAL | RED INDUSTRIAL
+                            </span>
+                        </div>
+                        <div style="display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;">
+                            <span id="relojDigitalEnVivo" style="font-size:2.2rem; font-weight:700; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; color:var(--text-primary);">
+                                --:--:--
+                            </span>
+                            <span id="badgeBloqueEnVivo" class="badge-glass" style="font-size:0.82rem; padding:4px 12px; font-weight:600;">
+                                Determinando franja tarifaria...
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- SIMULADOR HORARIO / EXPLORADOR 24 HORAS -->
+                    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:0.78rem; color:var(--text-secondary);">Hora Inspeccionada: <strong id="lblHoraSeleccionada" style="color:var(--text-primary); font-size:0.95rem;">21:00</strong></span>
+                            <button class="btn-apple-secondary" style="font-size:0.72rem; padding:4px 10px;" onclick="sincronizarConHoraReal()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px; height:12px;">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                Hora Actual en Vivo
+                            </button>
+                        </div>
+                        <input type="range" min="0" max="23" value="21" class="apple-slider" id="sliderHoraSimulacion" style="width: 260px;" oninput="cambiarHoraSimulada(parseInt(this.value))">
+                    </div>
+                </div>
+
+                <!-- 4 TARJETAS DEL ESTADO ENERGÉTICO A ESTA HORA -->
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px;">
+                    <div class="glass-panel" style="padding:14px 16px; background:rgba(255,255,255,0.03);">
+                        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:4px;">
+                            Demanda Instantánea
+                        </div>
+                        <div style="font-size:1.35rem; font-weight:700; color:var(--text-primary);" id="liveDemandaMW">
+                            300.0 MW
+                        </div>
+                        <div style="font-size:0.74rem; color:var(--text-secondary); margin-top:2px;" id="liveTarifaBloque">
+                            Tarifa Red: $114.00 USD/MWh
+                        </div>
+                    </div>
+
+                    <div class="glass-panel" style="padding:14px 16px; background:rgba(255,255,255,0.03);">
+                        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:4px;">
+                            Generación Activa a esta Hora
+                        </div>
+                        <div style="font-size:0.92rem; font-weight:600; color:var(--text-primary); line-height:1.3;" id="liveFuentePrincipal">
+                            Cogeneración Gas (200 MW) + Eólica (100 MW)
+                        </div>
+                        <div style="font-size:0.74rem; color:var(--text-secondary); margin-top:4px;" id="liveEstadoRed">
+                            Red Nacional: 0.0 MW (Apagada en Punta)
+                        </div>
+                    </div>
+
+                    <div class="glass-panel" style="padding:14px 16px; background:rgba(255,255,255,0.03);">
+                        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:4px;">
+                            Costo Marginal Instantáneo (π)
+                        </div>
+                        <div style="font-size:1.35rem; font-weight:700; color:var(--text-primary);" id="liveCostoMarginal">
+                            +$75.00 USD/MWh
+                        </div>
+                        <div style="font-size:0.74rem; color:var(--text-secondary); margin-top:2px;">
+                            Precio Sombra Dual
+                        </div>
+                    </div>
+
+                    <div class="glass-panel" style="padding:14px 16px; background:rgba(255,255,255,0.03);">
+                        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:4px;">
+                            Índice Renovable Instantáneo
+                        </div>
+                        <div style="font-size:1.35rem; font-weight:700; color:var(--text-primary);" id="liveRenovablePct">
+                            33.3%
+                        </div>
+                        <div style="font-size:0.74rem; color:var(--text-secondary); margin-top:2px;" id="liveSolarEolMW">
+                            Solar: 0 MW | Eólica: 100 MW
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 4 METRICAS TOP -->
             <div class="stats-grid">
                 <div class="glass-panel stat-card">
@@ -1269,6 +1763,57 @@
                     </div>
                     <div class="panel-body" style="display:flex; justify-content:center; align-items:center;">
                         <canvas id="chartMixFuentes" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRÁFICO DE DESPACHO HORARIO CONTINUO 24 HORAS (APPLE LIQUID GLASS) -->
+            <div class="glass-panel" style="margin-top: 24px;">
+                <div class="panel-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        Despacho Horario Continuo de 24 Horas (Demanda vs. Despacho Instantáneo MW)
+                    </h3>
+                    <span class="pill-badge" id="badgePerfilContinuo">Monitoreo Horario 00:00 - 23:00</span>
+                </div>
+                <div class="panel-body">
+                    <canvas id="chartDespachoContinuo24h" height="95"></canvas>
+                </div>
+            </div>
+
+            <!-- COMPARATIVAS ECONÓMICAS Y AMBIENTALES -->
+            <div class="dashboard-grid-2" style="margin-top: 24px;">
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            Comparativa Económica: Tradicional vs. Óptimo ($ USD)
+                        </h3>
+                        <span class="pill-badge">Ahorro Cuantificado</span>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chartComparativaCostos" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                            </svg>
+                            Balance Ambiental: Emisiones CO2 vs. Límite Legal
+                        </h3>
+                        <span class="pill-badge">Cumplimiento Verde</span>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chartComparativaCO2" height="150"></canvas>
                     </div>
                 </div>
             </div>
@@ -1725,20 +2270,56 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                         </svg>
-                        OptiGrid Copilot: Consultor Energético de Planta
+                        OptiGrid Copilot: Asistente Analítico Inteligente
                     </h3>
-                    <span class="pill-badge">Asistente Analítico Activo</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="badge-glass" id="aiStatusBadge">
+                            <span class="badge-dot" id="aiStatusDot"></span>
+                            <span id="aiStatusText">Motor Analítico Local Activo</span>
+                        </span>
+                        <button class="btn-apple-secondary" style="font-size:0.75rem; padding:5px 12px;" onclick="abrirModalAiConfig()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px; height:13px;">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                            </svg>
+                            Configurar API de IA
+                        </button>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="copilot-container">
                         <div class="copilot-messages" id="copilotMsgList">
                             <div class="msg-bubble msg-assistant">
-                                Bienvenido al entorno de <strong>OptiGrid Copilot</strong>. Estoy sincronizado con los balances energéticos de la planta en sesión. Puede consultarme sobre el porqué de una decisión de despacho, los costos reducidos de la red o la estrategia óptima de desplazamiento de cargas hacia el bloque valle.
+                                <span class="badge-source">OptiGrid Copilot</span><br>
+                                Bienvenido al entorno de <strong>OptiGrid Copilot</strong>. Estoy sincronizado con los balances energéticos de la planta en sesión. Puede consultarme sobre el porqué de una decisión de despacho, los costos reducidos de la red, la formulación matemática o la estrategia óptima de desplazamiento de cargas hacia el bloque valle.
                             </div>
                         </div>
+
+                        <!-- CONSULTAS SUGERIDAS (PILLS APPLE) -->
+                        <div class="copilot-chips-row">
+                            <span style="font-size:0.72rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Consultas:</span>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('¿Por qué no se compra red en horas pico?')">
+                                ¿Por qué no se compra red en pico?
+                            </button>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('¿Qué significan los precios sombra del modelo?')">
+                                Precios Sombra (Dual π)
+                            </button>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('¿Cuál es el rol técnico de la cogeneración a gas?')">
+                                Rol Cogeneración Gas
+                            </button>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('¿Cómo afecta reducir el límite de CO2 en la frontera de Pareto?')">
+                                Curva Trade-Off CO2
+                            </button>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('Explica la arquitectura Machine Learning de Random Forest')">
+                                Machine Learning (Random Forest)
+                            </button>
+                            <button class="copilot-chip" onclick="ejecutarChipCopilot('Diagnóstico integral del portafolio actual')">
+                                Diagnóstico de Planta
+                            </button>
+                        </div>
+
                         <div class="copilot-input-row">
                             <input type="text" class="apple-input" id="copilotInput" placeholder="Ej: ¿Por qué la red tradicional permanece apagada durante el bloque pico?" style="flex:1;" onkeypress="if(event.key==='Enter') enviarConsultaCopilot()">
-                            <button class="btn-apple-primary" onclick="enviarConsultaCopilot()">
+                            <button class="btn-apple-primary" id="btnEnviarCopilot" onclick="enviarConsultaCopilot()">
                                 Consultar
                             </button>
                         </div>
@@ -1856,10 +2437,17 @@
 
         let chartDespachoInstance = null;
         let chartMixInstance = null;
+        let chartContinuoInstance = null;
+        let chartCostosInstance = null;
+        let chartCO2Instance = null;
         let chartMLInstance = null;
         let chartTradeoffInstance = null;
 
-        // Configuración Monocromática Apple para Chart.js
+        let relojTimer = null;
+        let modoHoraManual = false;
+        let horaInspeccionada = new Date().getHours();
+
+        // Configuración Tipográfica y Visual Apple para Chart.js
         Chart.defaults.color = '#a1a1a6';
         Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif';
         Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.9)';
@@ -1869,9 +2457,154 @@
         Chart.defaults.plugins.tooltip.bodyColor = '#d1d1d6';
 
         // --- INICIALIZACIÓN ---
-        window.addEventListener('DOMContentLoaded', () => {
-            cargarEmpresasDisponibles();
+        window.addEventListener('DOMContentLoaded', async () => {
+            inicializarTema();
+            iniciarRelojOperativo();
+            await cargarConfiguracionAi();
+            await cargarEmpresasDisponibles();
+            await cargarEstadoInicial();
         });
+
+        // --- CONTROL DE TEMA CLARO / OSCURO (APPLE LIQUID GLASS) ---
+        function toggleTemaLuzOscuro() {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('optigrid_theme', isLight ? 'light' : 'dark');
+            actualizarTextosTema(isLight);
+            if (estadoActual.optimizacion) {
+                renderizarChartsDashboard(estadoActual.optimizacion);
+                renderizarChartContinuo24h(estadoActual.optimizacion);
+                renderizarComparativasCostosYCO2(estadoActual.optimizacion);
+            }
+            if (estadoActual.prediccion_ml) {
+                renderizarMLChart(estadoActual.prediccion_ml);
+            }
+            if (estadoActual.tradeoff) {
+                renderizarTradeoffChart(estadoActual.tradeoff);
+            }
+        }
+
+        function inicializarTema() {
+            const guardado = localStorage.getItem('optigrid_theme');
+            const isLight = guardado === 'light';
+            if (isLight) {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            actualizarTextosTema(isLight);
+        }
+
+        function actualizarTextosTema(isLight) {
+            const txt = document.getElementById('themeBtnText');
+            if (txt) txt.innerText = isLight ? 'Modo Oscuro' : 'Modo Claro';
+        }
+
+        // --- MONITOR DE RELOJ OPERATIVO EN TIEMPO REAL ---
+        function iniciarRelojOperativo() {
+            actualizarReloj();
+            if (relojTimer) clearInterval(relojTimer);
+            relojTimer = setInterval(actualizarReloj, 1000);
+        }
+
+        function actualizarReloj() {
+            const ahora = new Date();
+            const h = ahora.getHours();
+            const m = String(ahora.getMinutes()).padStart(2, '0');
+            const s = String(ahora.getSeconds()).padStart(2, '0');
+            const relojEl = document.getElementById('relojDigitalEnVivo');
+            if (relojEl) relojEl.innerText = `${String(h).padStart(2, '0')}:${m}:${s}`;
+
+            if (!modoHoraManual) {
+                horaInspeccionada = h;
+                const slider = document.getElementById('sliderHoraSimulacion');
+                if (slider) slider.value = h;
+                const lbl = document.getElementById('lblHoraSeleccionada');
+                if (lbl) lbl.innerText = `${String(h).padStart(2, '0')}:00 (Hora Actual)`;
+                actualizarMonitorInstantaneo(h);
+            }
+        }
+
+        function cambiarHoraSimulada(h) {
+            modoHoraManual = true;
+            horaInspeccionada = h;
+            const lbl = document.getElementById('lblHoraSeleccionada');
+            if (lbl) lbl.innerText = `${String(h).padStart(2, '0')}:00 (Inspección)`;
+            actualizarMonitorInstantaneo(h);
+        }
+
+        function sincronizarConHoraReal() {
+            modoHoraManual = false;
+            actualizarReloj();
+            mostrarToast("Sincronizado con el reloj del sistema en tiempo real.");
+        }
+
+        function actualizarMonitorInstantaneo(h) {
+            const opt = estadoActual.optimizacion;
+            if (!opt || !opt.despacho_horario_24h) return;
+
+            const slot = opt.despacho_horario_24h[h] || opt.despacho_horario_24h[0];
+
+            const badgeBloque = document.getElementById('badgeBloqueEnVivo');
+            if (badgeBloque) {
+                badgeBloque.innerText = `${slot.bloque_nombre} | Franja Activa`;
+            }
+
+            const liveDemanda = document.getElementById('liveDemandaMW');
+            if (liveDemanda) liveDemanda.innerText = `${slot.demanda_mw.toFixed(1)} MW`;
+
+            const liveTarifa = document.getElementById('liveTarifaBloque');
+            if (liveTarifa) {
+                const tarifaMap = {'t1': '114.00 (Tarifa Pico)', 't2': '86.00 (Tarifa Media)', 't3': '60.00 (Tarifa Valle)'};
+                liveTarifa.innerText = `Tarifa Red: $${tarifaMap[slot.bloque_id] || '80.00'} USD/MWh`;
+            }
+
+            const liveFuente = document.getElementById('liveFuentePrincipal');
+            if (liveFuente) {
+                let detalle = [];
+                if (slot.solar_mw > 0.05) detalle.push(`Solar: ${slot.solar_mw.toFixed(1)} MW`);
+                if (slot.eolica_mw > 0.05) detalle.push(`Eólica: ${slot.eolica_mw.toFixed(1)} MW`);
+                if (slot.gas_mw > 0.05) detalle.push(`Gas: ${slot.gas_mw.toFixed(1)} MW`);
+                if (slot.red_mw > 0.05) detalle.push(`Red: ${slot.red_mw.toFixed(1)} MW`);
+                liveFuente.innerText = detalle.length > 0 ? detalle.join(' | ') : `${slot.fuente_principal}`;
+            }
+
+            const liveRed = document.getElementById('liveEstadoRed');
+            if (liveRed) {
+                if (slot.red_mw <= 0.01) {
+                    liveRed.innerText = "Red Nacional: 0.0 MW (Apagada en Horario Punta)";
+                } else {
+                    liveRed.innerText = `Red Nacional: ${slot.red_mw.toFixed(1)} MW (Suministro Activo)`;
+                }
+            }
+
+            const liveCosto = document.getElementById('liveCostoMarginal');
+            if (liveCosto) {
+                liveCosto.innerText = `+$${slot.costo_marginal_usd.toFixed(2)} USD/MWh`;
+            }
+
+            const liveRenov = document.getElementById('liveRenovablePct');
+            if (liveRenov) {
+                liveRenov.innerText = `${slot.participacion_renovable_pct.toFixed(1)}%`;
+            }
+
+            const liveSolEol = document.getElementById('liveSolarEolMW');
+            if (liveSolEol) {
+                liveSolEol.innerText = `Solar: ${slot.solar_mw.toFixed(1)} MW | Eólica: ${slot.eolica_mw.toFixed(1)} MW`;
+            }
+        }
+
+        // --- CARGAR ESTADO INICIAL AUTOMÁTICO ---
+        async function cargarEstadoInicial() {
+            try {
+                const res = await fetch('/api/initial_state');
+                const data = await res.json();
+                estadoActual.empresa_activa = data.perfil_activo;
+                aplicarEstadoEmpresa(data);
+                ejecutarPrediccionMLEnTiempoReal();
+            } catch (err) {
+                console.error("Error al cargar estado inicial:", err);
+            }
+        }
 
         // --- CONTROL DEL PORTAL DE ACCESO / LOGIN ---
         function cambiarAuthTab(tab) {
@@ -1897,20 +2630,59 @@
             document.getElementById('modalAuth').style.display = 'flex';
         }
 
+        function cerrarPortalAuth() {
+            document.getElementById('modalAuth').style.display = 'none';
+        }
+
         async function cargarEmpresasDisponibles() {
             try {
                 const res = await fetch('/api/companies');
                 const empresas = await res.json();
                 const sel = document.getElementById('selectAuthEmpresa');
-                sel.innerHTML = '';
-                empresas.forEach(e => {
-                    const opt = document.createElement('option');
-                    opt.value = e.id;
-                    opt.innerText = `${e.nombre} (${e.sector})`;
-                    sel.appendChild(opt);
-                });
+                if (sel) {
+                    sel.innerHTML = '';
+                    empresas.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.innerText = `${e.nombre} (${e.sector})`;
+                        sel.appendChild(opt);
+                    });
+                }
+
+                const quickSel = document.getElementById('quickHeaderCompanySelect');
+                if (quickSel) {
+                    quickSel.innerHTML = '';
+                    empresas.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.innerText = e.nombre;
+                        if (e.id === estadoActual.empresa_activa) opt.selected = true;
+                        quickSel.appendChild(opt);
+                    });
+                }
             } catch (err) {
                 console.error("Error al cargar empresas:", err);
+            }
+        }
+
+        // --- CAMBIO RÁPIDO DE EMPRESA (HEADER MULTI-TENANT) ---
+        async function cambiarEmpresaRapida(empId) {
+            if (!empId) return;
+            estadoActual.empresa_activa = empId;
+            mostrarToast("Sincronizando planta industrial...");
+
+            try {
+                const res = await fetch('/api/optimize', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({empresa_id: empId})
+                });
+                const data = await res.json();
+                aplicarEstadoEmpresa(data);
+                ejecutarPrediccionMLEnTiempoReal();
+                mostrarToast(`Planta '${data.empresa_config?.nombre || empId}' sincronizada.`);
+            } catch (err) {
+                console.error("Error al cambiar empresa:", err);
             }
         }
 
@@ -2050,6 +2822,8 @@
                 renderizarTradeoffChart(data.tradeoff);
             }
 
+            actualizarMonitorInstantaneo(horaInspeccionada);
+
             // Cambiar a Tablero Ejecutivo
             const tabBtnTablero = document.querySelectorAll('.tab-btn')[0];
             switchTab('tablero', tabBtnTablero);
@@ -2106,11 +2880,16 @@
             }
 
             renderizarChartsDashboard(opt);
+            renderizarChartContinuo24h(opt);
+            renderizarComparativasCostosYCO2(opt);
         }
 
         function renderizarChartsDashboard(opt) {
             const m = opt.matriz_despacho;
             const ctx1 = document.getElementById('chartDespachoBloques').getContext('2d');
+            const isLight = document.body.classList.contains('light-theme');
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.05)';
+            const textColor = isLight ? '#1d1d1f' : '#d1d1d6';
             
             if (chartDespachoInstance) chartDespachoInstance.destroy();
 
@@ -2119,21 +2898,21 @@
                 data: {
                     labels: ['Bloque 1 (Pico)', 'Bloque 2 (Medio)', 'Bloque 3 (Valle)'],
                     datasets: [
-                        { label: 'Red STN (e1)', data: [m.e1.t1, m.e1.t2, m.e1.t3], backgroundColor: '#3a3a3c' },
-                        { label: 'Solar On-site (e2)', data: [m.e2.t1, m.e2.t2, m.e2.t3], backgroundColor: '#ffffff' },
-                        { label: 'Parque Eólico (e3)', data: [m.e3.t1, m.e3.t2, m.e3.t3], backgroundColor: '#d1d1d6' },
-                        { label: 'Cogeneración Gas (e4)', data: [m.e4.t1, m.e4.t2, m.e4.t3], backgroundColor: '#8e8e93' }
+                        { label: 'Red STN (e1)', data: [m.e1.t1, m.e1.t2, m.e1.t3], backgroundColor: isLight ? '#2c2c2e' : '#3a3a3c' },
+                        { label: 'Solar On-site (e2)', data: [m.e2.t1, m.e2.t2, m.e2.t3], backgroundColor: isLight ? '#8e8e93' : '#ffffff' },
+                        { label: 'Parque Eólico (e3)', data: [m.e3.t1, m.e3.t2, m.e3.t3], backgroundColor: isLight ? '#aeaeb2' : '#d1d1d6' },
+                        { label: 'Cogeneración Gas (e4)', data: [m.e4.t1, m.e4.t2, m.e4.t3], backgroundColor: isLight ? '#636366' : '#8e8e93' }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
-                        x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
-                        y: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'MWh' } }
+                        x: { stacked: true, grid: { color: gridColor }, ticks: { color: textColor } },
+                        y: { stacked: true, grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 'MWh', color: textColor } }
                     },
                     plugins: {
-                        legend: { position: 'top', labels: { color: '#d1d1d6', boxWidth: 12 } }
+                        legend: { position: 'top', labels: { color: textColor, boxWidth: 12 } }
                     }
                 }
             });
@@ -2147,17 +2926,174 @@
                     labels: ['Red STN', 'Solar On-site', 'Parque Eólico', 'Cogeneración Gas'],
                     datasets: [{
                         data: [m.e1.total, m.e2.total, m.e3.total, m.e4.total],
-                        backgroundColor: ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93'],
-                        borderColor: '#000000',
+                        backgroundColor: isLight ? ['#2c2c2e', '#8e8e93', '#aeaeb2', '#636366'] : ['#3a3a3c', '#ffffff', '#d1d1d6', '#8e8e93'],
+                        borderColor: isLight ? '#ffffff' : '#000000',
                         borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: '#d1d1d6', boxWidth: 10 } }
+                        legend: { position: 'bottom', labels: { color: textColor, boxWidth: 10 } }
                     },
                     cutout: '65%'
+                }
+            });
+        }
+
+        // --- GRÁFICO DE DESPACHO HORARIO CONTINUO 24 HORAS ---
+        function renderizarChartContinuo24h(opt) {
+            if (!opt || !opt.despacho_horario_24h) return;
+            const datos = opt.despacho_horario_24h;
+            const ctx = document.getElementById('chartDespachoContinuo24h').getContext('2d');
+            if (chartContinuoInstance) chartContinuoInstance.destroy();
+
+            const isLight = document.body.classList.contains('light-theme');
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
+            const textColor = isLight ? '#1d1d1f' : '#ffffff';
+
+            chartContinuoInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: datos.map(d => d.hora),
+                    datasets: [
+                        {
+                            label: 'Demanda Requerida (MW)',
+                            data: datos.map(d => d.demanda_mw),
+                            borderColor: isLight ? '#000000' : '#ffffff',
+                            borderWidth: 2.2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Solar Fotovoltaica (MW)',
+                            data: datos.map(d => d.solar_mw),
+                            backgroundColor: isLight ? 'rgba(120, 120, 120, 0.45)' : 'rgba(255, 255, 255, 0.75)',
+                            borderColor: isLight ? '#636366' : '#ffffff',
+                            borderWidth: 1,
+                            fill: 'origin',
+                            tension: 0.3,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Eólica Regional (MW)',
+                            data: datos.map(d => d.eolica_mw),
+                            backgroundColor: isLight ? 'rgba(150, 150, 150, 0.35)' : 'rgba(200, 200, 200, 0.45)',
+                            borderColor: '#d1d1d6',
+                            borderWidth: 1,
+                            fill: 'origin',
+                            tension: 0.3,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Cogeneración Gas (MW)',
+                            data: datos.map(d => d.gas_mw),
+                            backgroundColor: isLight ? 'rgba(180, 180, 180, 0.30)' : 'rgba(140, 140, 140, 0.40)',
+                            borderColor: '#8e8e93',
+                            borderWidth: 1,
+                            fill: 'origin',
+                            tension: 0.2,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Red Nacional STN (MW)',
+                            data: datos.map(d => d.red_mw),
+                            backgroundColor: isLight ? 'rgba(210, 210, 210, 0.25)' : 'rgba(60, 60, 60, 0.50)',
+                            borderColor: '#3a3a3c',
+                            borderWidth: 1,
+                            fill: 'origin',
+                            tension: 0.1,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 'Potencia (MW)', color: textColor } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: textColor, boxWidth: 12 } }
+                    }
+                }
+            });
+        }
+
+        // --- COMPARATIVAS ECONÓMICAS Y AMBIENTALES ---
+        function renderizarComparativasCostosYCO2(opt) {
+            if (!opt) return;
+            const isLight = document.body.classList.contains('light-theme');
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
+            const textColor = isLight ? '#1d1d1f' : '#ffffff';
+
+            const ctxC = document.getElementById('chartComparativaCostos').getContext('2d');
+            if (chartCostosInstance) chartCostosInstance.destroy();
+
+            chartCostosInstance = new Chart(ctxC, {
+                type: 'bar',
+                data: {
+                    labels: ['Compra Tradicional (Red+Gas)', 'OptiGrid Prescriptivo (CBC)'],
+                    datasets: [{
+                        label: 'Costo Operativo Mensual ($ USD)',
+                        data: [opt.costo_base, opt.costo_optimo],
+                        backgroundColor: [
+                            isLight ? '#8e8e93' : '#48484a',
+                            isLight ? '#000000' : '#ffffff'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: textColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 'USD / mes', color: textColor } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(c) {
+                                    return ` Costo: $${Math.round(c.raw).toLocaleString()} USD`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const ctxCO2 = document.getElementById('chartComparativaCO2').getContext('2d');
+            if (chartCO2Instance) chartCO2Instance.destroy();
+
+            const limiteCO2 = opt.emisiones_totales + opt.holgura_co2_ton;
+            chartCO2Instance = new Chart(ctxCO2, {
+                type: 'bar',
+                data: {
+                    labels: ['Emisiones Tradicionales', 'Emisiones Óptimas', 'Límite Regulatorio'],
+                    datasets: [{
+                        label: 'Toneladas de CO2 / mes',
+                        data: [opt.emisiones_base, opt.emisiones_totales, limiteCO2],
+                        backgroundColor: [
+                            isLight ? '#8e8e93' : '#3a3a3c',
+                            isLight ? '#000000' : '#ffffff',
+                            isLight ? '#aeaeb2' : '#636366'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: textColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 't CO2 / mes', color: textColor } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
                 }
             });
         }
@@ -2382,6 +3318,9 @@
             const validos = puntos.filter(p => p.status === 'Factible');
             const ctx = document.getElementById('chartTradeoff').getContext('2d');
             if (chartTradeoffInstance) chartTradeoffInstance.destroy();
+            const isLight = document.body.classList.contains('light-theme');
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.05)';
+            const textColor = isLight ? '#1d1d1f' : '#d1d1d6';
 
             chartTradeoffInstance = new Chart(ctx, {
                 type: 'line',
@@ -2390,29 +3329,102 @@
                     datasets: [{
                         label: 'Costo Óptimo Total ($ USD)',
                         data: validos.map(p => p.costo),
-                        borderColor: '#ffffff',
-                        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                        borderColor: isLight ? '#000000' : '#ffffff',
+                        backgroundColor: isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.06)',
                         fill: true,
                         tension: 0.25,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#000000',
+                        pointBackgroundColor: isLight ? '#000000' : '#ffffff',
+                        pointBorderColor: isLight ? '#ffffff' : '#000000',
                         pointRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Límite Máximo de Emisiones (t CO2)' } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Costo de Suministro ($ USD)' } }
+                        x: { grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 'Límite Máximo de Emisiones (t CO2)', color: textColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor }, title: { display: true, text: 'Costo de Suministro ($ USD)', color: textColor } }
                     },
                     plugins: {
-                        legend: { labels: { color: '#d1d1d6' } }
+                        legend: { labels: { color: textColor } }
                     }
                 }
             });
         }
 
-        // --- COPILOT Y ASISTENTE ANALITICO ---
+        // --- CONFIGURACIÓN DE APIS DE INTELIGENCIA ARTIFICIAL ---
+        async function cargarConfiguracionAi() {
+            try {
+                const res = await fetch('/api/ai_config');
+                const cfg = await res.json();
+                const badgeText = document.getElementById('aiStatusText');
+                const badgeDot = document.getElementById('aiStatusDot');
+                
+                if (cfg.tiene_key) {
+                    badgeText.innerText = `${cfg.proveedor.toUpperCase()} (${cfg.modelo}) Conectado`;
+                    badgeDot.style.background = '#30d158';
+                    badgeDot.style.boxShadow = '0 0 8px rgba(48,209,88,0.6)';
+                } else {
+                    badgeText.innerText = 'Motor Analítico Local Activo';
+                    badgeDot.style.background = '#ffffff';
+                    badgeDot.style.boxShadow = 'none';
+                }
+
+                const selProv = document.getElementById('cfgAiProveedor');
+                if (selProv) selProv.value = cfg.proveedor;
+                const inpMod = document.getElementById('cfgAiModelo');
+                if (inpMod) inpMod.value = cfg.modelo;
+                const inpKey = document.getElementById('cfgAiKey');
+                if (inpKey && cfg.key_enmascarada) inpKey.placeholder = `Clave activa: ${cfg.key_enmascarada}`;
+            } catch (err) {
+                console.error("Error al cargar config AI:", err);
+            }
+        }
+
+        function abrirModalAiConfig() {
+            document.getElementById('modalAiConfig').style.display = 'flex';
+        }
+
+        function cerrarModalAiConfig() {
+            document.getElementById('modalAiConfig').style.display = 'none';
+        }
+
+        function actualizarModeloSegunProveedor(prov) {
+            const inp = document.getElementById('cfgAiModelo');
+            if (!inp) return;
+            if (prov === 'gemini') inp.value = 'gemini-2.0-flash';
+            else if (prov === 'groq') inp.value = 'llama-3.3-70b-versatile';
+            else if (prov === 'openai') inp.value = 'gpt-4o-mini';
+            else if (prov === 'openrouter') inp.value = 'google/gemini-2.0-flash-exp:free';
+        }
+
+        async function guardarConfiguracionAi() {
+            const prov = document.getElementById('cfgAiProveedor').value;
+            const key = document.getElementById('cfgAiKey').value.trim();
+            const mod = document.getElementById('cfgAiModelo').value.trim();
+
+            try {
+                const res = await fetch('/api/set_ai_config', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({proveedor: prov, api_key: key, modelo: mod})
+                });
+                const data = await res.json();
+                cerrarModalAiConfig();
+                await cargarConfiguracionAi();
+                mostrarToast(data.mensaje || "Configuración de IA guardada.");
+            } catch (err) {
+                console.error("Error al guardar config AI:", err);
+                mostrarToast("Error al guardar la configuración de IA.");
+            }
+        }
+
+        // --- COPILOT Y CONSULTOR VIRTUAL ---
+        function ejecutarChipCopilot(pregunta) {
+            const inp = document.getElementById('copilotInput');
+            inp.value = pregunta;
+            enviarConsultaCopilot();
+        }
+
         async function enviarConsultaCopilot() {
             const inp = document.getElementById('copilotInput');
             const q = inp.value.trim();
@@ -2425,6 +3437,21 @@
             box.appendChild(userMsg);
             inp.value = '';
 
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'msg-bubble msg-assistant';
+            typingBubble.innerHTML = `
+                <div class="typing-indicator">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            box.appendChild(typingBubble);
+            box.scrollTop = box.scrollHeight;
+
+            const btn = document.getElementById('btnEnviarCopilot');
+            if (btn) btn.disabled = true;
+
             try {
                 const res = await fetch('/api/copilot', {
                     method: 'POST',
@@ -2432,14 +3459,52 @@
                     body: JSON.stringify({query: q, empresa_id: estadoActual.empresa_activa})
                 });
                 const data = await res.json();
+                typingBubble.remove();
+
                 const aiMsg = document.createElement('div');
                 aiMsg.className = 'msg-bubble msg-assistant';
-                aiMsg.innerHTML = `<strong>${data.titulo || 'OptiGrid Copilot'}:</strong><br>${data.mensaje}`;
+
+                let formattedText = (data.mensaje || '')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n•/g, '<br>• ')
+                    .replace(/\n-/g, '<br>- ');
+
+                aiMsg.innerHTML = `
+                    <span class="badge-source">${data.proveedor || 'OptiGrid Copilot'}</span><br>
+                    ${formattedText}
+                `;
                 box.appendChild(aiMsg);
                 box.scrollTop = box.scrollHeight;
             } catch (err) {
+                typingBubble.remove();
                 console.error("Error al consultar copilot:", err);
+                const errMsg = document.createElement('div');
+                errMsg.className = 'msg-bubble msg-assistant';
+                errMsg.innerHTML = `<strong>Aviso:</strong> No se pudo procesar la consulta en el servidor. Verifique la conexión.`;
+                box.appendChild(errMsg);
+            } finally {
+                if (btn) btn.disabled = false;
             }
+        }
+
+        // --- UTILIDADES ---
+        function mostrarToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'apple-toast';
+            toast.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>${msg}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
         }
 
         function actualizarValLabel(elemId, val) {
