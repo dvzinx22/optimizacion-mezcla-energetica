@@ -987,68 +987,141 @@
             </div>
         </section>
 
-        <!-- ==================== SLIDE 6: CASO DE ÉXITO ==================== -->
+        <!-- ==================== SLIDE 6: CASO DE ÉXITO (ANTES, RETO Y DESPUÉS) ==================== -->
         <section class="slide" id="slide-6">
             <div class="slide-card">
                 <div class="slide-header">
                     <div class="slide-category">05 &bull; Resultados Comprobados</div>
-                    <h2 class="slide-title">Caso de Éxito: Lo Que Se Logró en la Práctica</h2>
+                    <h2 class="slide-title">Caso de Éxito: Transformación Real de la Planta</h2>
                     <p class="slide-subtitle">
-                        Validación cuantitativa sobre una planta industrial electro-intensiva de 5,000 MWh/mes (Caso Benchmark Oficial).
+                        Validación cuantitativa sobre una planta industrial electro-intensiva de 5,000 MWh/mes (Caso Benchmark Oficial Uniguajira).
                     </p>
                 </div>
 
                 <div class="slide-body">
-                    <div class="grid-4">
-                        <div class="sub-panel">
+                    <!-- PIPELINE COMPARATIVO: CÓMO ESTABA -> LO QUE SE NECESITABA -> LO QUE SE LOGRÓ -->
+                    <div class="grid-3" style="gap:16px;">
+                        
+                        <!-- 1. CÓMO ESTABA LA PLANTA -->
+                        <div class="sub-panel" style="border-color: rgba(255, 255, 255, 0.12);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <span class="pill-badge" style="background:rgba(255,255,255,0.06); color:var(--text-secondary);">
+                                    1. Estado Inicial (Antes)
+                                </span>
+                                <span style="font-size:0.70rem; font-weight:700; text-transform:uppercase; color:var(--text-muted);">
+                                    Línea Base
+                                </span>
+                            </div>
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                Cómo Estaba la Planta
+                            </div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                Dependencia del <strong>100% de la red eléctrica tradicional</strong>, comprando energía en horas pico al costo más caro de la tarifa ($114/MWh).
+                            </p>
+                            <div style="border-top:1px solid var(--border-glass); padding-top:10px; font-size:0.80rem; color:var(--text-secondary); line-height:1.6;">
+                                <div>&bull; Costo Operativo: <strong style="color:var(--text-primary);">$397,500 USD/mes</strong></div>
+                                <div>&bull; Emisiones: <strong style="color:var(--text-primary);">~1,700 t CO2</strong> (Riesgo de multas)</div>
+                                <div>&bull; Gestión: Manual, empírica y a ciegas</div>
+                            </div>
+                        </div>
+
+                        <!-- 2. LO QUE SE NECESITABA -->
+                        <div class="sub-panel" style="border-color: rgba(255, 255, 255, 0.18);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <span class="pill-badge" style="background:rgba(255,255,255,0.10); color:var(--text-primary);">
+                                    2. El Requerimiento
+                                </span>
+                                <span style="font-size:0.70rem; font-weight:700; text-transform:uppercase; color:var(--text-muted);">
+                                    El Reto Técnico
+                                </span>
+                            </div>
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                Lo Que Se Necesitaba
+                            </div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                Abastecer exactamente <strong>5,000 MWh/mes</strong> sin cortes, cumpliendo límites ambientales obligatorios y despachando al menor costo.
+                            </p>
+                            <div style="border-top:1px solid var(--border-glass); padding-top:10px; font-size:0.80rem; color:var(--text-secondary); line-height:1.6;">
+                                <div>&bull; Demanda Total: <strong style="color:var(--text-primary);">5,000 MWh en 3 bloques</strong></div>
+                                <div>&bull; Límite Ambiental: <strong style="color:var(--text-primary);">&le; 1,200 t CO2/mes</strong></div>
+                                <div>&bull; Cuota Limpia: <strong style="color:var(--text-primary);">&ge; 30% Renovable mínima</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- 3. LO QUE SE LOGRÓ (RESULTADOS Y AHORROS) -->
+                        <div class="sub-panel" style="border-color: rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.05);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <span class="pill-badge" style="background:#ffffff; color:#000000; font-weight:700;">
+                                    3. Con OptiGrid (Después)
+                                </span>
+                                <span style="font-size:0.70rem; font-weight:700; text-transform:uppercase; color:var(--text-primary);">
+                                    Éxito Comprobado
+                                </span>
+                            </div>
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                                Lo Que Se Logró (Ahorros)
+                            </div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                El solver CBC apagó la red en horas pico (0 MWh) y optimizó la mezcla con Solar, Eólica y Gas en tiempo real.
+                            </p>
+                            <div style="border-top:1px solid var(--border-glass); padding-top:10px; font-size:0.80rem; color:var(--text-secondary); line-height:1.6;">
+                                <div>&bull; Costo Optimizado: <strong style="color:var(--text-primary);">$267,000 USD/mes</strong></div>
+                                <div>&bull; Ahorro Neto: <strong style="color:var(--text-primary);">-$130,500 USD (32.8%)</strong></div>
+                                <div>&bull; Huella CO2: <strong style="color:var(--text-primary);">850 t (350 t de holgura)</strong></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- MÉTRICAS DE IMPACTO -->
+                    <div class="grid-4" style="margin-top:14px; gap:12px;">
+                        <div class="sub-panel" style="padding:14px 18px;">
                             <span class="metric-sub">Ahorro Mensual Neto</span>
-                            <div class="metric-big">$130,500</div>
-                            <span class="pill-badge">32.8% de Ahorro</span>
+                            <div class="metric-big" style="font-size:2.1rem;">$130,500</div>
+                            <span class="pill-badge" style="font-size:0.68rem;">32.8% de Ahorro Directo</span>
                         </div>
-                        <div class="sub-panel">
+                        <div class="sub-panel" style="padding:14px 18px;">
                             <span class="metric-sub">Ahorro Anual Proyectado</span>
-                            <div class="metric-big">$1.56M</div>
-                            <span class="pill-badge">Retorno Directo USD</span>
+                            <div class="metric-big" style="font-size:2.1rem;">$1.56M</div>
+                            <span class="pill-badge" style="font-size:0.68rem;">Retorno Directo USD/año</span>
                         </div>
-                        <div class="sub-panel">
-                            <span class="metric-sub">Huella CO2 / mes</span>
-                            <div class="metric-big">850.0 t</div>
-                            <span class="pill-badge">Límite Legal: 1,200 t</span>
+                        <div class="sub-panel" style="padding:14px 18px;">
+                            <span class="metric-sub">Huella CO2 Mitigada</span>
+                            <div class="metric-big" style="font-size:2.1rem;">850.0 t</div>
+                            <span class="pill-badge" style="font-size:0.68rem;">Límite Legal: 1,200 t</span>
                         </div>
-                        <div class="sub-panel">
+                        <div class="sub-panel" style="padding:14px 18px;">
                             <span class="metric-sub">Energía Renovable</span>
-                            <div class="metric-big">62.0%</div>
-                            <span class="pill-badge">3,100 MWh Limpios</span>
+                            <div class="metric-big" style="font-size:2.1rem;">62.0%</div>
+                            <span class="pill-badge" style="font-size:0.68rem;">3,100 MWh Limpios (2x Meta)</span>
                         </div>
                     </div>
 
-                    <div class="grid-2">
-                        <div class="sub-panel">
-                            <div class="sub-panel-title">La Decisión Inteligente del Software</div>
-                            <p class="sub-panel-desc">
-                                En horario pico (18:00-22:00), OptiGrid <strong>apagó la red nacional por completo (0 MWh)</strong> evitando pagar $114/MWh, abasteciendo la fábrica con cogeneración a gas y eólica barata.
-                            </p>
-                        </div>
-                        <div class="sub-panel">
-                            <div class="sub-panel-title">Al Agregar Baterías (BESS 400 MWh)</div>
-                            <p class="sub-panel-desc">
-                                El cliente incorporó baterías de litio y el solver re-optimizó en 12 ms, bajando el costo de <strong>$267,000 a $231,400 USD/mes</strong> (un ahorro adicional de <strong>+$35,600 USD mensuales</strong>).
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- BOTÓN DEMOSTRACIÓN EN VIVO -->
-                    <div class="hero-action-box" style="margin-top:auto;">
+                    <!-- BANNER DEMOSTRACIÓN EN VIVO -->
+                    <div class="hero-action-box" style="margin-top:14px; padding:16px 24px;">
                         <div>
-                            <h4 style="font-size:1.15rem; font-weight:700; color:var(--text-primary); margin-bottom:4px;">
+                            <h4 style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom:3px;">
                                 Demostración del Software ante los Jurados
                             </h4>
-                            <p style="font-size:0.86rem; color:var(--text-secondary);">
-                                Invitamos al comité a proponer cambios de clima, tarifas o nuevos activos en vivo en la plataforma.
+                            <p style="font-size:0.82rem; color:var(--text-secondary);">
+                                Demostración interactiva en vivo: ajuste de cotas climáticas, simulación de tarifas y adición de baterías en tiempo real.
                             </p>
                         </div>
-                        <a href="index.html" target="_blank" class="btn-apple-secondary" style="background:#ffffff; color:#000000; font-weight:700; font-size:0.88rem; padding:10px 22px;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px; height:16px;">
+                        <a href="index.html" target="_blank" class="btn-apple-secondary" style="background:#ffffff; color:#000000; font-weight:700; font-size:0.84rem; padding:9px 20px; white-space:nowrap;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:15px; height:15px;">
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
                             </svg>
                             Ver Software en Vivo
@@ -1116,7 +1189,7 @@
             "03. El Problema: Compra a Ciegas",
             "04. La Solución: OptiGrid Enterprise",
             "05. Público Objetivo: Grandes Industrias",
-            "06. Caso de Éxito: Lo Que Se Logró"
+            "06. Caso de Éxito: Transformación Real (Antes vs Después)"
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
