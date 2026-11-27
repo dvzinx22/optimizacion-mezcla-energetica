@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustentación de Proyecto | OptiGrid Enterprise | Universidad de La Guajira</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            /* Apple Liquid Glass: Pure Obsidian & Monochrome Grayscale */
+            --bg-base: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.07);
+            --bg-card-active: rgba(255, 255, 255, 0.10);
+            
+            --border-glass: rgba(255, 255, 255, 0.10);
+            --border-glass-strong: rgba(255, 255, 255, 0.22);
+            --border-glass-subtle: rgba(255, 255, 255, 0.06);
+
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1a6;
+            --text-muted: #6e6e73;
+            --text-dim: #48484a;
+
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+
+            --blur-glass: blur(40px) saturate(180%);
+            --shadow-glass: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --slide-accent: #ffffff;
+        }
+
+        /* --- LIGHT THEME (APPLE LIQUID GLASS WHITE / SILVER) --- */
+        body.light-theme {
+            --bg-base: #f5f5f7;
+            --bg-surface: #e5e5ea;
+            --bg-card: rgba(255, 255, 255, 0.75);
+            --bg-card-hover: rgba(255, 255, 255, 0.90);
+            --bg-card-active: rgba(255, 255, 255, 1.0);
+
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --border-glass-strong: rgba(0, 0, 0, 0.18);
+            --border-glass-subtle: rgba(0, 0, 0, 0.04);
+
+            --text-primary: #1d1d1f;
+            --text-secondary: #515154;
+            --text-muted: #86868b;
+            --text-dim: #aeaeb2;
+
+            --shadow-glass: 0 12px 30px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            --slide-accent: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        body.light-theme {
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(0, 0, 0, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 40%);
+        }
+
+        /* --- TOP PROGRESS BAR --- */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+        }
+
+        body.light-theme .progress-container {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--slide-accent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.light-theme .progress-bar {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- HEADER NAVBAR --- */
+        header {
+            position: fixed;
+            top: 3px;
+            left: 0;
+            width: 100%;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: var(--blur-glass);
+            -webkit-backdrop-filter: var(--blur-glass);
+            border-bottom: 1px solid var(--border-glass);
+            z-index: 900;
+        }
+
+        body.light-theme header {
+            background: rgba(245, 245, 247, 0.85);
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--slide-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-base);
+        }
+
+        .brand-titles h1 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .brand-titles p {
+            font-size: 0.70rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pill-badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        body.light-theme .pill-badge {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-apple-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 980px;
+            font-size: 0.76rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-apple-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--border-glass-strong);
+        }
+
+        body.light-theme .btn-apple-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #1d1d1f;
+        }
+
+        body.light-theme .btn-apple-secondary:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- SLIDES CONTAINER --- */
+        .deck-viewport {
+            position: absolute;
+            top: 58px;
+            bottom: 68px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 32px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            max-width: 1280px;
+            height: calc(100vh - 150px);
+            max-height: 820px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(20px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* --- GLASS PANEL FOR SLIDES --- */
+        .slide-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--blur-glass);
+            -webkit-backdrop-filter: var(--blur-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-glass);
+            padding: 44px 52px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide-header {
+            margin-bottom: 24px;
+        }
+
+        .slide-category {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .slide-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            max-width: 860px;
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        /* --- GRIDS & CARDS --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .sub-panel {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+            transition: all 0.2s ease;
+        }
+
+        body.light-theme .sub-panel {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .sub-panel:hover {
+            border-color: var(--border-glass-strong);
+            background: var(--bg-card-hover);
+        }
+
+        .sub-panel-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-panel-desc {
+            font-size: 0.80rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .metric-big {
+            font-size: 2.3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin: 6px 0 2px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-sub {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* --- FORMULAS & MATH CALLOUTS --- */
+        .math-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-left: 3px solid var(--slide-accent);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            font-family: "SF Mono", Consolas, Menlo, monospace;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        body.light-theme .math-box {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- TEAM GRID --- */
+        .team-grid-deck {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .team-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        body.light-theme .team-pill {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .team-avatar-mini {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .team-avatar-mini {
+            background: rgba(0, 0, 0, 0.08);
+            color: #000000;
+        }
+
+        .team-text h5 {
+            font-size: 0.80rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .team-text p {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- FLOATING BOTTOM CONTROLS DOCK --- */
+        .controls-dock {
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 48px;
+            background: rgba(20, 20, 22, 0.85);
+            backdrop-filter: var(--blur-glass);
+            -webkit-backdrop-filter: var(--blur-glass);
+            border: 1px solid var(--border-glass-strong);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border-radius: 980px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 950;
+        }
+
+        body.light-theme .controls-dock {
+            background: rgba(255, 255, 255, 0.90);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .dock-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .dock-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        body.light-theme .dock-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .dock-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .dock-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--border-glass);
+            margin: 0 4px;
+        }
+
+        .dock-counter {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
+            padding: 0 8px;
+        }
+
+        /* --- OVERVIEW GRID MODAL --- */
+        .overview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: none;
+            padding: 60px 40px;
+            overflow-y: auto;
+            animation: fadeIn 0.2s ease;
+        }
+
+        body.light-theme .overview-overlay {
+            background: rgba(245, 245, 247, 0.92);
+        }
+
+        .overview-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .overview-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .overview-card:hover, .overview-card.active {
+            border-color: var(--slide-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .overview-card-num {
+            font-size: 0.70rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .overview-card-title {
+            font-size: 0.80rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .slide-card { padding: 32px 28px; }
+            .slide-title { font-size: 1.6rem; }
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .team-grid-deck { grid-template-columns: repeat(2, 1fr); }
+            .overview-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- HEADER NAVIGATION -->
+    <header>
+        <div class="brand-section">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px; height:18px;">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </div>
+            <div class="brand-titles">
+                <h1>OPTIGRID ENTERPRISE | SUSTENTACIÓN DE PROYECTO</h1>
+                <p>Universidad de La Guajira &bull; Facultad de Ingeniería &bull; Investigación de Operaciones</p>
+            </div>
+        </div>
+
+        <div class="header-meta">
+            <span class="pill-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px; height:12px;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Defensa de Grado / Jurados
+            </span>
+
+            <button class="btn-apple-secondary" id="btnToggleTheme" onclick="toggleTema()" title="Alternar Modo Claro / Oscuro">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px; height:13px;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <span id="txtTheme">Modo Claro</span>
+            </button>
+
+            <a href="index.html" class="btn-apple-secondary" target="_blank" title="Abrir Plataforma en Producción">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px; height:13px;">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Software en Vivo
+            </a>
+        </div>
+    </header>
+
+    <!-- DECK VIEWPORT -->
+    <main class="deck-viewport">
+
+        <!-- ==================== DIAPOSITIVA 1: PORTADA ==================== -->
+        <section class="slide active" id="slide-1">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        Universidad de La Guajira &bull; Facultad de Ingeniería &bull; Ingeniería de Sistemas
+                    </div>
+                    <h2 class="slide-title" style="font-size:2.8rem; margin-top:10px;">OPTIGRID ENTERPRISE</h2>
+                    <p class="slide-subtitle" style="font-size:1.15rem;">
+                        Sistema de Optimización Prescriptiva, Despacho Energético Industrial e Inteligencia Artificial Multi-Variable
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-3" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <span class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                                </svg>
+                                Investigación de Operaciones
+                            </span>
+                            <p class="sub-panel-desc">Programación lineal continua con algoritmo Simplex/Primal-Dual mediante PuLP y solver CBC de alto rendimiento.</p>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 2a10 10 0 0 1 10 10H12V2z"></path>
+                                </svg>
+                                Machine Learning Predictivo
+                            </span>
+                            <p class="sub-panel-desc">Random Forest Regressor con inferencia en sub-15 ms sobre parámetros anemométricos y radiación solar.</p>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                OptiGrid Copilot
+                            </span>
+                            <p class="sub-panel-desc">Asistente analítico inteligente multi-proveedor (Gemini, Groq, OpenAI) con respaldo analítico local.</p>
+                        </div>
+                    </div>
+
+                    <!-- EQUIPO DE TRABAJO -->
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 14px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--text-secondary);">
+                                Equipo de Estudiantes Desarrolladores &bull; Facultad de Ingeniería
+                            </span>
+                            <span style="font-size:0.72rem; color:var(--text-primary); font-weight:600;">
+                                Director Académico: Prof. Nicolás de Jesús Sánchez
+                            </span>
+                        </div>
+                        <div class="team-grid-deck">
+                            <div class="team-pill"><div class="team-avatar-mini">SM</div><div class="team-text"><h5>Sneyder Madrid Arcia</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">MB</div><div class="team-text"><h5>Moisés Bolívar</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">AA</div><div class="team-text"><h5>Andrés Aguilar</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">DC</div><div class="team-text"><h5>Dylan Cáceres Montiel</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">MO</div><div class="team-text"><h5>Milder Oñate</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">JE</div><div class="team-text"><h5>Jorge Escudero</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill"><div class="team-avatar-mini">WR</div><div class="team-text"><h5>William Redondo</h5><p>Ing. de Sistemas</p></div></div>
+                            <div class="team-pill" style="border-color:var(--border-glass-strong);"><div class="team-avatar-mini" style="background:#ffffff; color:#000000;">NS</div><div class="team-text"><h5>Prof. Nicolás Sánchez</h5><p>Docente Titular</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 2: EL PROBLEMA INDUSTRIAL ==================== -->
+        <section class="slide" id="slide-2">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">02 &bull; Contexto y Justificación Operacional</div>
+                    <h2 class="slide-title">El Trilema de la Gestión Energética Industrial</h2>
+                    <p class="slide-subtitle">
+                        Las industrias electro-intensivas enfrentan una encrucijada donde la gestión manual e intuitiva produce sobrecostos de hasta un 35% y riesgo inminente de sanciones ambientales.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-3" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                                1. Esquema Tarifario Multi-Bloque
+                            </div>
+                            <p class="sub-panel-desc">
+                                El costo de la energía de red tradicional varía drásticamente a lo largo de las 24 horas: <strong>$110-118/MWh en Bloque Pico</strong> frente a <strong>$60/MWh en Bloque Valle</strong>. Sin modelos prescriptivos, las plantas compran energía en horas caras sin aprovechar fuentes flexibles.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                                </svg>
+                                2. Restricciones de Descarbonización
+                            </div>
+                            <p class="sub-panel-desc">
+                                Metas regulatorias estrictas de límites de emisión de CO2 (ej. 1,200 t/mes) y cuotas mínimas obligatorias de renovables (30-45%). Operar con red o gas fósil sin un control continuo de emisiones genera penalizaciones económicas severas.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                3. Intermitencia Climática y Activos
+                            </div>
+                            <p class="sub-panel-desc">
+                                La energía solar y eólica son volátiles e intermitentes. Sin predicción meteorológica en tiempo real combinada con un solver matemático, las empresas sufren vertimientos o desbalances de carga no controlados.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="sub-panel" style="background: rgba(255, 255, 255, 0.04); border-color: var(--border-glass-strong);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h4 style="font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:4px;">
+                                    La Pregunta Central para la Industria:
+                                </h4>
+                                <p style="font-size:0.84rem; color:var(--text-secondary);">
+                                    ¿Cómo despachar cada MWh hora a hora minimizando el costo financiero exacto, garantizando el suministro total y cumpliendo con el límite de CO2 en tiempo real?
+                                </p>
+                            </div>
+                            <span class="pill-badge" style="background:#ffffff; color:#000000; font-weight:700; padding:6px 14px;">
+                                Respuesta: OptiGrid Enterprise
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 3: ARQUITECTURA DE LA SOLUCIÓN ==================== -->
+        <section class="slide" id="slide-3">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">03 &bull; Diseño del Sistema y Metodología</div>
+                    <h2 class="slide-title">Arquitectura Tecnológica e Integración Tripartita</h2>
+                    <p class="slide-subtitle">
+                        Integración sinérgica de tres disciplinas de vanguardia: Optimización Prescriptiva (IO), Inteligencia Artificial Predictiva (ML) y Razonamiento Asistido (LLM Copilot).
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-3" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <span class="pill-badge" style="margin-bottom:12px;">Capa 1: Prescriptiva</span>
+                            <div class="sub-panel-title">Solver PuLP / CBC Continuo</div>
+                            <p class="sub-panel-desc">
+                                Resuelve el problema de programación lineal continua multiobjetivo con función de costos integrados, peajes de transporte STN/STR, pérdidas técnicas y variables duales de sombra (&pi;).
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <span class="pill-badge" style="margin-bottom:12px;">Capa 2: Predictiva</span>
+                            <div class="sub-panel-title">Random Forest en Tiempo Real</div>
+                            <p class="sub-panel-desc">
+                                Modelo de ensamble Scikit-Learn entrenado con 4,320 observaciones horarias. Transforma variables ambientales (W/m², m/s, °C, %) en curvas de capacidad horaria instantáneas.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <span class="pill-badge" style="margin-bottom:12px;">Capa 3: Cognitiva</span>
+                            <div class="sub-panel-title">OptiGrid Copilot Multi-LLM</div>
+                            <p class="sub-panel-desc">
+                                Conexión directa a Google Gemini 2.0 Flash, Groq Llama 3.3 y OpenAI. Además cuenta con un motor analítico local autónomo para auditoría de precios sombra sin conexión externa.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FLUJO DE DATOS INDUSTRIAL -->
+                    <div class="sub-panel">
+                        <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--text-secondary); margin-bottom:10px;">
+                            Flujo de Datos y Pipeline de Decisión:
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <span class="pill-badge">1. Sensores Meteorológicos & Tarifa</span>
+                            <span style="color:var(--text-muted);">&rarr;</span>
+                            <span class="pill-badge">2. Inferencia Random Forest (12 ms)</span>
+                            <span style="color:var(--text-muted);">&rarr;</span>
+                            <span class="pill-badge">3. Cotas Dinámicas al Solver PuLP</span>
+                            <span style="color:var(--text-muted);">&rarr;</span>
+                            <span class="pill-badge">4. Solución Óptima CBC (sub-15 ms)</span>
+                            <span style="color:var(--text-muted);">&rarr;</span>
+                            <span class="pill-badge">5. Despacho 24h & Copilot AI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 4: FORMULACIÓN MATEMÁTICA ==================== -->
+        <section class="slide" id="slide-4">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">04 &bull; Fundamento Matemático Riguroso</div>
+                    <h2 class="slide-title">Formulación de Programación Lineal Continua</h2>
+                    <p class="slide-subtitle">
+                        Modelo de Investigación de Operaciones formulado para minimizar el costo total operativo garantizando cumplimiento ambiental y restricciones técnicas de red.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-2" style="margin-bottom: 20px;">
+                        <div>
+                            <div class="math-box">
+                                <strong>Variables de Decisión:</strong><br>
+                                x_{(e, t)} \ge 0 : \text{MWh asignados desde fuente } e \in E \text{ en bloque } t \in T<br>
+                                y_t \ge 0 : \text{Costo total de suministro en el bloque } t
+                            </div>
+                            <div class="math-box">
+                                <strong>Función Objetivo (Minimizar Costo Operativo):</strong><br>
+                                \min Z = \sum_{t \in T} y_t = \sum_{t \in T} \sum_{e \in E} \left( c_{(e, t)} + p_e \right) \cdot x_{(e, t)}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="math-box">
+                                <strong>Restricción 1 &bull; Balance de Demanda Estricta:</strong><br>
+                                \sum_{e \in E} x_{(e, t)} = D_t \quad \forall t \in \{t_1, t_2, t_3\}
+                            </div>
+                            <div class="math-box">
+                                <strong>Restricción 2 &bull; Cupo Regulatorio de Emisiones:</strong><br>
+                                \sum_{t \in T} \sum_{e \in E} \text{emisión}_e \cdot x_{(e, t)} \le L_{\text{CO}_2} \times 1000
+                            </div>
+                            <div class="math-box">
+                                <strong>Restricción 3 &bull; Cuota Mínima Obligatoria Renovable:</strong><br>
+                                \sum_{t \in T} \sum_{e \in E_{\text{ren}}} x_{(e, t)} \ge Q_{\text{ren}} \cdot \sum_{t \in T} D_t
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div class="sub-panel-title">Análisis Dual y Precios Sombra (&pi;)</div>
+                                <p class="sub-panel-desc">
+                                    El valor dual del balance en pico (&pi;_{t1} = +$75/MWh) y valle (&pi;_{t3} = +$60/MWh) demuestra que desplazar 1 MWh hacia horas de la noche genera un ahorro neto de <strong>+$15 USD/MWh</strong>.
+                                </p>
+                            </div>
+                            <span class="pill-badge" style="font-family:monospace;">Solver Status: Optimal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 5: CASO BENCHMARK ==================== -->
+        <section class="slide" id="slide-5">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">05 &bull; Validación Experimental Cuantitativa</div>
+                    <h2 class="slide-title">Resultados Exactos: Caso Benchmark (Ejercicio 1)</h2>
+                    <p class="slide-subtitle">
+                        Validación matemática exacta frente a la guía académica del Prof. Nicolás de Jesús Sánchez y contrastada con el escenario tradicional no optimizado.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-4" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <span class="metric-sub">Costo Óptimo Total</span>
+                            <div class="metric-big">$267,000</div>
+                            <span class="pill-badge">Exacto Benchmark</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Ahorro Mensual Neto</span>
+                            <div class="metric-big">$130,500</div>
+                            <span class="pill-badge">32.8% de Ahorro</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Emisiones Mensuales</span>
+                            <div class="metric-big">850.0 t</div>
+                            <span class="pill-badge">Límite: 1,200 t</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Participación Renovable</span>
+                            <div class="metric-big">62.0%</div>
+                            <span class="pill-badge">3,100 MWh Limpios</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Hallazgo Estratégico en Horario Punta (t1)</div>
+                            <p class="sub-panel-desc">
+                                El solver CBC <strong>apaga completamente la Red Nacional (0 MWh)</strong> en Bloque 1 debido a su costo prohibitivo ($110/MWh) y factor contaminante (500 kg/MWh). La demanda de 1,200 MWh se cubre al 100% mediante <strong>Cogeneración a Gas (800 MWh)</strong> y <strong>Eólica (400 MWh)</strong>.
+                            </p>
+                        </div>
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Margen Ambiental y Reducción Anual</div>
+                            <p class="sub-panel-desc">
+                                Se alcanza una holgura ambiental de <strong>350.0 toneladas de CO2</strong> mensuales de margen de seguridad legal. El ahorro anual proyectado asciende a <strong>$1,566,000 USD</strong> para la instalación industrial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 6: MACHINE LEARNING ==================== -->
+        <section class="slide" id="slide-6">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">06 &bull; Inteligencia Artificial Aplicada</div>
+                    <h2 class="slide-title">Motor Predictivo Random Forest de Scikit-Learn</h2>
+                    <p class="slide-subtitle">
+                        Pronóstico anemométrico y fotovoltaico en tiempo real para anticipar la disponibilidad de potencia y recalibrar cotas de planta instantáneamente.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-4" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <span class="metric-sub">Precisión Estadística R²</span>
+                            <div class="metric-big">0.9964</div>
+                            <span class="pill-badge">Alta Fidelidad</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Error Cuadrático RMSE</span>
+                            <div class="metric-big">0.0182</div>
+                            <span class="pill-badge">Mínima Varianza</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Tiempo de Inferencia</span>
+                            <div class="metric-big">12.4 ms</div>
+                            <span class="pill-badge">Tiempo Real</span>
+                        </div>
+                        <div class="sub-panel">
+                            <span class="metric-sub">Muestras Entrenadas</span>
+                            <div class="metric-big">4,320 h</div>
+                            <span class="pill-badge">180 Días Históricos</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Variables Meteorológicas de Entrada</div>
+                            <p class="sub-panel-desc">
+                                El modelo procesa 5 dimensiones físicas: Hora solar ($h \in [0, 23]$), Temperatura ambiente promedio (°C), Porcentaje de nubosidad (%), Radiación solar directa ($W/m^2$) y Velocidad del viento regional ($m/s$).
+                            </p>
+                        </div>
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Interconexión Prescriptiva en Vivo</div>
+                            <p class="sub-panel-desc">
+                                Las predicciones horarias alimentan directamente las cotas superiores de capacidad del solver PuLP en Bloque Medio ($t_2$) y Valle ($t_3$), logrando un despacho continuo de 24 horas dinámicamente acoplado al clima.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 7: INNOVACIÓN DINÁMICA DE VARIABLES ==================== -->
+        <section class="slide" id="slide-7">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">07 &bull; Innovación y Flexibilidad Industrial</div>
+                    <h2 class="slide-title">Gestor Dinámico de Variables y Fuentes de Generación</h2>
+                    <p class="slide-subtitle">
+                        Superación de modelos estáticos: OptiGrid Enterprise permite a cualquier empresa agregar un número arbitrario de variables de decisión (e5, e6, ..., eN) en tiempo real.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-2" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                Activos Energéticos Incorporables
+                            </div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                La plataforma no está atada a 4 fuentes fijas. Admite la configuración personalizada de:
+                            </p>
+                            <ul style="font-size:0.80rem; color:var(--text-secondary); padding-left:18px; line-height:1.6;">
+                                <li><strong>BESS (Baterías de Litio):</strong> Almacenamiento y arbitraje tarifario pico/valle.</li>
+                                <li><strong>Biomasa / Biogás Industrial:</strong> Generación limpia de base continua 24/7.</li>
+                                <li><strong>PPA Hidroeléctrico PCH:</strong> Contratos bilaterales de energía limpia.</li>
+                                <li><strong>Generadores Térmicos Diésel:</strong> Respaldo de contingencia local.</li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Demostración de Impacto Cuantitativo</div>
+                            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-glass); border-radius:var(--radius-md); padding:16px; margin-top:8px;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                                    <span style="font-size:0.82rem; color:var(--text-secondary);">Costo Base Benchmark (4 Fuentes):</span>
+                                    <strong style="color:var(--text-primary);">$267,000 USD/mes</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                                    <span style="font-size:0.82rem; color:var(--text-secondary);">+ BESS 400 MWh ($32/MWh en Punta):</span>
+                                    <strong style="color:#ffffff;">$231,400 USD/mes</strong>
+                                </div>
+                                <div style="border-top:1px solid var(--border-glass); padding-top:8px; display:flex; justify-content:space-between;">
+                                    <span style="font-size:0.82rem; font-weight:700; color:var(--text-primary);">Ahorro Adicional Obtenido:</span>
+                                    <strong style="color:#ffffff; font-size:1.05rem;">+$35,600 USD/mes (13.3%)</strong>
+                                </div>
+                            </div>
+                            <p style="font-size:0.74rem; color:var(--text-muted); margin-top:10px;">
+                                Re-optimización resuelta en menos de 15 ms gracias a la formulación matricial dinámica en PuLP/CBC.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="sub-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <span class="pill-badge" style="margin-bottom:4px;">Multi-Tenant Corporativo</span>
+                                <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
+                                    Cualquier empresa puede registrarse, ingresar sus demandas, tarifas, activos y clima, obteniendo un plan de despacho prescriptivo personalizado al instante.
+                                </p>
+                            </div>
+                            <span class="pill-badge">Plataforma Universal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 8: OPTIGRID COPILOT ==================== -->
+        <section class="slide" id="slide-8">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">08 &bull; Inteligencia Artificial Generativa y Razonamiento</div>
+                    <h2 class="slide-title">OptiGrid Copilot: Asistente Analítico Inteligente</h2>
+                    <p class="slide-subtitle">
+                        Capa conversacional avanzada diseñada para traducir los resultados matemáticos y variables duales en lenguaje ejecutivo y recomendaciones para los directores de planta.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-3" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                Explicabilidad de Decisiones
+                            </div>
+                            <p class="sub-panel-desc">
+                                Responde con exactitud técnica preguntas críticas de planta: <em>"¿Por qué se apaga la red en horas pico?"</em> o <em>"¿Cuál es el rol técnico de la cogeneración a gas?"</em>.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                                </svg>
+                                Conectividad Multi-LLM
+                            </div>
+                            <p class="sub-panel-desc">
+                                Conexión directa a Google Gemini API (`gemini-2.0-flash`), Groq Cloud (`llama-3.3-70b`) y OpenAI (`gpt-4o-mini`) configurable con API Key en tiempo real por el usuario.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px;">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                Respaldo Analítico Local
+                            </div>
+                            <p class="sub-panel-desc">
+                                Si no hay conexión o API configurada, se activa el motor analítico local senior, capaz de calcular derivadas, holguras y diagnósticos financieros sin depender de internet.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="sub-panel" style="background:rgba(255,255,255,0.03);">
+                        <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--text-secondary); margin-bottom:8px;">
+                            Ejemplo de Diagnóstico Prescriptivo Generado por el Copilot:
+                        </div>
+                        <p style="font-family:monospace; font-size:0.80rem; color:var(--text-primary); line-height:1.5;">
+                            &quot;El costo marginal en Bloque Punta (t1) es de +$75.00 USD/MWh, mientras que en Bloque Valle (t3) desciende a +$60.00 USD/MWh. Cada MWh que se desplace de horas pico a valle mediante gestión de carga o BESS generará un beneficio económico directo de +$15.00 USD/MWh sin comprometer el límite de emisiones de 850 t CO2.&quot;
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 9: FRONTERA DE PARETO ==================== -->
+        <section class="slide" id="slide-9">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">09 &bull; Análisis Multiobjetivo y Sensibilidad</div>
+                    <h2 class="slide-title">Frontera de Pareto: Economía vs. Descarbonización</h2>
+                    <p class="slide-subtitle">
+                        Análisis paramétrico del trade-off entre el costo total de suministro ($ USD) y la severidad del límite de emisiones de CO2 (toneladas/mes).
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-2" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Curva de Trade-Off y Rendimientos Decrecientes</div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                El solver evalúa la sensibilidad del portafolio variando el límite de CO2 entre el 55% y el 140% del estándar:
+                            </p>
+                            <ul style="font-size:0.80rem; color:var(--text-secondary); padding-left:18px; line-height:1.6;">
+                                <li><strong>Zona Laxa (&gt; 1,300 t CO2):</strong> El costo se aplana cerca del óptimo global con alta participación de cogeneración gas y red en valle.</li>
+                                <li><strong>Zona Óptima (1,100 - 1,200 t CO2):</strong> Punto de equilibrio financiero con costo de $267,000 USD y 62% renovable.</li>
+                                <li><strong>Zona de Asfixia (&lt; 850 t CO2):</strong> El costo se incrementa vertiginosamente al forzar vertimientos y compras de oportunidad limpia.</li>
+                                <li><strong>Límite Físico de Factibilidad (&lt; 660 t CO2):</strong> CBC detecta infactibilidad al no existir capacidad física renovable suficiente.</li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Matriz de Rutas de Suministro Dinámicas</div>
+                            <p class="sub-panel-desc" style="margin-bottom:12px;">
+                                Cada flujo energético es modelado como una ruta física individual con peaje de transmisión y pérdidas técnicas:
+                            </p>
+                            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-glass); border-radius:var(--radius-md); padding:10px; font-size:0.75rem; font-family:monospace;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span>Ruta-e2-t1 (Solar Punta):</span>
+                                    <span>600 MWh &bull; Activa al 100%</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span>Ruta-e4-t1 (Gas Punta):</span>
+                                    <span>800 MWh &bull; Activa al 100%</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span>Ruta-e3-t1 (Eólica Punta):</span>
+                                    <span>400 MWh &bull; Despacho Parcial</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span>Ruta-e1-t1 (Red Punta):</span>
+                                    <span style="color:var(--text-muted);">0 MWh &bull; Desconectada (Inactiva)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <span class="pill-badge">Impacto Estratégico para la Junta Directiva</span>
+                                <p style="font-size:0.80rem; color:var(--text-secondary); margin-top:4px;">
+                                    Permite a los directores conocer de antemano el sobrecosto exacto de comprometerse con metas voluntarias Net-Zero antes de firmar contratos PPA a largo plazo.
+                                </p>
+                            </div>
+                            <span class="pill-badge">Prescripción Cuantitativa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DIAPOSITIVA 10: CONCLUSIONES Y CIERRE ==================== -->
+        <section class="slide" id="slide-10">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-category">10 &bull; Conclusiones y Defensa ante Jurados</div>
+                    <h2 class="slide-title">Conclusiones del Proyecto & Demostración en Vivo</h2>
+                    <p class="slide-subtitle">
+                        OptiGrid Enterprise demuestra que la Investigación de Operaciones moderna no es estática: combinada con Machine Learning e interfaces de primer nivel resuelve problemas de ingeniería reales.
+                    </p>
+                </div>
+
+                <div class="slide-body">
+                    <div class="grid-3" style="margin-bottom: 24px;">
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">1. Rigor Matemático Comprobado</div>
+                            <p class="sub-panel-desc">
+                                Cumplimiento estricto del caso benchmark ($267,000 USD exacto). El algoritmo CBC encuentra el óptimo global con certeza matemática demostrada y tiempos de resolución inferiores a 15 milisegundos.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">2. Escalabilidad Multi-Empresa</div>
+                            <p class="sub-panel-desc">
+                                La plataforma superó el ejercicio único para transformarse en un software empresarial multi-tenant con gestor dinámico de variables capaz de modelar cualquier industria nacional.
+                            </p>
+                        </div>
+
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">3. Innovación en Software de Ingeniería</div>
+                            <p class="sub-panel-desc">
+                                Experiencia de usuario profesional tipo Apple Liquid Glass, monocromática, sin simulaciones ni elementos infantiles, lista para producción y sustentación de alto nivel académico.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- BOTON DEMOSTRACION EN VIVO -->
+                    <div class="sub-panel" style="background:rgba(255,255,255,0.06); border-color:var(--border-glass-strong); text-align:center; padding:28px;">
+                        <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin-bottom:8px;">
+                            Espacio Abierto para Preguntas del Jurado Evaluador
+                        </h3>
+                        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:18px;">
+                            Invitamos al comité evaluador a realizar preguntas sobre la formulación matemática, dualidad o a proponer escenarios en vivo en la plataforma.
+                        </p>
+                        <a href="index.html" target="_blank" class="btn-apple-secondary" style="background:#ffffff; color:#000000; font-weight:700; font-size:0.88rem; padding:10px 24px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px; height:16px;">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Abrir Demostración Interactiva en Vivo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING BOTTOM CONTROLS DOCK (APPLE LIQUID GLASS) -->
+    <div class="controls-dock">
+        <button class="dock-btn" onclick="slideAnterior()" title="Diapositiva Anterior (Flecha Izquierda)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <span class="dock-counter" id="lblSlideCounter">1 / 10</span>
+
+        <button class="dock-btn" onclick="slideSiguiente()" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="dock-divider"></div>
+
+        <button class="dock-btn" onclick="toggleOverview()" title="Vista General de Diapositivas (Tecla O)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+        </button>
+
+        <button class="dock-btn" onclick="togglePantallaCompleta()" title="Pantalla Completa (Tecla F)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- OVERVIEW GRID MODAL -->
+    <div class="overview-overlay" id="overviewModal" onclick="cerrarOverview(event)">
+        <div style="max-width:1200px; margin:0 auto 20px auto; display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-primary);">Índice General de Diapositivas</h3>
+            <span style="font-size:0.75rem; color:var(--text-secondary);">Presione ESC o haga clic en una diapositiva para saltar</span>
+        </div>
+        <div class="overview-grid" id="overviewGrid">
+            <!-- Inyectado por JS -->
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const TOTAL_SLIDES = 10;
+        let slideActual = 1;
+
+        const TITULOS_SLIDES = [
+            "01. Portada & Equipo de Trabajo",
+            "02. El Desafío Energético Industrial",
+            "03. Arquitectura Tripartita de la Solución",
+            "04. Formulación de Programación Lineal",
+            "05. Validación Experimental Benchmark",
+            "06. Machine Learning Predictivo en Vivo",
+            "07. Gestor Dinámico de Variables y Activos",
+            "08. OptiGrid Copilot Multi-LLM",
+            "09. Frontera de Pareto & Sensibilidad",
+            "10. Conclusiones y Demostración en Vivo"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarTema();
+            construirOverviewGrid();
+            actualizarSlide(1);
+        });
+
+        // --- NAVEGACIÓN DE DIAPOSITIVAS ---
+        function actualizarSlide(num) {
+            if (num < 1) num = 1;
+            if (num > TOTAL_SLIDES) num = TOTAL_SLIDES;
+            slideActual = num;
+
+            document.querySelectorAll('.slide').forEach((s, idx) => {
+                if (idx + 1 === num) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+
+            // Contador
+            document.getElementById('lblSlideCounter').innerText = `${slideActual} / ${TOTAL_SLIDES}`;
+
+            // Barra de progreso
+            const pct = ((slideActual - 1) / (TOTAL_SLIDES - 1)) * 100;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+
+            // Actualizar tarjetas en overview
+            document.querySelectorAll('.overview-card').forEach((c, idx) => {
+                if (idx + 1 === num) c.classList.add('active');
+                else c.classList.remove('active');
+            });
+        }
+
+        function slideSiguiente() {
+            if (slideActual < TOTAL_SLIDES) {
+                actualizarSlide(slideActual + 1);
+            }
+        }
+
+        function slideAnterior() {
+            if (slideActual > 1) {
+                actualizarSlide(slideActual - 1);
+            }
+        }
+
+        // --- CONTROL POR TECLADO ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                slideSiguiente();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                slideAnterior();
+            } else if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                togglePantallaCompleta();
+            } else if (e.key === 'o' || e.key === 'O') {
+                e.preventDefault();
+                toggleOverview();
+            } else if (e.key === 'Escape') {
+                const ov = document.getElementById('overviewModal');
+                if (ov.style.display === 'block') ov.style.display = 'none';
+            } else if (e.key >= '1' && e.key <= '9') {
+                actualizarSlide(parseInt(e.key));
+            } else if (e.key === '0') {
+                actualizarSlide(10);
+            }
+        });
+
+        // --- OVERVIEW GRID ---
+        function construirOverviewGrid() {
+            const grid = document.getElementById('overviewGrid');
+            grid.innerHTML = '';
+            TITULOS_SLIDES.forEach((t, idx) => {
+                const card = document.createElement('div');
+                card.className = 'overview-card';
+                card.onclick = () => {
+                    actualizarSlide(idx + 1);
+                    document.getElementById('overviewModal').style.display = 'none';
+                };
+                card.innerHTML = `
+                    <div class="overview-card-num">Slide ${String(idx + 1).padStart(2, '0')}</div>
+                    <div class="overview-card-title">${t}</div>
+                    <div style="font-size:0.68rem; color:var(--text-muted); font-family:monospace;">OptiGrid Deck</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleOverview() {
+            const ov = document.getElementById('overviewModal');
+            ov.style.display = ov.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function cerrarOverview(e) {
+            if (e.target.id === 'overviewModal') {
+                document.getElementById('overviewModal').style.display = 'none';
+            }
+        }
+
+        // --- PANTALLA COMPLETA ---
+        function togglePantallaCompleta() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(err => console.log(err));
+                }
+            }
+        }
+
+        // --- TEMA CLARO / OSCURO (APPLE LIQUID GLASS) ---
+        function toggleTema() {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('optigrid_theme', isLight ? 'light' : 'dark');
+            actualizarTextosTema(isLight);
+        }
+
+        function inicializarTema() {
+            const guardado = localStorage.getItem('optigrid_theme');
+            const isLight = guardado === 'light';
+            if (isLight) {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            actualizarTextosTema(isLight);
+        }
+
+        function actualizarTextosTema(isLight) {
+            const txt = document.getElementById('txtTheme');
+            if (txt) txt.innerText = isLight ? 'Modo Oscuro' : 'Modo Claro';
+        }
+    </script>
+</body>
+</html>
